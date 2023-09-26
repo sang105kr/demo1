@@ -1,6 +1,9 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.dao.Product;
+import com.kh.demo1.svc.ProductSVC;
 import com.kh.demo1.web.form.SaveForm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 @Controller
 @RequestMapping("/products")   // http://localhost:9080/products
+@RequiredArgsConstructor
 public class ProductController {
+
+  private final ProductSVC productSVC;
+
+//  @Autowired
+//  public ProductController(ProductSVC productSVC) {
+//    this.productSVC = productSVC;
+//  }
 
   //등록양식
   @GetMapping("/add")         // GET http://localhost:9080/products/add
@@ -25,16 +36,22 @@ public class ProductController {
   @PostMapping("/add")       // POST http://localhost:9080/products/add
   public String add(
 //      @RequestParam("pname") String pname,
-//      @RequestParam("quantity") String quantity,
-//      @RequestParam("price") String price
+//      @RequestParam("quantity") Long quantity,
+//      @RequestParam("price") Long price
       SaveForm saveForm, RedirectAttributes redirectAttributes
   ){
     log.info("add호출됨!={}",saveForm);
 //    log.info("add호출됨!={},{},{}",pname,quantity,price);
     // 요청데이터 유효성 체크
     // 상품등록
+    Product product = new Product();
+    product.setPname(saveForm.getPname());
+    product.setQuantity(saveForm.getQuantity());
+    product.setPrice(saveForm.getPrice());
+    Long productId = productSVC.save(product);
 
-    redirectAttributes.addAttribute("id", 1);
+    log.info("상품아이디={}",productId);
+    redirectAttributes.addAttribute("id", productId);
     return "redirect:/products/{id}/detail";   // GET http://localhost:9080/products/1/detail
   }
 
