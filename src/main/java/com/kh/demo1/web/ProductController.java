@@ -41,7 +41,6 @@ public class ProductController {
       SaveForm saveForm, RedirectAttributes redirectAttributes
   ){
     log.info("add호출됨!={}",saveForm);
-//    log.info("add호출됨!={},{},{}",pname,quantity,price);
     // 요청데이터 유효성 체크
     // 상품등록
     Product product = new Product();
@@ -52,6 +51,7 @@ public class ProductController {
 
     log.info("상품아이디={}",productId);
     redirectAttributes.addAttribute("id", productId);
+
     return "redirect:/products/{id}/detail";   // GET http://localhost:9080/products/1/detail
   }
 
@@ -59,6 +59,7 @@ public class ProductController {
   @GetMapping("/{id}/detail")  //GET http://localhost:9080/products/1/detail
   public String findById(@PathVariable("id") Long id){
     //상품조회
+
 
     return "product/detailForm";
   }

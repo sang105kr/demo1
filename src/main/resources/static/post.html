@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>클릭</button>
+    <script>
+      const f3 = () => {
+        //요청 url
+        const url = 'http://localhost:9080/products/add';
+
+        //요청 데이터(상품명,수량,가격)
+        const product = new FormData();
+        product.append('pname', '책상');
+        product.append('quantity', 1);
+        product.append('price', 100000);
+
+        const xhr = new XMLHttpRequest();
+
+        //post 요청 설정
+        xhr.open('POST', url);
+
+        //post 요청 헤더 설정
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        //post 요청 보내기
+        xhr.send(product);
+
+        //요청 응답
+        xhr.addEventListener('readystatechange', () => {
+          //요청이 성공적으로 수행됐을경우
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+          }
+        });
+      };
+      document.querySelector('button').addEventListener('click',e=>f3());
+
+    </script>
+  </body>
+</html>
