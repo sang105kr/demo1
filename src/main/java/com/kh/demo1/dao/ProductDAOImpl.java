@@ -2,6 +2,8 @@ package com.kh.demo1.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -38,6 +40,30 @@ public class ProductDAOImpl implements ProductDAO {
     return productId;
   }
 
+//  private RowMapper<Product> productRowMapper(){
+//    return (rs,rowNum)->{
+//      Product product = new Product();
+//      product.setProductId(rs.getLong("product_id"));
+//      product.setPname(rs.getString("pname"));
+//      product.setQuantity(rs.getLong("quantity"));
+//      product.setPrice(rs.getLong("price"));
+//
+//      return product;
+//    };
+//  }
+
+  private RowMapper<Product> productRowMapper(){
+    return (rs,rowNum)->{
+      Product product = new Product();
+      product.setProductId(rs.getLong("product_id"));
+      product.setPname(rs.getString("pname"));
+      product.setQuantity(rs.getLong("quantity"));
+      product.setPrice(rs.getLong("price"));
+
+      return product;
+    };
+  }
+
   @Override
   public Optional<Product> findById(Long productId) {
     StringBuffer sql = new StringBuffer();
@@ -45,11 +71,15 @@ public class ProductDAOImpl implements ProductDAO {
     sql.append("  from product ");
     sql.append(" where product_id = :id ");
 
-    //조회 : (단일행,단일열),(단일행,다중열),(다중행,단일열),(다중행,다중열)
-    Map<String,Long> param = Map.of("id",productId);
-    template.queryForObject(sql.toString(),param);
-
-
-    return null;
+    MyRowMapper myRowMapper = new MyRowMapper();
+    try {
+      //조회 : (단일행,단일열),(단일행,다중열),(다중행,단일열),(다중행,다중열)
+      Map<String, Long> param = Map.of("id", productId);
+      Product product = template.queryForObject(sql.toString(), param, myRowMapper);
+      return Optional.of(product);
+    }catch(EmptyResultDataAccessException e){
+      //조회결과가 없는경우
+      return Optional.empty();
+    }
   }
 }

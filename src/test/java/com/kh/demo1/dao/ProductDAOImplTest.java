@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 @Slf4j
 @SpringBootTest
 public class ProductDAOImplTest {
@@ -28,4 +30,20 @@ public class ProductDAOImplTest {
     Assertions.assertThat(productId).isGreaterThan(0L);
   }
 
+  //조회
+  @Test
+  @DisplayName("조회")
+  void findById(){
+    Optional<Product> product = productDAO.findById(73L);
+//    if(product.isPresent()){
+//      log.info("product={}",product.get());
+//    }else{
+//      log.info("조회한결과 없음");
+//    }
+    Product findedProduct = product.orElseThrow();
+    Assertions.assertThat(findedProduct.getPname()).isEqualTo("자동차2");
+    Assertions.assertThat(findedProduct.getQuantity()).isEqualTo(1L);
+    Assertions.assertThat(findedProduct.getPrice()).isEqualTo(100000000L);
+  }
 }
+
