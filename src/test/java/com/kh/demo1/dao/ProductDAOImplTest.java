@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -46,6 +47,14 @@ public class ProductDAOImplTest {
     Assertions.assertThat(findedProduct.getPname()).isEqualTo("자동차2");
     Assertions.assertThat(findedProduct.getQuantity()).isEqualTo(1L);
     Assertions.assertThat(findedProduct.getPrice()).isEqualTo(100000000L);
+  }
+
+  @Test
+  @DisplayName("목록")
+  void findAll(){
+    List<Product> list = productDAO.findAll();
+    log.info("목록={}",list);
+    Assertions.assertThat(list.size()).isGreaterThan(0);
   }
 }
 

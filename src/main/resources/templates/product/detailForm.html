@@ -10,10 +10,21 @@
 <body>
   상품조회
   <form action="" method="post">
+    <div><label for="productId">상품번호</label><input type="text" id="productId" name="productId" readonly th:value="${detailForm.productId}"></div>
     <div><label for="pname">상품명</label><input type="text" id="pname" name="pname" readonly th:value="${detailForm.pname}"></div>
     <div><label for="quantity">수량</label><input type="text" id="quantity" name="quantity" readonly th:value="${detailForm.quantity}"></div>
     <div><label for="price">가격</label><input type="text" id="price" name="price" readonly th:value="${detailForm.price}"></div>
-    <div><input type="submit" value="등록"></div>
+    <div>
+      <input type="button" value="수정" id="btnUdate">
+      <input type="button" value="삭제" id="btnDelete">
+      <input type="button" value="목록" id="btnFindAll">
+    </div>
   </form>
+  <script>
+    //목록
+    document.getElementById('btnFindAll').addEventListener('click',e=>{
+      location.href='/products';   // get방식으로 url요청
+    });
+  </script>
 </body>
 </html>

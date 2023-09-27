@@ -1,5 +1,6 @@
 package com.kh.demo1.domain.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductDAO {
@@ -8,5 +9,8 @@ public interface ProductDAO {
 
   //조회
   Optional<Product> findById(Long productId);
+
+  //목록
+  List<Product> findAll();
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -76,6 +77,18 @@ public class ProductController {
 
     model.addAttribute("detailForm",detailForm);
     return "product/detailForm";
+  }
+
+  //목록
+  @GetMapping         //GET http://localhost:9080/products
+  public String findAll(Model model){
+    log.info("findAll()호출됨!");
+    //상품목록조회
+
+    List<Product> list = productSVC.findAll();
+    model.addAttribute("list",list);
+
+    return "product/all";
   }
 
 }

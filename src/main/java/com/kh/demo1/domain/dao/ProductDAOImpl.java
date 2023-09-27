@@ -3,6 +3,7 @@ package com.kh.demo1.domain.dao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -81,5 +83,15 @@ public class ProductDAOImpl implements ProductDAO {
       //조회결과가 없는경우
       return Optional.empty();
     }
+  }
+
+  @Override
+  public List<Product> findAll() {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select product_id, pname, quantity, price ");
+    sql.append("  from product ");
+
+    List<Product> list = template.query(sql.toString(), BeanPropertyRowMapper.newInstance(Product.class));
+    return list;
   }
 }
