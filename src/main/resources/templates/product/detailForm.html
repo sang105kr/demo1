@@ -15,12 +15,20 @@
     <div><label for="quantity">수량</label><input type="text" id="quantity" name="quantity" readonly th:value="${detailForm.quantity}"></div>
     <div><label for="price">가격</label><input type="text" id="price" name="price" readonly th:value="${detailForm.price}"></div>
     <div>
-      <input type="button" value="수정" id="btnUdate">
-      <input type="button" value="삭제" id="btnDelete">
+      <input type="button" value="수정" id="btnUdate" th:data-product-id="${detailForm.productId}" >
+      <input type="button" value="삭제" id="btnDelete" th:data-product-id="${detailForm.productId}">
       <input type="button" value="목록" id="btnFindAll">
     </div>
   </form>
   <script>
+    //삭제
+    document.getElementById('btnDelete').addEventListener('click', e=>{
+      if(confirm('삭제하시겠습니까?')){
+        const productId = e.target.dataset.productId;
+        location.href=`/products/${productId}/del`;
+      }
+    });
+
     //목록
     document.getElementById('btnFindAll').addEventListener('click',e=>{
       location.href='/products';   // get방식으로 url요청

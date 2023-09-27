@@ -15,4 +15,7 @@ public interface ProductSVC {
   //목록
   List<Product> findAll();
 
+  //단건삭제
+  int deleteById(Long productId);
+
 }

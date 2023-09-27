@@ -56,5 +56,14 @@ public class ProductDAOImplTest {
     log.info("목록={}",list);
     Assertions.assertThat(list.size()).isGreaterThan(0);
   }
+
+  @Test
+  @DisplayName("단건삭제")
+  void deleteById(){
+    Long productId = 100L;
+    int deletedRowCnt = productDAO.deleteById(productId);
+
+    Assertions.assertThat(deletedRowCnt).isEqualTo(1);
+  }
 }
 

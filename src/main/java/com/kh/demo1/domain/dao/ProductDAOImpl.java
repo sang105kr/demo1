@@ -95,4 +95,13 @@ public class ProductDAOImpl implements ProductDAO {
     List<Product> list = template.query(sql.toString(), BeanPropertyRowMapper.newInstance(Product.class));
     return list;
   }
+
+  @Override
+  public int deleteById(Long productId) {
+    String sql = "delete from product where product_id = :productId";
+
+    int deletedRowCnt = template.update(sql, Map.of("productId", productId));
+
+    return deletedRowCnt;
+  }
 }

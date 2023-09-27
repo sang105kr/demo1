@@ -20,7 +20,7 @@
       <tbody>
         <tr th:each="product :${all}">
           <td th:text="${product.productId}">1</td>
-          <td th:text="${product.pname}">컴퓨터</td>
+          <td ><a href="" th:href="@{/products/{id}/detail(id=${product.productId})}" th:text="${product.pname}">컴퓨터</a></td>
         </tr>
       </tbody>
     </table>
