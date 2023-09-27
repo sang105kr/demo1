@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UpdateForm {
   private Long productId;
-  private String panme;
+  private String pname;
   private Long quantity;
   private Long price;
 }

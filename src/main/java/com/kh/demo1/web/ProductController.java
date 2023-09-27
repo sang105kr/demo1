@@ -120,7 +120,7 @@ public class ProductController {
 
     UpdateForm updateForm = new UpdateForm();
     updateForm.setProductId(product.getProductId());
-    updateForm.setPanme(product.getPname());
+    updateForm.setPname(product.getPname());
     updateForm.setQuantity(product.getQuantity());
     updateForm.setPrice(product.getPrice());
 
@@ -129,10 +129,16 @@ public class ProductController {
   }
 
   //수정처리
-  @PatchMapping("/{id}")
-  public String update(){
+  @PatchMapping("/{id}")    //Patch http://localhost:9080/products/1
+  public String update(
+      @PathVariable("id") Long id,
+      UpdateForm updateForm, RedirectAttributes redirectAttributes){
+    log.info("update()호출됨!");
+    log.info("updateForm={}",updateForm);
+    
+    //상품수정
 
-
+    redirectAttributes.addAttribute("id",id);
     return "redirect:/products/{id}/detail";
   }
 }
