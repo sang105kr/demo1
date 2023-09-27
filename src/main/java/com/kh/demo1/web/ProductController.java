@@ -5,6 +5,7 @@ import com.kh.demo1.domain.svc.ProductSVC;
 import com.kh.demo1.web.form.AllForm;
 import com.kh.demo1.web.form.DetailForm;
 import com.kh.demo1.web.form.SaveForm;
+import com.kh.demo1.web.form.UpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -98,7 +99,8 @@ public class ProductController {
   }
 
   //삭제
-  @GetMapping("/{id}/del")      // DELETE http://localhost:9080/products/1
+//  @GetMapping("/{id}/del")      // GET http://localhost:9080/products/1
+  @DeleteMapping("/{id}")      // Delete http://localhost:9080/products/1
   public String deleteById(@PathVariable("id") Long id){
 
     int deletedRowCnt = productSVC.deleteById(id);
@@ -106,4 +108,31 @@ public class ProductController {
     return "redirect:/products";
   }
 
+  //수정양식
+  @GetMapping("/{id}")        // GET http://localhost:9080/products/1
+  public String updateForm(
+      @PathVariable("id") Long id,
+      Model model){
+    log.info("updateForm()호출됨!");
+    Optional<Product> findedProduct = productSVC.findById(id);
+
+    Product product = findedProduct.orElseThrow();
+
+    UpdateForm updateForm = new UpdateForm();
+    updateForm.setProductId(product.getProductId());
+    updateForm.setPanme(product.getPname());
+    updateForm.setQuantity(product.getQuantity());
+    updateForm.setPrice(product.getPrice());
+
+    model.addAttribute("updateForm", updateForm);
+    return "product/updateForm";
+  }
+
+  //수정처리
+  @PatchMapping("/{id}")
+  public String update(){
+
+
+    return "redirect:/products/{id}/detail";
+  }
 }

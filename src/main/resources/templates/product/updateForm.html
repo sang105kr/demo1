@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품수정</title>
+</head>
+<body>
+  상품수정
+  <form action="" method="patch">
+    <div><label for="productId">상품번호</label><input type="text" id="productId" name="productId" readonly ></div>
+    <div><label for="pname">상품명</label><input type="text" id="pname" name="pname"  ></div>
+    <div><label for="quantity">수량</label><input type="text" id="quantity" name="quantity"  ></div>
+    <div><label for="price">가격</label><input type="text" id="price" name="price"  ></div>
+    <div>
+      <input type="submit" value="저장" id="btnUdate" >
+      <input type="button" value="목록" id="btnFindAll">
+    </div>
+  </form>
+</body>
+</html>

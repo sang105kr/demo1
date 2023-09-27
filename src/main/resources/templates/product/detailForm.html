@@ -25,7 +25,19 @@
     document.getElementById('btnDelete').addEventListener('click', e=>{
       if(confirm('삭제하시겠습니까?')){
         const productId = e.target.dataset.productId;
-        location.href=`/products/${productId}/del`;
+
+        //case1) get방식 요청
+        //location.href=`/products/${productId}/del`;
+
+        //case2) delete방식 요청
+        (async ()=>{
+          const url = `/products/${productId}`;
+          const option = {
+            method:'DELETE'
+          }
+          const result = await fetch(url,option);
+          location.href = '/products';
+        })();
       }
     });
 
