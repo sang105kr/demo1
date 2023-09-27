@@ -1,16 +1,20 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.dao.Product;
-import com.kh.demo1.svc.ProductSVC;
+import com.kh.demo1.domain.dao.Product;
+import com.kh.demo1.domain.svc.ProductSVC;
+import com.kh.demo1.web.form.DetailForm;
 import com.kh.demo1.web.form.SaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -57,10 +61,20 @@ public class ProductController {
 
   //조회
   @GetMapping("/{id}/detail")  //GET http://localhost:9080/products/1/detail
-  public String findById(@PathVariable("id") Long id){
+  public String findById(
+      @PathVariable("id") Long id,
+      Model model){
     //상품조회
+    Optional<Product> findedProduct = productSVC.findById(id);
+    Product product = findedProduct.orElseThrow(); // optional에 product가 있으면 값을 가져오고 product없으면 예외발생
 
+    DetailForm detailForm = new DetailForm();
+    detailForm.setProductId(product.getProductId());
+    detailForm.setPname(product.getPname());
+    detailForm.setQuantity(product.getQuantity());
+    detailForm.setPrice(product.getPrice());
 
+    model.addAttribute("detailForm",detailForm);
     return "product/detailForm";
   }
 

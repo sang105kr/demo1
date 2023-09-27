@@ -9,5 +9,11 @@
 </head>
 <body>
   상품조회
+  <form action="" method="post">
+    <div><label for="pname">상품명</label><input type="text" id="pname" name="pname" readonly th:value="${detailForm.pname}"></div>
+    <div><label for="quantity">수량</label><input type="text" id="quantity" name="quantity" readonly th:value="${detailForm.quantity}"></div>
+    <div><label for="price">가격</label><input type="text" id="price" name="price" readonly th:value="${detailForm.price}"></div>
+    <div><input type="submit" value="등록"></div>
+  </form>
 </body>
 </html>
