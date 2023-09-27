@@ -9,8 +9,22 @@
 </head>
 <body>
   상품목록
-
-
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>상품번호</th>
+          <th>상품명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="product :${all}">
+          <td th:text="${product.productId}">1</td>
+          <td th:text="${product.pname}">컴퓨터</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div><button id="btnAdd">상품등록</button></div>
   <script>
     btnAdd.addEventListener('click', e=>{

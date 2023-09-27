@@ -2,6 +2,7 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.Product;
 import com.kh.demo1.domain.svc.ProductSVC;
+import com.kh.demo1.web.form.AllForm;
 import com.kh.demo1.web.form.DetailForm;
 import com.kh.demo1.web.form.SaveForm;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +88,14 @@ public class ProductController {
     //상품목록조회
 
     List<Product> list = productSVC.findAll();
-    model.addAttribute("list",list);
+    List<AllForm> all = new ArrayList<>();
+    for(Product product :list){
+      AllForm allForm = new AllForm();
+      allForm.setProductId(product.getProductId());
+      allForm.setPname(product.getPname());
+      all.add(allForm);
+    }
+    model.addAttribute("all",all);
 
     return "product/all";
   }

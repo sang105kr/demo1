@@ -88,8 +88,9 @@ public class ProductDAOImpl implements ProductDAO {
   @Override
   public List<Product> findAll() {
     StringBuffer sql = new StringBuffer();
-    sql.append("select product_id, pname, quantity, price ");
-    sql.append("  from product ");
+    sql.append("  select product_id, pname, quantity, price ");
+    sql.append("    from product ");
+    sql.append("order by product_id desc");
 
     List<Product> list = template.query(sql.toString(), BeanPropertyRowMapper.newInstance(Product.class));
     return list;
