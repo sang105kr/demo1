@@ -131,14 +131,20 @@ public class ProductController {
   //수정처리
   @PatchMapping("/{id}")    //Patch http://localhost:9080/products/1
   public String update(
-      @PathVariable("id") Long id,
+      @PathVariable("id") Long productId,
       UpdateForm updateForm, RedirectAttributes redirectAttributes){
     log.info("update()호출됨!");
     log.info("updateForm={}",updateForm);
     
     //상품수정
+    Product product = new Product();
+    product.setPname(updateForm.getPname());
+    product.setQuantity(updateForm.getQuantity());
+    product.setPrice(updateForm.getPrice());
+    int updatedRow = productSVC.updateById(productId, product);
 
-    redirectAttributes.addAttribute("id",id);
-    return "redirect:/products/{id}/detail";
+    //상품조회 리다이렉트
+    redirectAttributes.addAttribute("id",productId);
+    return "redirect:/products/{id}/detail";   // 302 get http://localhost:9080/products/1/detail
   }
 }
