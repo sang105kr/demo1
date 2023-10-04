@@ -20,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequestMapping("/products")   // http://localhost:9080/products
-@RequiredArgsConstructor
+@RequiredArgsConstructor       // 멤버필드중 final만 생성자 매개변수로하여 생성자를 자동 만들어준다.
 public class ProductController {
 
   private final ProductSVC productSVC;
@@ -57,7 +57,7 @@ public class ProductController {
     log.info("상품아이디={}",productId);
     redirectAttributes.addAttribute("id", productId);
 
-    return "redirect:/products/{id}/detail";   // GET http://localhost:9080/products/1/detail
+    return "redirect:/products/{id}/detail";   // 302 GET http://localhost:9080/products/1/detail
   }
 
   //조회
@@ -105,7 +105,7 @@ public class ProductController {
 
     int deletedRowCnt = productSVC.deleteById(id);
 
-    return "redirect:/products";
+    return "redirect:/products";        // 302 get  redirectUrl : http://localhost:9080/products
   }
 
   //수정양식

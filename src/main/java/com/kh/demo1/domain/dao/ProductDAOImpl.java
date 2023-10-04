@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -34,6 +35,7 @@ public class ProductDAOImpl implements ProductDAO {
     sql.append("insert into product(product_id,pname,quantity,price) ");
     sql.append("values(product_product_id_seq.nextval, :pname , :quantity, :price) ");
 
+    // SQL 파라미터 자동매핑 
     SqlParameterSource param = new BeanPropertySqlParameterSource(product); //
     KeyHolder keyHolder = new GeneratedKeyHolder();
     template.update(sql.toString(),param,keyHolder,new String[]{"product_id"});
@@ -76,7 +78,10 @@ public class ProductDAOImpl implements ProductDAO {
     MyRowMapper myRowMapper = new MyRowMapper();
     try {
       //조회 : (단일행,단일열),(단일행,다중열),(다중행,단일열),(다중행,다중열)
+      // SQL 파라미터 수동매핑 
       Map<String, Long> param = Map.of("id", productId);
+      
+      //RowMapper 수동 매핑
       Product product = template.queryForObject(sql.toString(), param, myRowMapper);
       return Optional.of(product);
     }catch(EmptyResultDataAccessException e){
@@ -92,6 +97,7 @@ public class ProductDAOImpl implements ProductDAO {
     sql.append("    from product ");
     sql.append("order by product_id desc");
 
+    //결과셋 자동 매핑 : BeanPropertyRowMapper
     List<Product> list = template.query(sql.toString(), BeanPropertyRowMapper.newInstance(Product.class));
     return list;
   }
@@ -100,8 +106,27 @@ public class ProductDAOImpl implements ProductDAO {
   public int deleteById(Long productId) {
     String sql = "delete from product where product_id = :productId";
 
+    //SQL 파라미터 수동 매핑
     int deletedRowCnt = template.update(sql, Map.of("productId", productId));
 
     return deletedRowCnt;
+  }
+
+  @Override
+  public int updateById(Long productId, Product product) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("update product ");
+    sql.append("   set pname = :pname, quantity = :quantity, price = :price ");
+    sql.append(" where product_id = :product_id ");
+
+    // sql 파라미터 수동 매핑
+    SqlParameterSource param = new MapSqlParameterSource()
+        .addValue("pname", product.getPname())
+        .addValue("quantity", product.getQuantity())
+        .addValue("price", product.getPrice())
+        .addValue("product_id",productId);
+    
+    int updatedRows = template.update(sql.toString(), param);
+    return updatedRows;
   }
 }

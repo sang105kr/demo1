@@ -65,5 +65,23 @@ public class ProductDAOImplTest {
 
     Assertions.assertThat(deletedRowCnt).isEqualTo(1);
   }
+
+  @Test
+  @DisplayName("상품수정")
+  void updateById(){
+    Long productId = 121L;
+    Product product = new Product();
+    product.setPname("상품명수정");
+    product.setQuantity(10L);
+    product.setPrice(100L);
+    int updatedRows = productDAO.updateById(productId, product);
+
+    Optional<Product> findedProduct = productDAO.findById(productId);
+    Product updatedProduct = findedProduct.orElseThrow();
+
+    Assertions.assertThat(updatedProduct.getPname()).isEqualTo("상품명수정");
+    Assertions.assertThat(updatedProduct.getQuantity()).isEqualTo(10L);
+    Assertions.assertThat(updatedProduct.getPrice()).isEqualTo(100L);
+  }
 }
 
