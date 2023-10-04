@@ -6,10 +6,12 @@ import com.kh.demo1.web.form.AllForm;
 import com.kh.demo1.web.form.DetailForm;
 import com.kh.demo1.web.form.SaveForm;
 import com.kh.demo1.web.form.UpdateForm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,8 +34,10 @@ public class ProductController {
 
   //등록양식
   @GetMapping("/add")         // GET http://localhost:9080/products/add
-  public String addForm(){
+  public String addForm(Model model){
     log.info("addForm호출됨!");
+
+    model.addAttribute("saveForm", new SaveForm());
     return "product/add";     // view 이름
   }
 
@@ -43,10 +47,25 @@ public class ProductController {
 //      @RequestParam("pname") String pname,
 //      @RequestParam("quantity") Long quantity,
 //      @RequestParam("price") Long price
-      SaveForm saveForm, RedirectAttributes redirectAttributes
+      //@ModelAttribute : 1. 요청데이터를 자바객체로 바인딩 2. Model객체에 추가 (model.addAttribute("saveForm", saveForm))
+      @Valid @ModelAttribute SaveForm saveForm,
+      BindingResult bindingResult,  // 검증 결과를 담는 객체
+      RedirectAttributes redirectAttributes
   ){
     log.info("add호출됨!={}",saveForm);
+
     // 요청데이터 유효성 체크
+    // 1. 어노테이션 기반 검증
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return "product/add";
+    }
+    
+    // 2. 로직이 필요한 필드 및 글로벌 오류 검증
+
+
+
+
     // 상품등록
     Product product = new Product();
     product.setPname(saveForm.getPname());

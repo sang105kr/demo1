@@ -6,14 +6,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>상품등록</title>
+  <style>
+    .field-error {color:red; font-weight:bold; font-size:0.8rem;   }
+  </style>
 </head>
 <body>
   상품등록
   <!-- action 값이 없으면 현재 url을 기본 값으로 가짐 -->
-  <form action="" method="post">
-    <div><label for="pname">상품명</label><input type="text" id="pname" name="pname"></div>
-    <div><label for="quantity">수량</label><input type="text" id="quantity" name="quantity"></div>
-    <div><label for="price">가격</label><input type="text" id="price" name="price"></div>
+  <!-- th:field id,name,value 속성 추가, id,name속성값은 멤버필드명으로 초기화되고 value속성은 멤버필드값이 초기화됨 -->
+  <form action="" method="post" th:object="${saveForm}">
+    <div>
+      <label for="pname">상품명</label>
+      <input type="text" id="pname" name="pname" th:field="*{pname}">
+      <span class="field-error" th:errors="*{pname}"></span>
+    </div>
+    <div>
+      <label for="quantity">수량</label>
+      <input type="text" id="quantity" name="quantity" th:field="*{quantity}">
+      <span class="field-error" th:errors="*{quantity}"></span>
+    </div>
+    <div><label for="price">가격</label>
+      <input type="text" id="price" name="price" th:field="*{price}">
+      <span class="field-error" th:errors="*{price}"></span>
+    </div>
     <div><input type="submit" value="등록"></div>
   </form>
 </body>
