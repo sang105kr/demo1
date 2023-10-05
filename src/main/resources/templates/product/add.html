@@ -14,33 +14,60 @@
   </style>
   <script type="module">
     [...document.querySelectorAll('.field-error')].forEach(ele=>ele.textContent = ele.innerHTML.replace('<br>',' / '));
+
+    frm.addEventListener('submit',e=>{
+      e.preventDefault();  // 기본 이벤트 막기
+      console.log('submit이벤트');
+      //유효성체크
+      if(pname.value.trim().length === 0) {
+        errPname.textContent = '상품명은 필수 입니다';
+        pname.focus();
+        return;
+      }
+      if(quantity.value.trim().length === 0) {
+        errQuantity.textContent = '수량 필수 입니다';
+        quantity.focus();
+        return;
+      }
+      if(price.value.trim().length === 0) {
+        errPrice.textContent = '가격은 필수 입니다';
+        price.focus();
+        return;
+      }
+
+      //이상없으면 요청메세지 만들어서 전송
+      frm.submit();
+    });
   </script>
 </head>
 <body>
   <h3 th:text="#{title.product.add}">상품등록--</h3>
 
-  <div class="field-error" th:errors="${saveForm.pname}">...</div>
+  <div class="field-error" th:errors="${saveForm}">...</div>
   <!-- action 값이 없으면 현재 url을 기본 값으로 가짐 -->
   <!-- th:field id,name,value 속성 추가, id,name속성값은 멤버필드명으로 초기화되고 value속성은 멤버필드값이 초기화됨 -->
-  <form action="" method="post" th:object="${saveForm}">
+  <form id="frm" action="" method="post" th:object="${saveForm}">
 <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
 <!--      <p class="field-error" th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>-->
 <!--    </div>-->
     <div>
-      <label for="pname">상품명</label>
-      <input type="text" id="pname" name="pname" th:field="*{pname}" th:class="${#fields.hasErrors('pname')} ? fieldError : fieldSuccess">
+      <label for="pname" th:text="#{label.product.pname}">상품명</label>
+      <input type="text" id="pname" name="pname" maxlength="10" th:field="*{pname}" th:class="${#fields.hasErrors('pname')} ? fieldError : fieldSuccess">
       <span class="field-error" th:errors="*{pname}"></span>
+      <span class="field-error client" id="errPname"></span>
     </div>
     <div>
-      <label for="quantity">수량</label>
-      <input type="text" id="quantity" name="quantity" th:field="*{quantity}" th:errorclass="fieldError">
+      <label for="quantity" th:text="#{label.product.quantity}">수량</label>
+      <input type="text" id="quantity" name="quantity" maxlength="10" th:field="*{quantity}" th:errorclass="fieldError">
       <span class="field-error" th:errors="*{quantity}"></span>
+      <span class="field-error client" id="errQuantity"></span>
     </div>
-    <div><label for="price">가격</label>
-      <input type="text" id="price" name="price" th:field="*{price}" th:class="${#fields.hasErrors('price')}? fieldError">
+    <div><label for="price" th:text="#{label.product.price}">가격</label>
+      <input type="text" id="price" name="price" th:field="*{price}" maxlength="10" th:class="${#fields.hasErrors('price')}? fieldError">
       <span class="field-error" th:errors="*{price}"></span>
+      <span class="field-error client" id="errPrice"></span>
     </div>
-    <div><input type="submit" value="등록"></div>
+    <div><input type="submit" value="등록" th:value="#{button.add}"></div>
   </form>
 </body>
 </html>
