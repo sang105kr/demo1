@@ -55,16 +55,26 @@ public class ProductController {
     log.info("add호출됨!={}",saveForm);
 
     // 요청데이터 유효성 체크
-    // 1. 어노테이션 기반 검증
+    // 1. 어노테이션 기반 필드 검증
     if(bindingResult.hasErrors()){
       log.info("bindingResult={}", bindingResult);
       return "product/add";
     }
     
-    // 2. 로직이 필요한 필드 및 글로벌 오류 검증
+    // 2. 코드 기반 필드 및 글로벌 오류(필드2개이상) 검증
+    // 2.1 필드오류 , 상품수량 1000 초과 불가
+    if(saveForm.getQuantity() > 1000) {
+      bindingResult.rejectValue("quantity","product","수량은 1000을 초가할 수 없습니다.");
+    }
+    // 2.2 글로벌오류, 총액(상품수량 * 단가) 1000만원 초과 금지
+    if(saveForm.getQuantity() * saveForm.getPrice() > 10_000_000L) {
+      bindingResult.reject("product",null,"수량 * 가격은 1000만원을 초가할 수 없습니다.");
+    }
 
-
-
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return "product/add";
+    }
 
     // 상품등록
     Product product = new Product();

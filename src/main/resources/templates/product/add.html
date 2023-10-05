@@ -5,28 +5,39 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>상품등록</title>
+  <title th:text="#{title.product.add}">상품관리--</title>
   <style>
-    .field-error {color:red; font-weight:bold; font-size:0.8rem;   }
+    .field-error {color:red; font-weight:bold; font-size:0.8rem;}
+
+    .fieldError { border:1px solid red; }
+    .fieldSuccess { border:1px solid green; }
   </style>
+  <script type="module">
+    [...document.querySelectorAll('.field-error')].forEach(ele=>ele.textContent = ele.innerHTML.replace('<br>',' / '));
+  </script>
 </head>
 <body>
-  상품등록
+  <h3 th:text="#{title.product.add}">상품등록--</h3>
+
+  <div class="field-error" th:errors="${saveForm.pname}">...</div>
   <!-- action 값이 없으면 현재 url을 기본 값으로 가짐 -->
   <!-- th:field id,name,value 속성 추가, id,name속성값은 멤버필드명으로 초기화되고 value속성은 멤버필드값이 초기화됨 -->
   <form action="" method="post" th:object="${saveForm}">
+<!--    <div th:if="${#fields.hasGlobalErrors()}">-->
+<!--      <p class="field-error" th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>-->
+<!--    </div>-->
     <div>
       <label for="pname">상품명</label>
-      <input type="text" id="pname" name="pname" th:field="*{pname}">
+      <input type="text" id="pname" name="pname" th:field="*{pname}" th:class="${#fields.hasErrors('pname')} ? fieldError : fieldSuccess">
       <span class="field-error" th:errors="*{pname}"></span>
     </div>
     <div>
       <label for="quantity">수량</label>
-      <input type="text" id="quantity" name="quantity" th:field="*{quantity}">
+      <input type="text" id="quantity" name="quantity" th:field="*{quantity}" th:errorclass="fieldError">
       <span class="field-error" th:errors="*{quantity}"></span>
     </div>
     <div><label for="price">가격</label>
-      <input type="text" id="price" name="price" th:field="*{price}">
+      <input type="text" id="price" name="price" th:field="*{price}" th:class="${#fields.hasErrors('price')}? fieldError">
       <span class="field-error" th:errors="*{price}"></span>
     </div>
     <div><input type="submit" value="등록"></div>
