@@ -1,4 +1,4 @@
-package com.kh.demo1.web.form;
+package com.kh.demo1.web.form.product;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

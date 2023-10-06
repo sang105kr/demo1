@@ -2,10 +2,10 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.entity.Product;
 import com.kh.demo1.domain.svc.ProductSVC;
-import com.kh.demo1.web.form.AllForm;
-import com.kh.demo1.web.form.DetailForm;
-import com.kh.demo1.web.form.SaveForm;
-import com.kh.demo1.web.form.UpdateForm;
+import com.kh.demo1.web.form.product.AllForm;
+import com.kh.demo1.web.form.product.DetailForm;
+import com.kh.demo1.web.form.product.SaveForm;
+import com.kh.demo1.web.form.product.UpdateForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
