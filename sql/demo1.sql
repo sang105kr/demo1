@@ -78,8 +78,8 @@ alter table member add constraint member_gubun_fk
     foreign key(gubun) references code(code_id);
 
 --제약조건
-alter table member modify email constraint member_passwd_uk unique;
-alter table member modify email constraint member_passwd_nn not null;
+alter table member modify email constraint member_email_uk unique;
+alter table member modify email constraint member_email_nn not null;
 alter table member add constraint member_gender_ck check (gender in ('남자','여자'));
 
 --시퀀스
