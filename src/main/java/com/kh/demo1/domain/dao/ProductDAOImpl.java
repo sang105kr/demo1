@@ -1,5 +1,6 @@
 package com.kh.demo1.domain.dao;
 
+import com.kh.demo1.domain.dao.entity.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;

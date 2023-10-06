@@ -58,6 +58,7 @@ create table member (
     member_id   number,         --내부 관리 아이디
     email       varchar2(50),   --로긴 아이디
     passwd      varchar2(12),   --로긴 비밀번호
+    tel         varchar2(13),   --연락처 ex)010-1234-5678
     nickname    varchar2(30),   --별칭
     gender      varchar2(6),    --성별
     hobby       varchar2(300),  --취미
@@ -85,13 +86,13 @@ alter table member add constraint member_gender_ck check (gender in ('남자','�
 create sequence member_member_id_seq;
 
 --샘플데이터 of member
-insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'test1@kh.com', '1234', '테스터1','남자','골프,독서','A0201', 'M0101');
-insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'test2@kh.com', '1234', '테스터2','여자','골프,수영','A0202', 'M0102');
-insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'admin1@kh.com', '1234','관리자1', '남자','등산,독서','A0203','M01A1');
-insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'admin2@kh.com', '1234','관리자2', '여자','골프,독서','A0204','M01A2');
+insert into member (member_id,email,passwd,tel,nickname,gender,hobby,region,gubun)
+    values(member_member_id_seq.nextval, 'test1@kh.com', '1234', '010-1111-1111','테스터1','남자','골프,독서','A0201', 'M0101');
+insert into member (member_id,email,passwd,tel,nickname,gender,hobby,region,gubun)
+    values(member_member_id_seq.nextval, 'test2@kh.com', '1234', '010-1111-1112','테스터2','여자','골프,수영','A0202', 'M0102');
+insert into member (member_id,email,passwd,tel,nickname,gender,hobby,region,gubun)
+    values(member_member_id_seq.nextval, 'admin1@kh.com', '1234','010-1111-1113','관리자1', '남자','등산,독서','A0203','M01A1');
+insert into member (member_id,email,passwd,tel,nickname,gender,hobby,region,gubun)
+    values(member_member_id_seq.nextval, 'admin2@kh.com', '1234','010-1111-1114','관리자2', '여자','골프,독서','A0204','M01A2');
 select * from member;
 commit;

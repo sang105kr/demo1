@@ -1,6 +1,6 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.domain.dao.Product;
+import com.kh.demo1.domain.dao.entity.Product;
 import com.kh.demo1.domain.svc.ProductSVC;
 import com.kh.demo1.web.form.AllForm;
 import com.kh.demo1.web.form.DetailForm;
