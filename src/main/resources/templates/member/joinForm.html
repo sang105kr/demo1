@@ -33,7 +33,7 @@
 
       const strongPasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
       if(!strongPasswordRegex.test(passwd.value)){
-        errPasswd.textContent = '숫자,대소문자,문자,특수문자를 적어도 1개이상 포함해야합니다.';
+        errPasswd.textContent = '숫자,대소문자,특수문자를 적어도 1개이상 포함해야합니다.';
         return;
       }
 
