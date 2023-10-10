@@ -26,7 +26,7 @@
       }
 
       //2) 비밀번호 : 필수, 12자이하 , (숫자,대소문자,문자,특수문자)
-      if(!(passwd.value.trim().length >= 4 and passwd.value.trim().length <= 12)) {
+      if(!(passwd.value.trim().length >= 4 && passwd.value.trim().length <= 12)) {
         passwd.textContent = '필수, 최소 4자리, 최대 12자 이하';
         return;
       }
