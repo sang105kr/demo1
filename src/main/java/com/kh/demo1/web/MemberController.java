@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +29,22 @@ public class MemberController {
   //취미
   @ModelAttribute("hobbys")   // model.addAttributes("hobbys",hobbys);
   public Map<String,String> hobbys(){
-    Map<String,String> hobbys = new HashMap<>();
+    Map<String,String> hobbys = new LinkedHashMap<>();
     hobbys.put("swim","수영");
     hobbys.put("climing", "등산");
     hobbys.put("golf", "골프");
     return hobbys;
+  }
+
+  //지역
+  @ModelAttribute("region")
+  public Map<String,String> region(){
+    Map<String, String> region = new LinkedHashMap<>();
+    region.put("A0201","서울");
+    region.put("A0202","부산");
+    region.put("A0203","대구");
+    region.put("A0204","울산");
+    return region;
   }
 
   //가입화면
