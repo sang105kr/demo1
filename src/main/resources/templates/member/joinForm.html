@@ -10,6 +10,7 @@
     .field-error {color:red; font-weight:bold; font-size:0.8rem;}
   </style>
   <script type="module">
+  /*
     frm.addEventListener('submit',e=>{
       e.preventDefault(); //기본 이벤트 막기
       //유효성 체크로직
@@ -46,6 +47,7 @@
       }
       frm.submit();
     });
+    */
   </script>
 </head>
 <body>
@@ -53,30 +55,34 @@
 
   <form id="frm" action="" method="post">
     <div>
-      <input type="email" placeholder="아이디" name="email" id="email">
+      <input type="email" placeholder="아이디" name="email" id="email" th:value="${joinForm.email}">
       <span class="field-error" id="errEmail"></span>
     </div>
     <div>
-      <input type="password" placeholder="비밀번호" name="passwd" id="passwd">
+      <input type="password" placeholder="비밀번호" name="passwd" id="passwd" th:value="${joinForm.passwd}">
       <span class="field-error" id="errPasswd"></span>
     </div>
-    <div><input type="tel" placeholder="전화번호" name="tel" id="tel"></div>
-    <div><input type="text" placeholder="별칭" name="nickname" id="nickname"></div>
+    <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:value="${joinForm.tel}"></div>
+    <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:value="${joinForm.nickname}"></div>
     <div>
-      <span>남</span><input type="radio" name="gender" id="male" value="남자">
-      <span>여</span><input type="radio" name="gender" id="female"  value="여자"><div/>
+      <span>남</span><input type="radio" name="gender" id="male" value="남자" th:field="${joinForm.gender}">
+      <span>여</span><input type="radio" name="gender" id="female"  value="여자" th:field="${joinForm.gender}"><div/>
     <div>
-      <span>수영</span><input type="checkbox" name="hobby" id="hobby1" value="수영">
-      <span>등산</span><input type="checkbox" name="hobby" id="hobby2" value="등산">
-      <span>골프</span><input type="checkbox" name="hobby" id="hobby3" value="골프">
+<!--      <span>수영</span><input type="checkbox" name="hobby" id="hobby1" value="수영" th:field="${joinForm.hobby}">-->
+<!--      <span>등산</span><input type="checkbox" name="hobby" id="hobby2" value="등산" th:field="${joinForm.hobby}">-->
+<!--      <span>골프</span><input type="checkbox" name="hobby" id="hobby3" value="골프" th:field="${joinForm.hobby}">-->
+      <th:block th:each="ele : ${hobbys}">
+        <span th:text="${ele.value}">수영</span>
+        <input type="checkbox" name="hobby" id="hobby1" th:value="${ele.value}" th:field="${joinForm.hobby}">
+      </th:block>
     </div>
     <div>
       <select name="region" id="region">
         <option value="">==지역선택==</option>
-        <option value="A0201">서울</option>
-        <option value="A0202">부산</option>
-        <option value="A0203">대구</option>
-        <option value="A0204">울산</option>
+        <option value="A0201" th:field="${joinForm.region}">서울</option>
+        <option value="A0202" th:field="${joinForm.region}">부산</option>
+        <option value="A0203" th:field="${joinForm.region}">대구</option>
+        <option value="A0204" th:field="${joinForm.region}">울산</option>
       </select>
     </div>
     <div><input type="submit" value="회원가입"></div>
