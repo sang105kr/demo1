@@ -17,30 +17,33 @@
       if(email.value.trim().length == 0 || email.value.trim().length > 50) {
         errEmail.textContent = '필수, 50자 이하';
         return;
+      }else {
+        errEmail.textContent = '';
       }
 
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       if(!emailRegex.test(email.value)){
         errEmail.textContent = '이메일 형식과 맞지 않습니다.';
         return;
+      }else {
+       errEmail.textContent = '';
       }
 
       //2) 비밀번호 : 필수, 12자이하 , (숫자,대소문자,문자,특수문자)
       if(!(passwd.value.trim().length >= 4 && passwd.value.trim().length <= 12)) {
         errPasswd.textContent = '필수, 최소 4자리, 최대 12자 이하';
         return;
+      }else {
+        errPasswd.textContent='';
       }
 
       const strongPasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
       if(!strongPasswordRegex.test(passwd.value)){
         errPasswd.textContent = '숫자,대소문자,특수문자를 적어도 1개이상 포함해야합니다.';
         return;
+      }else{
+        errPasswd.textContent='';
       }
-
-      //오류메세지 clear
-      errEmail.textContent = "";
-      errPasswd.textContent = "";
-
       frm.submit();
     });
   </script>
