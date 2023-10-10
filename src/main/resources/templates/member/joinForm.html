@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <style>
+    .field-error {color:red; font-weight:bold; font-size:0.8rem;}
+  </style>
+  <script type="module">
+    frm.addEventListener('submit',e=>{
+      e.preventDefault(); //기본 이벤트 막기
+      //유효성 체크로직
+      //1) 아이디 : 필수, 50자이하, 이메일형식
+      if(email.value.trim().length == 0 || email.value.trim().length > 50) {
+        errEmail.textContent = '필수, 50자 이하';
+        return;
+      }
+
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if(!emailRegex.test(email.value)){
+        errEmail.textContent = '이메일 형식과 맞지 않습니다.';
+        return;
+      }
+
+      //2) 비밀번호 : 필수, 12자이하 , (숫자,대소문자,문자,특수문자)
+      if(!(passwd.value.trim().length >= 4 and passwd.value.trim().length <= 12)) {
+        passwd.textContent = '필수, 최소 4자리, 최대 12자 이하';
+        return;
+      }
+
+      const strongPasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+      if(!strongPasswordRegex.test(passwd.value)){
+        errPasswd.textContent = '숫자,대소문자,문자,특수문자를 적어도 1개이상 포함해야합니다.';
+        return;
+      }
+
+      //오류메세지 clear
+      errEmail.textContent = "";
+      errPasswd.textContent = "";
+
+      frm.submit();
+    });
+  </script>
+</head>
+<body>
+  <h3>회원가입</h3>
+
+  <form id="frm" action="" method="post">
+    <div>
+      <input type="email" placeholder="아이디" name="email" id="email">
+      <span class="field-error" id="errEmail"></span>
+    </div>
+    <div>
+      <input type="password" placeholder="비밀번호" name="passwd" id="passwd">
+      <span class="field-error" id="errPasswd"></span>
+    </div>
+    <div><input type="tel" placeholder="전화번호" name="tel" id="tel"></div>
+    <div><input type="text" placeholder="별칭" name="nickname" id="nickname"></div>
+    <div>
+      <span>남</span><input type="radio" name="gender" id="male" value="남자">
+      <span>여</span><input type="radio" name="gender" id="female"  value="여자"><div/>
+    <div>
+      <span>수영</span><input type="checkbox" name="hobby" id="hobby1" value="수영">
+      <span>등산</span><input type="checkbox" name="hobby" id="hobby2" value="등산">
+      <span>골프</span><input type="checkbox" name="hobby" id="hobby3" value="골프">
+    </div>
+    <div>
+      <select name="region" id="region">
+        <option value="">==지역선택==</option>
+        <option value="A0201">서울</option>
+        <option value="A0202">부산</option>
+        <option value="A0203">대구</option>
+        <option value="A0204">울산</option>
+      </select>
+    </div>
+    <div><input type="submit" value="회원가입"></div>
+  </form>
+</body>
+</html>

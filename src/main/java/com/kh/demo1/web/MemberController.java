@@ -6,6 +6,7 @@ import com.kh.demo1.web.form.member.JoinForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,8 +18,16 @@ public class MemberController {
 
   private final MemberSVC memberSVC;
 
+  //가입화면
+  @GetMapping("/add")      //  GET http://localhost:9080/members/add
+  public String joinForm(){
+
+    return "member/joinForm";
+  }
+
+
   //가입처리
-  @PostMapping("/add")
+  @PostMapping("/add")      //  POST http://localhost:9080/members/add
   public String join(JoinForm joinForm){
 
     log.info("join()호출");
