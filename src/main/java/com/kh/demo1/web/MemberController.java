@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -67,7 +68,10 @@ public class MemberController {
     member.setTel(joinForm.getTel());
     member.setNickname(joinForm.getNickname());
     member.setGender(joinForm.getGender());
-//    member.setHobby(joinForm.getHobby());
+    List<String> hobbys = joinForm.getHobby();
+
+    //["수영","등산"] => "수영,등산"
+    member.setHobby(listToString(joinForm.getHobby()));
     member.setRegion(joinForm.getRegion());
     member.setGubun("M0101"); //일반회원
     Member joinedMember = memberSVC.join(member);
@@ -75,4 +79,13 @@ public class MemberController {
     return "index"; // view 이름
   }
 
+  //List를 문자열로 변환
+  private String listToString(List<String> hobbys) {
+    String tmp = "";
+    for (String hobby : hobbys) {
+      tmp += hobby + ",";
+    }
+    tmp = tmp.substring(0,tmp.length()-1);
+    return tmp;
+  }
 }
