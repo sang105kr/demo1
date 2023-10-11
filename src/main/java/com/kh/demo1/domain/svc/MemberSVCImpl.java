@@ -19,4 +19,9 @@ public class MemberSVCImpl implements MemberSVC{
     return memberDAO.insertMember(member);
   }
 
+  //회원존재유무
+  @Override
+  public boolean isMember(String email) {
+    return memberDAO.isExist(email);
+  }
 }
