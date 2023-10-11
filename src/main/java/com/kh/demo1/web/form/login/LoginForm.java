@@ -1,9 +1,9 @@
 package com.kh.demo1.web.form.login;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class LoginForm {
@@ -11,7 +11,6 @@ public class LoginForm {
   @Size(min=4,max=50)
   private String email;
 
-  @Size(min=4,max=12)
-  @Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$")
+  @NotBlank
   private String passwd;
 }

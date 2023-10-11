@@ -1,0 +1,4 @@
+@charset "utf-8";
+
+/* 오류 메세지 */
+.field-error {color:red; font-weight:bold; font-size:0.8rem;}
