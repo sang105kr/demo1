@@ -31,7 +31,7 @@
           errEmail.textContent = '';
         }
         //2) 비밀번호 : 필수
-        if (passwd.value.length.trim().length == 0) {
+        if (passwd.value.trim().length == 0) {
           errPasswd.textContent = '필수 입력 필드입니다';
           passwd.focus();
           return;
@@ -45,6 +45,9 @@
   </head>
   <body>
     <h3>로그인</h3>
+<!--//form 밖에서 글로벌 오류메세지 출력
+    <div class="field-error" th:errors="${loginForm}"></div>
+-->
     <form id="frm" th:action th:method="post" th:object="${loginForm}">
       <div>
         <input type="email" th:field="*{email}" />
@@ -56,6 +59,7 @@
         <span class="field-error" th:errors="*{passwd}"></span>
         <span class="field-error" id="errPasswd"></span>
       </div>
+      <div class="field-error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">..</div>
       <div><input type="submit" value="로그인" /></div>
     </form>
   </body>
