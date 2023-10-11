@@ -68,11 +68,25 @@ public class MemberController {
     log.info("join()호출");
     log.info("joinForm={}",joinForm);
 
+    //어노테이션 기반의 검증
     if(bindingResult.hasErrors()){
       log.info("bindingResult={}", bindingResult);
       return "member/joinForm";
     }
 
+    //로직 검증
+    //필드 검증
+    //1) 회원 중복체크
+    boolean isMember = memberSVC.isMember(joinForm.getEmail());
+    if(isMember) {
+      bindingResult.rejectValue("email", "member",null);
+    }
+
+    //글로벌 검증
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return "member/joinForm";
+    }
     Member member = new Member();
     member.setEmail(joinForm.getEmail());
     member.setPasswd(joinForm.getPasswd());

@@ -3,6 +3,7 @@ package com.kh.demo1.domain.dao;
 
 import com.kh.demo1.domain.dao.entity.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,15 @@ public class MemberDAOImplTest {
     //output 데이터 검증
     log.info("insertedMember={}", insertedMember);
     
+  }
+
+  @Test
+  @DisplayName("회원존재유무")
+  void isExist(){
+    String email = "test1@kh.com";
+    boolean isExist = memberDAO.isExist(email);
+
+    log.info("isExist={}",isExist);
+    Assertions.assertThat(isExist).isTrue();
   }
 }
