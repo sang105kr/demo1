@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 @Slf4j            // console로그 출력
 @SpringBootTest   // springboot 환경에서 테스트 진행
 public class MemberDAOImplTest {
@@ -45,5 +47,25 @@ public class MemberDAOImplTest {
 
     log.info("isExist={}",isExist);
     Assertions.assertThat(isExist).isTrue();
+  }
+
+  @Test
+  @DisplayName("이메일로 회원조회 O")
+  void findByEmail(){
+    String email = "test1@kh.com";
+    Optional<Member> optionalMember = memberDAO.findByEmail(email);
+    boolean isEmpty = optionalMember.isEmpty();
+    Assertions.assertThat(isEmpty).isFalse();
+
+    log.info("member={}", optionalMember.get());
+  }
+
+  @Test
+  @DisplayName("이메일로 회원조회 X")
+  void findByEmail2(){
+    String email = "xxx@xxx.xxx";
+    Optional<Member> optionalMember = memberDAO.findByEmail(email);
+    boolean isEmpty = optionalMember.isEmpty();
+    Assertions.assertThat(isEmpty).isTrue();
   }
 }

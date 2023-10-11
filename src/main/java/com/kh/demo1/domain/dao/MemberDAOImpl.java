@@ -3,6 +3,9 @@ package com.kh.demo1.domain.dao;
 import com.kh.demo1.domain.dao.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -11,6 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -52,5 +56,28 @@ public class MemberDAOImpl implements MemberDAO {
     Integer cnt = template.queryForObject(sql, param, Integer.class); // 1,0
 
     return cnt == 1 ? true: false;
+  }
+
+  //회원 조회
+  @Override
+  public Optional<Member> findByEmail(String email) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select member_id,email,passwd, ");
+    sql.append("       tel,nickname,gender,hobby,region,gubun, ");
+    sql.append("       pic,cdate,udate ");
+    sql.append("from member ");
+    sql.append("where email = :email ");
+
+    Map<String, String> param = Map.of("email", email);
+    // Member.class 필드명과 Result 컬럼명과 동일한경우 자동 매핑
+    RowMapper rowMapper = new BeanPropertyRowMapper(Member.class);
+    try {
+      // queryForObject() : 단일행 다중열 레코드의 결과 셋을 가져올때 사용하는 메소드
+      //                     결과셋이 없으면 EmptyResultDataAccessException 예외를 발생
+      Member findedMember = (Member) template.queryForObject(sql.toString(), param, rowMapper);
+      return Optional.of(findedMember);
+    }catch (EmptyResultDataAccessException e){
+      return Optional.empty();
+    }
   }
 }

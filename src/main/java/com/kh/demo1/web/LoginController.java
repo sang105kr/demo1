@@ -33,6 +33,8 @@ public class LoginController {
       log.info("bindingResult={}", bindingResult);
       return "login/loginForm";
     }
+
+
     return "index";
   }
 }
