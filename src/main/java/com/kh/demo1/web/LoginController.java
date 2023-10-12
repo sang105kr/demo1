@@ -28,18 +28,16 @@ public class LoginController {
 
   //로그인 화면
   @GetMapping("login")          // Get http://localhost:9080/login?redirectURI=/products
-  public String loginForm(
-      @RequestParam("redirectURI") String requestURI,
-      Model model){
+  public String loginForm(Model model){
     LoginForm loginForm = new LoginForm();
     model.addAttribute("loginForm", loginForm);
     return "login/loginForm";
   }
 
   //로그인 처리
-  @PostMapping("login")          //Post http://localhost:9080/login?redirectURI=/products
+  @PostMapping("login")          //Post http://localhost:9080/login?redirectUrl=/products
   public String login(
-      @RequestParam("redirectURI") String requestURI,
+      @RequestParam("redirectUrl") String redirectUrl,
       @Valid @ModelAttribute LoginForm loginForm,
       BindingResult bindingResult,
       HttpServletRequest request    // http요청 메세지를 추상화한 객체
@@ -78,7 +76,7 @@ public class LoginController {
     LoginMember loginMember = new LoginMember(member.getEmail(),member.getNickname(), member.getGubun());
     session.setAttribute("loginMember",loginMember);
 
-    return "redirect:"+requestURI;
+    return "redirect:"+redirectUrl;   //  302 http://localhost:9080/products
   }
 
   @GetMapping("/logout")
