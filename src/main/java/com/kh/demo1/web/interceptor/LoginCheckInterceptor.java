@@ -27,7 +27,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
       redirectUrl = str.append(requestURI).append("&").append(queryString).toString(); //   /products?aaa=xxx&bbb=yyy
 
     }else{
-    //요청 파라미터 정보가 없는경우
+      //요청 파라미터 정보가 없는경우
       redirectUrl = requestURI;    //  /products
     }
 

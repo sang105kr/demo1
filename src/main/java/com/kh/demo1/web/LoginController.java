@@ -37,7 +37,7 @@ public class LoginController {
   //로그인 처리
   @PostMapping("login")          //Post http://localhost:9080/login?redirectUrl=/products
   public String login(
-      @RequestParam("redirectUrl") String redirectUrl,
+      @RequestParam(value="redirectUrl",required = false,defaultValue = "/") String redirectUrl,
       @Valid @ModelAttribute LoginForm loginForm,
       BindingResult bindingResult,
       HttpServletRequest request    // http요청 메세지를 추상화한 객체
