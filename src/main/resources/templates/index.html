@@ -23,7 +23,9 @@
   <li><a href="" th:href="@{/products}">상품관리</a></li>
   <li><a href="" th:href="@{/logout}">로그아웃</a></li>
 
-  <li th:if="${session.loginMember.gubun} == 'M01A1' or ${session.loginMember.gubun} == 'M01A2' "><a href="" th:href="@{/admin}">관리자메뉴</a></li>
+  <th:block th:if="${session.loginMember.gubun} == 'M01A1' or ${session.loginMember.gubun} == 'M01A2' ">
+  <li><a href="" th:href="@{/admin}">관리자메뉴</a></li>
+  </th:block>
 </ul>
 </body>
 </html>

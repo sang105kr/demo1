@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -26,16 +27,19 @@ public class LoginController {
   private final MemberSVC memberSVC;
 
   //로그인 화면
-  @GetMapping("login")
-  public String loginForm(Model model){
+  @GetMapping("login")          // Get http://localhost:9080/login?redirectURI=/products
+  public String loginForm(
+      @RequestParam("redirectURI") String requestURI,
+      Model model){
     LoginForm loginForm = new LoginForm();
     model.addAttribute("loginForm", loginForm);
     return "login/loginForm";
   }
 
   //로그인 처리
-  @PostMapping("login")
+  @PostMapping("login")          //Post http://localhost:9080/login?redirectURI=/products
   public String login(
+      @RequestParam("redirectURI") String requestURI,
       @Valid @ModelAttribute LoginForm loginForm,
       BindingResult bindingResult,
       HttpServletRequest request    // http요청 메세지를 추상화한 객체
@@ -74,7 +78,7 @@ public class LoginController {
     LoginMember loginMember = new LoginMember(member.getEmail(),member.getNickname(), member.getGubun());
     session.setAttribute("loginMember",loginMember);
 
-    return "redirect:/";
+    return "redirect:"+requestURI;
   }
 
   @GetMapping("/logout")
