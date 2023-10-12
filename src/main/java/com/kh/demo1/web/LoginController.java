@@ -3,6 +3,9 @@ package com.kh.demo1.web;
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
 import com.kh.demo1.web.form.login.LoginForm;
+import com.kh.demo1.web.form.login.LoginMember;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +37,9 @@ public class LoginController {
   @PostMapping("login")
   public String login(
       @Valid @ModelAttribute LoginForm loginForm,
-      BindingResult bindingResult){
+      BindingResult bindingResult,
+      HttpServletRequest request    // http요청 메세지를 추상화한 객체
+  ){
     log.info("loginForm={}", loginForm);
 
     if(bindingResult.hasErrors()){
@@ -43,11 +48,12 @@ public class LoginController {
     }
 
     Optional<Member> optionalMember = memberSVC.findByEmail(loginForm.getEmail());
+    Member member = null;
     //1) 아이디가 없는경우
     if(optionalMember.isEmpty()){
       bindingResult.reject("invalidMember",null);
     }else{
-      Member member = optionalMember.get();
+      member = optionalMember.get();
       //2)비밀번호가 다른경우
       if(!member.getPasswd().equals(loginForm.getPasswd())){
         bindingResult.reject("invalidMember",null);
@@ -59,6 +65,25 @@ public class LoginController {
       return "login/loginForm";
     }
 
-    return "index";
+    //세션 생성
+    //request.getSession(true) : 세션이 있으면 기존 세션 정보가져오고 없으면 새로이 세션을 생성
+    //request.getSession(false) : 세션이 있으면 기존 세션 정보가져오고 없으면 세션을 생성하지 않음
+    HttpSession session = request.getSession(true);
+    
+    //세션에 회원정보 저장
+    LoginMember loginMember = new LoginMember(member.getEmail(),member.getNickname(), member.getGubun());
+    session.setAttribute("loginMember",loginMember);
+
+    return "redirect:/";
+  }
+
+  @GetMapping("/logout")
+  public String logout(HttpServletRequest request){
+    //세션정보 가져오기
+    HttpSession session = request.getSession(false);
+    //세션제거
+    session.invalidate();
+
+    return "redirect:/";
   }
 }

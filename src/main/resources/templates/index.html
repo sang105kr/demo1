@@ -8,10 +8,22 @@
   <title>Title</title>
 </head>
 <body>
-<ul>
+
+<h3 th:if="${!session.isEmpty()}">
+  <p><span th:text="${session.loginMember.nickname}"></span><span>님 반갑습니다.</span></p>
+  <p>[[${session.loginMember.nickname}]]님 반갑습니다.</p>
+</h3>
+
+<ul th:if="${session.isEmpty()}">
   <li><a href="" th:href="@{/products}">상품관리</a></li>
   <li><a href="" th:href="@{/members/add}">회원가입</a></li>
   <li><a href="" th:href="@{/login}">로그인</a></li>
+</ul>
+<ul th:if="${!session.isEmpty()}">
+  <li><a href="" th:href="@{/products}">상품관리</a></li>
+  <li><a href="" th:href="@{/logout}">로그아웃</a></li>
+
+  <li th:if="${session.loginMember.gubun} == 'M01A1' or ${session.loginMember.gubun} == 'M01A2' "><a href="" th:href="@{/admin}">관리자메뉴</a></li>
 </ul>
 </body>
 </html>
