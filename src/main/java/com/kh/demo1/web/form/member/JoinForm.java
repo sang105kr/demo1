@@ -17,6 +17,7 @@ public class JoinForm {
   @Size(min=4,max=12)
   @Pattern(regexp="^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$")
   private String passwd;
+  private String passwdChk;
   private String tel;
   private String nickname;
   private String gender;

@@ -10,13 +10,14 @@
     .field-error {color:red; font-weight:bold; font-size:0.8rem;}
   </style>
   <script type="module">
-  /*
+/*
     frm.addEventListener('submit',e=>{
       e.preventDefault(); //기본 이벤트 막기
       //유효성 체크로직
       //1) 아이디 : 필수, 50자이하, 이메일형식
       if(email.value.trim().length == 0 || email.value.trim().length > 50) {
         errEmail.textContent = '필수, 50자 이하';
+        email.focus();
         return;
       }else {
         errEmail.textContent = '';
@@ -25,6 +26,7 @@
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       if(!emailRegex.test(email.value)){
         errEmail.textContent = '이메일 형식과 맞지 않습니다.';
+        email.focus();
         return;
       }else {
        errEmail.textContent = '';
@@ -33,6 +35,7 @@
       //2) 비밀번호 : 필수, 12자이하 , (숫자,대소문자,문자,특수문자)
       if(!(passwd.value.trim().length >= 4 && passwd.value.trim().length <= 12)) {
         errPasswd.textContent = '필수, 최소 4자리, 최대 12자 이하';
+        passwd.focus();
         return;
       }else {
         errPasswd.textContent='';
@@ -41,13 +44,47 @@
       const strongPasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
       if(!strongPasswordRegex.test(passwd.value)){
         errPasswd.textContent = '숫자,대소문자,특수문자를 적어도 1개이상 포함해야합니다.';
+        passwd.focus();
         return;
       }else{
         errPasswd.textContent='';
       }
+
+      //3) 비밀번호확인
+      if(passwd.value !== passwdChk.value) {
+        errPasswdChk.textContent = '비밀번호가 맞지 않습니다!'
+        passwdChk.focus();
+        return;
+      }else{
+        errPasswdChk.textContent = ''
+      }
       frm.submit();
     });
-    */
+*/
+
+    //이메일 검증
+    const h_emailChk = e=>{
+      console.log('이메일체크');
+      const $email = document.getElementById('email');
+      const email = $email.value;
+      if(email.trim().length == 0){
+        errEmail.textContent = '이메일을 입력하세요';
+        $email.focus();
+        return;
+      }
+      const url = `/members/emailChk/${email}`;
+      const options = {
+        method:'GET'
+      };
+
+      (async ()=>{
+          const response = await fetch(url,options);
+          const result = await response;
+          console.log(result);
+      })();
+    }
+
+    btnEmailChk.addEventListener('click',h_emailChk);
   </script>
 </head>
 <body>
@@ -56,6 +93,7 @@
   <form id="frm" action="" method="post" th:object="${joinForm}">
     <div>
       <input type="email" placeholder="아이디" name="email" id="email" th:field="*{email}">
+      <button type="button" id="btnEmailChk">이메일검증</button>
       <span class="field-error" th:errors="*{email}"></span>
       <span class="field-error" id="errEmail"></span>
     </div>
@@ -63,6 +101,11 @@
       <input type="password" placeholder="비밀번호" name="passwd" id="passwd" th:field="*{passwd}">
       <span class="field-error" th:errors="*{passwd}"></span>
       <span class="field-error" id="errPasswd"></span>
+    </div>
+    <div>
+      <input type="password" placeholder="비밀번호확인" name="passwdChk" id="passwdChk" th:field="*{passwdChk}">
+      <span class="field-error" th:errors="*{passwdChk}"></span>
+      <span class="field-error" id="errPasswdChk"></span>
     </div>
     <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:field="*{tel}"></div>
     <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:field="*{nickname}"></div>
@@ -87,7 +130,7 @@
     </div>
     <!-- 서버에서 렌더링 하지 않음 -->
     <div th:remove="all">
-      <select name="region" id="region" th:field="*{region}">
+      <select name="region" id="" th:field="*{region}">
         <option value="">==지역선택==</option>
         <option value="A0201" >서울</option>
         <option value="A0202" >부산</option>

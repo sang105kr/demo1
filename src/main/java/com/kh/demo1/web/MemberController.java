@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,7 +44,7 @@ public class MemberController {
     region.put("A0204","울산");
     return region;
   }
-
+  
   //가입화면
   @GetMapping("/add")      //  GET http://localhost:9080/members/add
   public String joinForm(Model model){
@@ -77,7 +74,15 @@ public class MemberController {
 
     //로직 검증
     //필드 검증
-    //1) 회원 중복체크
+    //1) 비밀번호확인
+    if(!joinForm.getPasswd().equals(joinForm.getPasswdChk())){
+      bindingResult.rejectValue("passwdChk", "member");
+    }
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return "member/joinForm";
+    }
+    //2) 회원 중복체크
     boolean isMember = memberSVC.isMember(joinForm.getEmail());
     if(isMember) {
       bindingResult.rejectValue("email", "member",null);
@@ -103,6 +108,16 @@ public class MemberController {
     Member joinedMember = memberSVC.join(member);
 
     return "index"; // view 이름
+  }
+
+  //이메일 인증
+  @ResponseBody
+  @GetMapping("/emailChk/{email}")
+  public String emailChk(@PathVariable("email") String email){
+    log.info("email={}",email);
+    //메일전송
+
+    return "ok";
   }
 
 }

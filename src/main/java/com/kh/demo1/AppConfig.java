@@ -19,6 +19,7 @@ public class AppConfig implements WebMvcConfigurer {
             "/login",                 //login
             "/logout",                //logout
             "/members/add",            //회원가입
+            "/members/emailChk/**",       //이메일체크
             "/css","/js","/img"       //정적리소스
         );  // 인터셉터 제외 url패턴
   }

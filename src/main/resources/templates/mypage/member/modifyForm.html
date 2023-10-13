@@ -10,7 +10,7 @@
     .field-error {color:red; font-weight:bold; font-size:0.8rem;}
   </style>
   <script type="module">
-
+     //저장
     frm.addEventListener('submit',e=>{
       e.preventDefault(); //기본 이벤트 막기
 
@@ -25,6 +25,10 @@
       frm.submit();
     });
 
+    //취소
+    btnCancel.addEventListener('click',e=>{
+      location.href = `/mypage/members/${email.value}`;
+    });
   </script>
 </head>
 <body>
@@ -60,7 +64,7 @@
       </select>
     </div>
 
-    <div><input type="submit" value="저장"></div>
+    <div><input type="submit" value="저장"><button type="button" id="btnCancel">취소</button></div>
 </form>
 </body>
 </html>
