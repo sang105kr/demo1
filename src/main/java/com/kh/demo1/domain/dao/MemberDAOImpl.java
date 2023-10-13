@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -79,5 +80,31 @@ public class MemberDAOImpl implements MemberDAO {
     }catch (EmptyResultDataAccessException e){
       return Optional.empty();
     }
+  }
+
+  //회원수정
+  @Override
+  public int updateMember(String email, Member member) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("update member ");
+    sql.append("set tel = :tel, ");
+    sql.append("    nickname = :nickname, ");
+    sql.append("    gender = :gender, ");
+    sql.append("    hobby = :hobby, ");
+    sql.append("    region = :region ");
+    sql.append("where email = :email ");
+
+    SqlParameterSource parm = new MapSqlParameterSource()
+        .addValue("tel",member.getTel())
+        .addValue("nickname",member.getNickname())
+        .addValue("gender",member.getGender())
+        .addValue("hobby",member.getHobby())
+        .addValue("region",member.getRegion())
+        .addValue("email",email);
+
+    //rows : 업데이트된 레코드 수
+    int rows = template.update(sql.toString(), parm);
+
+    return rows;
   }
 }

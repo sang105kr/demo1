@@ -2,6 +2,7 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
+import com.kh.demo1.util.MyUtil;
 import com.kh.demo1.web.form.member.JoinForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +97,7 @@ public class MemberController {
     List<String> hobbys = joinForm.getHobby();
 
     //["수영","등산"] => "수영,등산"
-    member.setHobby(listToString(joinForm.getHobby()));
+    member.setHobby(MyUtil.listToString(joinForm.getHobby()));
     member.setRegion(joinForm.getRegion());
     member.setGubun("M0101"); //일반회원
     Member joinedMember = memberSVC.join(member);
@@ -104,13 +105,4 @@ public class MemberController {
     return "index"; // view 이름
   }
 
-  //List를 문자열로 변환
-  private String listToString(List<String> hobbys) {
-    String tmp = "";
-    for (String hobby : hobbys) {
-      tmp += hobby + ",";
-    }
-    tmp = tmp.substring(0,tmp.length()-1);
-    return tmp;
-  }
 }

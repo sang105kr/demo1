@@ -13,4 +13,7 @@ public interface MemberSVC {
 
   //회원조회
   Optional<Member> findByEmail(String email);
+
+  //회원수정
+  int modify(String email, Member member);
 }

@@ -2,20 +2,19 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
+import com.kh.demo1.util.MyUtil;
 import com.kh.demo1.web.form.mypage.member.DetailForm;
+import com.kh.demo1.web.form.mypage.member.ModifyForm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -79,4 +78,72 @@ public class MyPageController {
 
     return "mypage/member/detailForm";
   }
+
+  //회원수정양식
+  @GetMapping("/member/{email}/edit")
+  public String modifyForm(@PathVariable("email") String email,Model model){
+
+    Optional<Member> optionalMember = memberSVC.findByEmail(email);
+    Member member = null;
+    if(optionalMember.isPresent()) {
+      member = optionalMember.get();
+    }
+
+    ModifyForm modifyForm = new ModifyForm();
+    modifyForm.setMemberId(member.getMemberId());
+    modifyForm.setEmail(member.getEmail());
+    modifyForm.setTel(member.getTel());
+    modifyForm.setNickname(member.getNickname());
+    modifyForm.setGender(member.getGender());
+    modifyForm.setHobby(Arrays.asList(member.getHobby().split(",")));
+    modifyForm.setRegion(member.getRegion());
+    modifyForm.setPic(member.getPic());
+
+    log.info("modifyForm={}", modifyForm);
+    model.addAttribute("modifyForm",modifyForm);
+
+    return "mypage/member/modifyForm";
+  }
+
+  //회원수정처리
+  @PatchMapping("/member/{email}/edit")
+  public String modify(
+      @PathVariable("email") String email,
+      @Valid @ModelAttribute ModifyForm modifyForm,
+      BindingResult bindingResult,
+      RedirectAttributes redirectAttributes){
+
+    // 필드 어노테이션 기반 검증
+    if (bindingResult.hasErrors()) {
+      log.info("bindingResult={}", bindingResult);
+      return "mypage/member/modifyForm";
+    }
+
+    // 필드 코드 기반 검증
+    //1) 비밀번호 체크
+    String savedPasswd = memberSVC.findByEmail(email).get().getPasswd();
+    if(!savedPasswd.equals(modifyForm.getPasswd())) {
+      bindingResult.rejectValue("passwd","member");
+    }
+
+    if (bindingResult.hasErrors()) {
+      log.info("bindingResult={}", bindingResult);
+      return "mypage/member/modifyForm";
+    }
+
+    Member member = new Member();
+    member.setTel(modifyForm.getTel());
+    member.setNickname(modifyForm.getNickname());
+    member.setGender(modifyForm.getGender());
+    member.setHobby(MyUtil.listToString(modifyForm.getHobby()));
+    member.setRegion(modifyForm.getRegion());
+
+    //수정처리
+    int rows = memberSVC.modify(email, member);
+
+
+    redirectAttributes.addAttribute("email",email);
+    return "redirect:/mypage/members/{email}";   // 302 GET http://localhost:9080/mypage/members/test1@kh.com
+  }
+
 }

@@ -7,6 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>회원조회</title>
   <script type="module">
+    //수정버튼 클릭시
+    btnModify.addEventListener('click',e=>{
+      //GET http://localhost:9080//mypage/member/test1@kh.com/edit
+      location.href = `/mypage/member/${email.value}/edit`;
+    });
   </script>
 </head>
 <body>
@@ -34,7 +39,7 @@
         <option th:each="ele : ${region}"  th:value="${ele.key}" th:text="${ele.value}">서울</option>
       </select>
     </div>
-    <div><button id="btnModify">수정</button></div>
+    <div><button type=button id="btnModify">수정</button></div>
 </form>
 </body>
 </html>

@@ -32,4 +32,10 @@ public class MemberSVCImpl implements MemberSVC{
   public Optional<Member> findByEmail(String email) {
     return memberDAO.findByEmail(email);
   }
+
+  //회원수정
+  @Override
+  public int modify(String email, Member member) {
+    return memberDAO.updateMember(email,member);
+  }
 }

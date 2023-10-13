@@ -68,4 +68,27 @@ public class MemberDAOImplTest {
     boolean isEmpty = optionalMember.isEmpty();
     Assertions.assertThat(isEmpty).isTrue();
   }
+
+  @Test
+  @DisplayName("회원수정")
+  void modifyMember(){
+    String email = "test1@kh.com";
+    Member member = new Member();
+    member.setTel("999-9999-9999");
+    member.setNickname("홍길동2");
+    member.setGender("남자");
+    member.setHobby("등산");
+    member.setRegion("A0201");
+
+    int rows = memberDAO.updateMember(email, member);
+
+    Optional<Member> optionalMember = memberDAO.findByEmail(email);
+    Member updatedMember = optionalMember.get();
+
+    Assertions.assertThat(updatedMember.getTel()).isEqualTo("999-9999-9999");
+    Assertions.assertThat(updatedMember.getNickname()).isEqualTo("홍길동2");
+    Assertions.assertThat(updatedMember.getGender()).isEqualTo("남자");
+    Assertions.assertThat(updatedMember.getHobby()).isEqualTo("등산");
+    Assertions.assertThat(updatedMember.getRegion()).isEqualTo("A0201");
+  }
 }

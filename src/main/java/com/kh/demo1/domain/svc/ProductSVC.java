@@ -22,5 +22,4 @@ public interface ProductSVC {
   int updateById(Long productId, Product product);
 
 
-
 }
