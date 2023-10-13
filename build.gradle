@@ -39,6 +39,8 @@ dependencies {
 
 	//sql로그 확인
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+	//메일전송
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {

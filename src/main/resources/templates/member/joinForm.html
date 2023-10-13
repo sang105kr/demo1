@@ -79,11 +79,22 @@
 
       (async ()=>{
           const response = await fetch(url,options);
-          const result = await response;
-          console.log(result);
+          const mailAuthNum = await response.text();
+          window.mailAuthNum = mailAuthNum;
+          console.log(mailAuthNum);
       })();
     }
+    const h_mailAuthNumChk = e => {
+      if(window.mailAuthNum !== mailAuthNumChk.value){
+        errMailAuthNumChk.textContent = '인증번호가 다릅니다';
+        mailAuthNumChk.focus();
+        return;
+      }else{
+        errMailAuthNumChk.textContent = '인증번호 확인!';
+      }
+    }
 
+    btnConfirm.addEventListener('click',h_mailAuthNumChk)
     btnEmailChk.addEventListener('click',h_emailChk);
   </script>
 </head>
@@ -96,6 +107,11 @@
       <button type="button" id="btnEmailChk">이메일검증</button>
       <span class="field-error" th:errors="*{email}"></span>
       <span class="field-error" id="errEmail"></span>
+    </div>
+    <div>
+      <input type="text" placeholder="인증번호" name="mailAuthNumChk" id="mailAuthNumChk">
+      <button type="button" id="btnConfirm">인증번호확인</button>
+      <span class="field-error" id="errMailAuthNumChk"></span>
     </div>
     <div>
       <input type="password" placeholder="비밀번호" name="passwd" id="passwd" th:field="*{passwd}">

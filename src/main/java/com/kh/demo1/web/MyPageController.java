@@ -2,7 +2,7 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
-import com.kh.demo1.util.MyUtil;
+import com.kh.demo1.common.MyUtil;
 import com.kh.demo1.web.form.mypage.member.DetailForm;
 import com.kh.demo1.web.form.mypage.member.ModifyForm;
 import jakarta.validation.Valid;

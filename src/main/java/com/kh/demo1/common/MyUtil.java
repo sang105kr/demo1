@@ -1,4 +1,4 @@
-package com.kh.demo1.util;
+package com.kh.demo1.common;
 
 import java.util.List;
 

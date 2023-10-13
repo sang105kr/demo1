@@ -1,8 +1,9 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.common.MailService;
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
-import com.kh.demo1.util.MyUtil;
+import com.kh.demo1.common.MyUtil;
 import com.kh.demo1.web.form.member.JoinForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -23,6 +25,7 @@ import java.util.Map;
 public class MemberController {
 
   private final MemberSVC memberSVC;
+  private final MailService mailService;
 
   //취미
   @ModelAttribute("hobbys")   // model.addAttributes("hobbys",hobbys);
@@ -111,13 +114,24 @@ public class MemberController {
   }
 
   //이메일 인증
-  @ResponseBody
+  @ResponseBody     //반환값 응답 메세지 바디에 직접 쓰기
   @GetMapping("/emailChk/{email}")
   public String emailChk(@PathVariable("email") String email){
     log.info("email={}",email);
-    //메일전송
+    //1) 인증번호(랜덤코드 발생)
+    String mailAuthNum = UUID.randomUUID().toString().substring(0,5); // 23dd3
 
-    return "ok";
+    //2) 메일전송
+    StringBuffer str = new StringBuffer();
+    str.append("<html>");
+    str.append("<p><b>");
+    str.append(mailAuthNum);
+    str.append("</b></p>");
+    str.append("<p>위 인증번호를 회원가입시 입력바랍니다</p>");
+    str.append("</html>");
+    mailService.sendMail("sang105kr@gmail.com","이메일인증",str.toString());
+
+    return mailAuthNum;
   }
 
 }
