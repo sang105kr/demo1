@@ -2,6 +2,7 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.domain.dao.entity.Product;
 import com.kh.demo1.domain.svc.ProductSVC;
+import com.kh.demo1.web.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -29,10 +30,14 @@ public class ApiProductController {
   //목록
   @ResponseBody
   @GetMapping("/all")
-  public List<Product> all(){
-
+  public ApiResponse<List<Product>> all(){
+    ApiResponse<List<Product>> res = null;
     List<Product> products = productSVC.findAll();
-
-    return products;
+    if(products.size() == 0){
+      res = ApiResponse.createApiResponse("01", "한건의 목록도 존재하지 않습니다.", null);
+    }else{
+      res = ApiResponse.createApiResponse("00", "성공", products);
+    }
+    return res;
   }
 }
