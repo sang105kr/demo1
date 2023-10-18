@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>상품관리-CSR</title>
+  <script type="module">
+      const getProducts = async () => {
+        const url = `/api/products/all`;
+        const response = await fetch(url);
+        const products = await response.json();
+        console.log(products);
+      };
+
+      btnList.addEventListener('click', getProducts);
+    </script>
+</head>
+<body>
+  <h3>상품관리-CSR</h3>
+  <button id="btnList">목록가져오기</button>
+</body>
+</html>

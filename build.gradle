@@ -41,6 +41,10 @@ dependencies {
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 	//메일전송
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//xml
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
 }
 
 tasks.named('test') {
