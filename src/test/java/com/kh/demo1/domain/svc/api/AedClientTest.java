@@ -24,7 +24,7 @@ public class AedClientTest {
     Mono<String> responseMono = webClient.get()
         .uri(uriBuilder -> uriBuilder
             .path("/B552657/AEDInfoInqireService/getAedLcinfoInqire")
-            .queryParam("serviceKey", "bJ0AcEWnYARdHMe24EsPd77ralP%2BiRWLuhIeWgoIBgM%2F4dqlAgbS%2FilwgSiZkbkL9ojCBQHuEZI2TtoMqYzRhA%3D%3D")
+            .queryParam("serviceKey", "bJ0AcEWnYARdHMe24EsPd77ralP+iRWLuhIeWgoIBgM/4dqlAgbS/ilwgSiZkbkL9ojCBQHuEZI2TtoMqYzRhA==")
             .queryParam("WGS84_LON", 129.3076)
             .queryParam("WGS84_LAT",35.53235)
             .queryParam("pageNo",1)
