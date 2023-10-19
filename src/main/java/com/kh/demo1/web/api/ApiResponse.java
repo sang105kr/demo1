@@ -37,12 +37,16 @@ public class ApiResponse<T> {
   public static <T> ApiResponse<T> createApiResponse(String rtcd, String rtmsg, T body){
     int totalCnt = 0;
 
-    if(ClassUtils.isAssignable(Collection.class, body.getClass())){
-      totalCnt = ((Collection<?>) body).size();
-    }else if(ClassUtils.isAssignable(Map.class, body.getClass())){
-      totalCnt = ((Map<?,?>) body).size();
-    }else {
-      totalCnt = 1;
+    if(body != null) {
+      // 바디가 collection계열인지 요소갯수 가져오기
+      if (ClassUtils.isAssignable(Collection.class, body.getClass())) {
+        totalCnt = ((Collection<?>) body).size();
+      // 바디가 Map계열인지 체크하여 요소갯수 가져오기
+      } else if (ClassUtils.isAssignable(Map.class, body.getClass())) {
+        totalCnt = ((Map<?, ?>) body).size();
+      } else {
+        totalCnt = 1;
+      }
     }
     return new ApiResponse<>(new Header(rtcd,rtmsg), body, totalCnt);
   }
