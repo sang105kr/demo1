@@ -46,7 +46,12 @@ public class ApiProductController {
     ApiResponse<Product> res = null;
 
     // 요청데이터 유효성 체크
-    // 1. 어노테이션 기반 필드 검증
+    // 1. 기반 필드 검증 ( 어노테이션 + 코드)
+    // 1.1 필드오류 , 상품수량 1000 초과 불가
+    if(reqSave.getQuantity() > 1000) {
+      bindingResult.rejectValue("quantity","product",new Object[]{1000},null);
+    }
+
     if(bindingResult.hasErrors()){
       log.info("bindingResult={}", bindingResult);
       StringBuffer errMsg = new StringBuffer();
@@ -58,12 +63,8 @@ public class ApiProductController {
       return res;
     }
 
-    // 2. 코드 기반 필드 및 글로벌 오류(필드2개이상) 검증
-    // 2.1 필드오류 , 상품수량 1000 초과 불가
-    if(reqSave.getQuantity() > 1000) {
-      bindingResult.rejectValue("quantity","product",new Object[]{1000},null);
-    }
-    // 2.2 글로벌오류, 총액(상품수량 * 단가) 1000만원 초과 금지
+    // 2. 글로벌 오류
+    // 2.1 총액(상품수량 * 단가) 1000만원 초과 금지
     if(reqSave.getQuantity() * reqSave.getPrice() > 10_000_000L) {
       bindingResult.reject("totalPrice",new Object[]{1000},null);
     }
