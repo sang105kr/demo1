@@ -1,5 +1,6 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.common.MyUtil;
 import com.kh.demo1.domain.dao.entity.Product;
 import com.kh.demo1.domain.svc.ProductSVC;
 import com.kh.demo1.web.api.ApiResponse;
@@ -10,11 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,11 +37,11 @@ public class ApiProductController {
   //등록
   @ResponseBody
   @PostMapping                        // post http://localhost:9080/api/products
-  public ApiResponse<Product> add(
+  public ApiResponse<Object> add(
       @RequestBody  //요청메세지 바디를 직접 읽음
       @Valid ReqSave reqSave, BindingResult bindingResult){
     log.info("reqSave={}",reqSave);
-    ApiResponse<Product> res = null;
+    ApiResponse<Object> res = null;
 
     // 요청데이터 유효성 체크
     // 1. 필드 기반 검증 ( 어노테이션 + 코드)
@@ -52,15 +50,9 @@ public class ApiProductController {
       bindingResult.rejectValue("quantity","product",new Object[]{1000},null);
     }
 
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       log.info("bindingResult={}", bindingResult);
-      StringBuffer errMsg = new StringBuffer();
-      for(FieldError fieldError : bindingResult.getFieldErrors()){
-        String localizedErrMsg = messageSource.getMessage(fieldError , LocaleContextHolder.getLocale());
-        errMsg.append(fieldError.getField()).append(":").append(localizedErrMsg).append("; ");  //  오류메세지1; 오류메세지2;
-      }
-      res = ApiResponse.createApiResponse("99", errMsg.toString(), null);
-      return res;
+      return MyUtil.validChkApiReq(bindingResult);
     }
 
     // 2. 글로벌 오류(2개 이상 필드 크로스검증)
@@ -69,15 +61,9 @@ public class ApiProductController {
       bindingResult.reject("totalPrice",new Object[]{1000},null);
     }
 
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       log.info("bindingResult={}", bindingResult);
-      StringBuffer errMsg = new StringBuffer();
-      for(ObjectError objectError : bindingResult.getGlobalErrors()){
-        String localizedErrMsg = messageSource.getMessage(objectError , LocaleContextHolder.getLocale());
-        errMsg.append(objectError.getCode()).append(":").append(localizedErrMsg).append("; ");  //  오류메세지1; 오류메세지2;
-      }
-      res = ApiResponse.createApiResponse("99", errMsg.toString(), null);
-      return res;
+      return MyUtil.validChkApiReq(bindingResult);
     }
 
     Product product = new Product();
@@ -114,45 +100,30 @@ public class ApiProductController {
   //수정
   @ResponseBody
   @PatchMapping("/{pid}")         // patch http://localhost:9080/api/products/123
-  public ApiResponse<Product> update(
+  public ApiResponse<Object> update(
       @PathVariable Long pid,
       @Valid @RequestBody ReqUpdate reqUpdate,
       BindingResult bindingResult){
     log.info("reqUpdate={}",reqUpdate);
-    ApiResponse<Product> res = null;
-
+    ApiResponse<Object> res = null;
 
     // 1. 필드 기반 검증 ( 어노테이션 + 코드)
     // 1.1 필드오류 , 상품수량 1000 초과 불가
     if(reqUpdate.getQuantity() > 1000) {
       bindingResult.rejectValue("quantity","product",new Object[]{1000},null);
     }
-
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       log.info("bindingResult={}", bindingResult);
-      StringBuffer errMsg = new StringBuffer();
-      for(FieldError fieldError : bindingResult.getFieldErrors()){
-        String localizedErrMsg = messageSource.getMessage(fieldError , LocaleContextHolder.getLocale());
-        errMsg.append(fieldError.getField()).append(":").append(localizedErrMsg).append("; ");  //  오류메세지1; 오류메세지2;
-      }
-      res = ApiResponse.createApiResponse("99", errMsg.toString(), null);
-      return res;
+      return MyUtil.validChkApiReq(bindingResult);
     }
-
     // 2. 글로벌 오류(2개 이상 필드 크로스검증)
     // 2.1 총액(상품수량 * 단가) 1000만원 초과 금지
     if(reqUpdate.getQuantity() * reqUpdate.getPrice() > 10_000_000L) {
       bindingResult.reject("totalPrice",new Object[]{1000},null);
     }
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       log.info("bindingResult={}", bindingResult);
-      StringBuffer errMsg = new StringBuffer();
-      for(ObjectError objectError : bindingResult.getGlobalErrors()){
-        String localizedErrMsg = messageSource.getMessage(objectError , LocaleContextHolder.getLocale());
-        errMsg.append(objectError.getCode()).append(":").append(localizedErrMsg).append("; ");  //  오류메세지1; 오류메세지2;
-      }
-      res = ApiResponse.createApiResponse("99", errMsg.toString(), null);
-      return res;
+      return MyUtil.validChkApiReq(bindingResult);
     }
 
     Product product = new Product();
