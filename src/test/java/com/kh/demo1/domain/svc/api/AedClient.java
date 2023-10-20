@@ -42,7 +42,7 @@ public class AedClient {
             .build())
         .retrieve()
         .bodyToMono(String.class);
-    String data = response.block();
+    String data = response.block(); //동기
     log.info(data);
   }
 
@@ -73,7 +73,7 @@ public class AedClient {
             .queryParam("numOfRows", 10)
             .build())
         .retrieve()
-        .bodyToMono(ApiResult.class);
+        .bodyToMono(ApiResult.class);  // json 포맷 문자열 => java객체로 매핑 변환
     ApiResult result = response.block();
     log.info("result={}",result);
 

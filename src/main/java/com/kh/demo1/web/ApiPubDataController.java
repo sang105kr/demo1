@@ -29,7 +29,7 @@ public class ApiPubDataController {
   @GetMapping("/aed2")
   public String rawAed2(@RequestBody AedData aedData){
     log.info("aed2호출됨={}",aedData);
-    String data = aedSVC.requestAde(aedData.getLat(), aedData.getLng());
+    String data = aedSVC.requestAde(aedData.getLat(), aedData.getLng(), aedData.getPageNo(), aedData.getNumOfRows());
     return data;
   }
   
