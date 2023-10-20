@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @Slf4j
 @SpringBootTest
-class AdeSVCImplTest {
+class AedSVCImplTest {
 
   @Autowired
   private AedSVC aedSVC;

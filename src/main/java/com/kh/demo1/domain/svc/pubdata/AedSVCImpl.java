@@ -11,14 +11,14 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
-public class AdeSVCImpl implements AedSVC{
+public class AedSVCImpl implements AedSVC{
 
   private final WebClient webClient;
   private final String baseUrl = "http://apis.data.go.kr";
   private final String serviceKey = "CryKKi6HaVVnP0WXU4sIp8dcrZgn2wui0UPEU%2BeivronhsULZ8SFW3qxmqgGmyqgpj59gqzMmd8H%2BhWEzjcvBw%3D%3D";
 
   @Autowired
-  public AdeSVCImpl(WebClient.Builder webClientBilder) {
+  public AedSVCImpl(WebClient.Builder webClientBilder) {
 
     //쿼리파라미터 인코딩 막기 (왜? 공공데이터 service키가 인코딩된 값이므로 불필요)
     DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
