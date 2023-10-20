@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>편의점 조회</title>
-  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uhq6cts1yx"></script>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d19dafd2380499ec9c17a01cf58170b&libraries=services,clusterer,drawing"></script>
-  <style>
-      * { margin: 0; padding: 0; }
-      #map { width: 100vw; height: 100vh; }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
-  <script>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>편의점 조회</title>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uhq6cts1yx"
+    ></script>
+    <script
+      type="text/javascript"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d19dafd2380499ec9c17a01cf58170b&libraries=services,clusterer,drawing"
+    ></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
       // 지도 생성 함수
       const createMap = ({ latitude, longitude }) => {
         const mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -32,13 +43,13 @@
       // 내위치 마커 생성 함수
       const createMyMarker = (map, { latitude, longitude }) => {
         const icon = new kakao.maps.MarkerImage(
-            '/img/me.png',
-            new kakao.maps.Size(40, 50)
+          '/img/me.png',
+          new kakao.maps.Size(40, 50),
         );
         const marker = new kakao.maps.Marker({
-          map : map,
+          map: map,
           position: new kakao.maps.LatLng(latitude, longitude),
-          image : icon
+          image: icon,
         });
         marker.setMap(map); //지도위에 마커표시
         return marker;
@@ -110,23 +121,23 @@
         };
 
         const filter = data => {
-           console.log('전체 데이터');
-           console.log(data);
-           const csArr = data.map(ele=>ele.place_name.split(' ')[0])
-                             .reduce((acc,curr,idx)=>{
-                                acc[curr] = (curr in acc) ? acc[curr] + 1 : 1;
-                                return acc;
-                             },{});
-           console.log(csArr);
-        }
+          console.log('전체 데이터');
+          console.log(data);
+          const csArr = data
+            .map(ele => ele.place_name.split(' ')[0])
+            .reduce((acc, curr, idx) => {
+              acc[curr] = curr in acc ? acc[curr] + 1 : 1;
+              return acc;
+            }, {});
+          console.log(csArr);
+        };
 
         // 키워드 검색 완료 시 호출되는 콜백함수 입니다
 
         const placesSearchCB = (data, status, pagination) => {
           console.log(data, status, pagination);
           if (status === kakao.maps.services.Status.OK) {
-
-            dataAll = [ ...dataAll , ...data ];
+            dataAll = [...dataAll, ...data];
             for (let i = 0; i < data.length; i++) {
               displayMarker(data[i]); //[{},{},{}]
             }
@@ -141,5 +152,5 @@
         ps.categorySearch('CS2', placesSearchCB, categoryOption);
       }
     </script>
-</body>
+  </body>
 </html>
