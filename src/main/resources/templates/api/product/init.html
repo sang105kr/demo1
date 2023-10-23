@@ -1,24 +1,60 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>상품관리-CSR</title>
-  <script type="module">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상품관리-CSR</title>
+    <script type="module">
+      import { ajax } from '/js/common.js';
+
       const getProducts = async () => {
-        const url = `/api/products/all`;
-        const response = await fetch(url);
-        const products = await response.json();
-        console.log(products);
+          try {
+            const url = `/api/products/all`;
+            const result = await ajax.get(url);
+            console.log(result);
+            if (result.header.rtcd === '00') {
+              displayProductList(result.body);
+            } else {
+              console.log(result.header.rtmsg);
+            }
+          } catch (err) {
+            console.error(err);
+          }
       };
 
+      const $listBtn = document.createElement('button'); // <button></button>
+      $listBtn.textContent = '목록가져오기'; //<button>목록가져오기</button>
+      $listBtn.setAttribute('id', 'btnList'); //<button id='btnList'>목록가져오기</button>
+      document.body.appendChild($listBtn);
       btnList.addEventListener('click', getProducts);
+      const $list = document.createElement('div');
+      document.body.appendChild($list);
+
+      function displayProductList(products) {
+        $list.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>상품번호</th>
+                <th>상품명</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${products
+                .map(
+                  product =>
+                    '<tr><td>' +
+                    product.productId +
+                    '</td><td>' +
+                    product.pname +
+                    '</td></tr>',
+                )
+                .join('')}
+            </tbody>
+          </table>`;
+      }
     </script>
-</head>
-<body>
-  <h3>상품관리-CSR</h3>
-  <button id="btnList">목록가져오기</button>
-</body>
+  </head>
+  <body></body>
 </html>

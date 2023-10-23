@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>자동심장 충격기 정보 조회</title>
-    <script
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자동심장 충격기 정보 조회</title>
+  <script
       type="text/javascript"
       src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uhq6cts1yx"
-    ></script>
-    <script
+  ></script>
+  <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d19dafd2380499ec9c17a01cf58170b&libraries=services,clusterer,drawing"
-    ></script>
-    <style>
+  ></script>
+  <style>
       * {
         margin: 0;
         padding: 0;
@@ -23,10 +23,10 @@
         height: 100vh;
       }
     </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script>
+</head>
+<body>
+<div id="map"></div>
+<script>
       const markers = [];
 
       // 지도 생성 함수
@@ -166,5 +166,5 @@
 
       findMYLocation();
     </script>
-  </body>
+</body>
 </html>
