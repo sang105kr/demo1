@@ -32,6 +32,10 @@
           console.log(result);
           if (result.header.rtcd === '00') {
             console.log(result.body);
+            productId2.value = result.body.productId;
+            pname2.value = result.body.pname;
+            quantity2.value = result.body.quantity;
+            price2.value = result.body.price;
           } else {
             console.log(result.header.rtmsg);
           }
@@ -139,6 +143,18 @@
       }
 
       function displayProductList(products) {
+        const makeTr = products => {
+          const $tr = products
+            .map(
+              product =>
+                `<tr data-pid=${product.productId}>
+                  <td>${product.productId}</td>
+                  <td>${product.pname}</td></tr>`,
+            )
+            .join('');
+          return $tr;
+        };
+
         $list.innerHTML = `
           <table>
             <thead>
@@ -148,23 +164,18 @@
               </tr>
             </thead>
             <tbody>
-              ${products
-                .map(
-                  product =>
-                    '<tr><td>' +
-                    product.productId +
-                    '</td><td>' +
-                    product.pname +
-                    '</td></tr>',
-                )
-                .join('')}
+              ${makeTr(products)}
             </tbody>
           </table>`;
 
-        const $productId = $list.querySelector('table tbody tr:nth-of-type(1)');
-        $productId.addEventListener('click', e => {
-          console.log(e.target.textContent);
-        });
+        const $products = $list.querySelectorAll('table tbody tr');
+
+        [...$products].forEach(product =>
+          product.addEventListener('click', e => {
+            const pid = e.currentTarget.dataset.pid;
+            getProduct(pid);
+          }),
+        );
       }
     </script>
   </head>
