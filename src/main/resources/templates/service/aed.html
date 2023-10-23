@@ -27,6 +27,8 @@
   <body>
     <div id="map"></div>
     <script>
+      const markers = [];
+
       // 지도 생성 함수
       const createMap = ({ latitude, longitude }) => {
         const mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -66,6 +68,7 @@
             map: map,
             position: new kakao.maps.LatLng(place.wgs84Lat, place.wgs84Lon),
           });
+          markers.push(marker);
 
           // 마커에 클릭이벤트를 등록합니다
           kakao.maps.event.addListener(marker, 'mouseover', function () {
@@ -118,12 +121,36 @@
           //2)지도생성
           const map = createMap(coords);
 
+          // 마우스 드래그로 지도이동시 중심 좌표가져오기
+          kakao.maps.event.addListener(map, 'dragend', () => {
+            const center = map.getCenter();
+            const coords = {
+              latitude: center.getLat(),
+              longitude: center.getLng(),
+            };
+            //이동한 중심좌표에서 다시 AED찾아오기
+            (async () => {
+              const data = await findAed(coords);
+              //console.log(data);
+              if (data.header.rtcd === '00') {
+                //기존 마커 삭제
+                markers.forEach(m => m.setMap(null));
+                const displayMarker = createDisplayMarker(map);
+                const { item } = data.body;
+                // item.forEach(ele => displayMarker(ele));
+                item.forEach(displayMarker);
+              } else {
+                throw new Error(data.header.rtmsg);
+              }
+            })();
+          });
+
           //3)내위치 마커에 표시
           const myMarker = createMyMarker(map, coords);
 
           //4)aed 정보가져오기
           const data = await findAed(coords);
-          console.log(data);
+          //console.log(data);
           if (data.header.rtcd === '00') {
             const displayMarker = createDisplayMarker(map);
             const { item } = data.body;
