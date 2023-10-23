@@ -46,7 +46,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
 	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
 
-	//api통신
+	//webclient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 

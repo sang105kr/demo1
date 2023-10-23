@@ -32,7 +32,7 @@
         const mapContainer = document.getElementById('map'); // 지도를 표시할 div
         const mapOption = {
           center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-          level: 4, // 지도의 확대 레벨
+          level: 3, // 지도의 확대 레벨
         };
 
         // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
@@ -84,12 +84,16 @@
 
       // 공공데이터로부터 aed 위치찾기
       const findAed = async coords => {
+        const serviceKey =
+          'CryKKi6HaVVnP0WXU4sIp8dcrZgn2wui0UPEU%2BeivronhsULZ8SFW3qxmqgGmyqgpj59gqzMmd8H%2BhWEzjcvBw%3D%3D';
+        // const lat = 35.53235; //위도
+        // const lng = 129.3076; //경도
         const lat = coords.latitude; //위도
         const lng = coords.longitude; //경도
         const pageNo = 1; //페이지 번호
         const numOfRows = 30; //목록 건수
-        const url = `http://localhost:9080/api/pubdata/aed3`;
-        const param = `?lng=${lng}&lat=${lat}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
+        const url = `http://apis.data.go.kr/B552657/AEDInfoInqireService/getAedLcinfoInqire`;
+        const param = `?serviceKey=${serviceKey}&WGS84_LON=${lng}&WGS84_LAT=${lat}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
 
         const option = {
           method: 'GET',
@@ -100,7 +104,6 @@
         try {
           const response = await fetch(url + param, option);
           const data = await response.json();
-          console.log(data);
           return data;
         } catch (err) {
           console.error(err.message);
@@ -123,14 +126,12 @@
 
           //4)aed 정보가져오기
           const data = await findAed(coords);
-          console.log(data);
-          if (data.header.rtcd === '00') {
+          if (data.response.header.resultCode === '00') {
+            const { item } = data.response.body.items;
             const displayMarker = createDisplayMarker(map);
-            const { item } = data.body;
-            // item.forEach(ele => displayMarker(ele));
-            item.forEach(displayMarker);
+            [...item].forEach(displayMarker);
           } else {
-            throw new Error(data.header.rtmsg);
+            throw new Error('오류!');
           }
         } catch (err) {
           console.log(err.message);

@@ -1,10 +1,13 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.common.MyUtil;
 import com.kh.demo1.domain.svc.pubdata.AedSVC;
 import com.kh.demo1.web.api.ApiResponse;
 import com.kh.demo1.web.req.pubdata.AedData;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +38,16 @@ public class ApiPubDataController {
   
   // 필더된 데이터 10건
   @GetMapping("/aed3")
-  public ApiResponse<Object> filtedAed(@RequestBody AedData aedData){
+  public ApiResponse<Object> filtedAed(@Valid AedData aedData, BindingResult bindingResult){
     ApiResponse<Object> res = null;
+
+    if(bindingResult.hasErrors()){
+      log.info("bindingResult={}", bindingResult);
+      return MyUtil.validChkApiReq(bindingResult);
+    }
+
     log.info("aed3호출됨={}",aedData);
-    Object data = aedSVC.requestAdeFilter(aedData.getLat(), aedData.getLng());
+    Object data = aedSVC.requestAdeFilter(aedData.getLat(), aedData.getLng(), aedData.getPageNo(), aedData.getNumOfRows());
     if(data != null){
       res = ApiResponse.createApiResponse("00","success",data);
     }else{
