@@ -9,27 +9,69 @@
       import { ajax } from '/js/common.js';
 
       const getProducts = async () => {
-          try {
-            const url = `/api/products/all`;
-            const result = await ajax.get(url);
-            console.log(result);
-            if (result.header.rtcd === '00') {
-              displayProductList(result.body);
-            } else {
-              console.log(result.header.rtmsg);
-            }
-          } catch (err) {
-            console.error(err);
+        try {
+          const url = `/api/products/all`;
+          const result = await ajax.get(url);
+          console.log(result);
+          if (result.header.rtcd === '00') {
+            displayProductList(result.body);
+          } else {
+            console.log(result.header.rtmsg);
           }
+        } catch (err) {
+          console.error(err);
+        }
       };
 
+      displayForm();
+
+      //목록버튼
       const $listBtn = document.createElement('button'); // <button></button>
       $listBtn.textContent = '목록가져오기'; //<button>목록가져오기</button>
       $listBtn.setAttribute('id', 'btnList'); //<button id='btnList'>목록가져오기</button>
       document.body.appendChild($listBtn);
       btnList.addEventListener('click', getProducts);
+
+      //목록
       const $list = document.createElement('div');
       document.body.appendChild($list);
+
+      function displayForm() {
+        //상품등록
+        const $addFormWrap = document.createElement('div');
+        $addFormWrap.innerHTML = `
+          <form id="frm">
+              <div>
+                  <label for="pname">상품명</label>
+                  <input type="text" id="pname" name="pname"/>
+              </div>
+              <div>
+                  <label for="quantity">수량</label>
+                  <input type="text" id="quantity" name="quantity"/>
+              </div>
+              <div>
+                  <label for="price">가격</label>
+                  <input type="text" id="price" name="price"/>
+              </div>
+              <div>
+                  <button id="btnAdd" type="submit">등록</button>
+              </div>
+          </form>
+        `;
+        document.body.insertAdjacentElement('afterbegin', $addFormWrap);
+        const $frm = $addFormWrap.querySelector('#frm');
+        $frm.addEventListener('submit', e => {
+          e.preventDefault(); // 기본동작 중지
+          console.log('등록!');
+          const formData = new FormData(e.target); //폼데이터가져오기
+          console.log(formData);
+          console.log([...formData.keys()]);
+          console.log([...formData.values()]);
+          [...formData.keys()].forEach(ele =>
+            console.log(ele, formData.get(ele)),
+          );
+        });
+      }
 
       function displayProductList(products) {
         $list.innerHTML = `
