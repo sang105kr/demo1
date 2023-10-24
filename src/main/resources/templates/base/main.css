@@ -1,0 +1,94 @@
+@charset "utf-8";
+/* reset css */
+html,body,ul,h3,p {
+  margin:0;
+  padding:0
+}
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color:inherit;
+}
+/* layout */
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 600px 1fr;
+  grid-template-rows: 50px 150px 50px auto 70px;
+  grid-template-areas: 
+    "tl   tc      tr"
+    ".    banner  ."
+    ".    gnb     ."
+    ".    main    ."
+    ".    foot    .";
+}
+#tl {
+  grid-area: tl;
+}
+#tc {
+  grid-area: tc;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#tr {
+  grid-area: tr;
+}
+#banner{
+  grid-area: banner;
+}
+#banner .head{
+  height:100%;
+  background-image: url("https://cdn.pixabay.com/photo/2022/03/23/18/56/beach-7087722_960_720.jpg"); 
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#gnb{
+  grid-area: gnb;
+}
+#gnb .menu{
+  height:100%;
+  background-color: #000;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+#gnb .menu .items{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+#gnb .menu .items .item:hover{
+  text-decoration: underline;
+}
+#content{
+  grid-area: main;
+}
+#content .main_cont{
+
+}
+#foot{
+  grid-area:foot;
+  background-color: #666;
+}
+#foot .main{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color:#fff;
+}
+#tl,#tc,#tr {
+  background-color: #000;
+}
+
+#tc .topmenu {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color:#fff;
+}
