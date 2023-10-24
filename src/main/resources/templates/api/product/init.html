@@ -99,14 +99,13 @@
       displayForm();
       getProducts();
 
-      //목록버튼
-      const $listBtn = document.createElement('button'); // <button></button>
-      $listBtn.textContent = '목록가져오기'; //<button>목록가져오기</button>
-      $listBtn.setAttribute('id', 'btnList'); //<button id='btnList'>목록가져오기</button>
-      document.body.appendChild($listBtn);
-      btnList.addEventListener('click', getProducts);
+      // //목록버튼
+      // const $listBtn = document.createElement('button'); // <button></button>
+      // $listBtn.textContent = '목록가져오기'; //<button>목록가져오기</button>
+      // $listBtn.setAttribute('id', 'btnList'); //<button id='btnList'>목록가져오기</button>
+      // document.body.appendChild($listBtn);
+      // btnList.addEventListener('click', getProducts);
 
-      //목록
       const $list = document.createElement('div');
       document.body.appendChild($list);
 
@@ -115,21 +114,21 @@
         const $addFormWrap = document.createElement('div');
         $addFormWrap.innerHTML = `
           <form id="frm">
-              <div>
-                  <label for="pname">상품명</label>
-                  <input type="text" id="pname" name="pname"/>
-              </div>
-              <div>
-                  <label for="quantity">수량</label>
-                  <input type="text" id="quantity" name="quantity"/>
-              </div>
-              <div>
-                  <label for="price">가격</label>
-                  <input type="text" id="price" name="price"/>
-              </div>
-              <div>
-                  <button id="btnAdd" type="submit">등록</button>
-              </div>
+            <div>
+                <label for="pname">상품명</label>
+                <input type="text" id="pname" name="pname"/>
+            </div>
+            <div>
+                <label for="quantity">수량</label>
+                <input type="text" id="quantity" name="quantity"/>
+            </div>
+            <div>
+                <label for="price">가격</label>
+                <input type="text" id="price" name="price"/>
+            </div>
+            <div>
+                <button id="btnAdd" type="submit">등록</button>
+            </div>
           </form>
         `;
         document.body.insertAdjacentElement('afterbegin', $addFormWrap);
@@ -222,25 +221,27 @@
         const $readFormWrap = document.createElement('div');
         $readFormWrap.innerHTML = `
           <form id="frm2">
-              <div>
-                  <label for="productId2">상품아이디</label>
-                  <input type="text" id="productId2" name="productId" readonly/>
-              </div>
-              <div>
-                  <label for="pname">상품명</label>
-                  <input type="text" id="pname2" name="pname"/>
-              </div>
-              <div>
-                  <label for="quantity">수량</label>
-                  <input type="text" id="quantity2" name="quantity"/>
-              </div>
-              </div>
-              <div>
-                  <label for="price">가격</label>
-                  <input type="text" id="price2" name="price"/>
-              </div>
-              </div>
-              <div class='btns'></div>
+       
+            <div>
+                <label for="productId2">상품아이디</label>
+                <input type="text" id="productId2" name="productId" readonly/>
+            </div>
+            <div>
+                <label for="pname">상품명</label>
+                <input type="text" id="pname2" name="pname"/>
+            </div>
+            <div>
+                <label for="quantity">수량</label>
+                <input type="text" id="quantity2" name="quantity"/>
+            </div>
+            </div>
+            <div>
+                <label for="price">가격</label>
+                <input type="text" id="price2" name="price"/>
+            </div>
+            </div>
+            <div class='btns'></div>
+
           </form>
         `;
         document.body.insertAdjacentElement('afterbegin', $readFormWrap);
@@ -248,6 +249,7 @@
         changeReadMode($frm2);
       }
 
+      //상품목록
       function displayProductList(products) {
         const makeTr = products => {
           const $tr = products
@@ -263,6 +265,7 @@
 
         $list.innerHTML = `
           <table>
+            <caption> 상 품 목 록 </caption>
             <thead>
               <tr>
                 <th>상품번호</th>

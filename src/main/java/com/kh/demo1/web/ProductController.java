@@ -6,8 +6,6 @@ import com.kh.demo1.web.form.product.AllForm;
 import com.kh.demo1.web.form.product.DetailForm;
 import com.kh.demo1.web.form.product.SaveForm;
 import com.kh.demo1.web.form.product.UpdateForm;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -112,14 +110,8 @@ public class ProductController {
 
   //목록
   @GetMapping         //GET http://localhost:9080/products
-  public String findAll(Model model, HttpServletRequest request){
+  public String findAll(Model model){
     log.info("findAll()호출됨!");
-    log.info("requestURI={}", request.getRequestURI());
-    String redirectURI = request.getRequestURI();
-    HttpSession session = request.getSession(false);
-    if(session == null){
-      return "redirect:/login?redirectURI="+redirectURI;   //
-    }
 
     //상품목록조회
     List<Product> list = productSVC.findAll();
