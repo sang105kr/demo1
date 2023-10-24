@@ -158,7 +158,7 @@
           $btnCancel.addEventListener('click', e => {
             [...frm.querySelectorAll('input')]
               .filter(input => input.name !== 'productId')
-              .forEach((ele.value = ele.getAttribute('value')));
+              .forEach(ele => (ele.value = ele.getAttribute('value')));
             changeReadMode(frm);
           });
         };
