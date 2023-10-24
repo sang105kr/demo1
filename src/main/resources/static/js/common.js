@@ -54,7 +54,7 @@ const ajax = {
       console.log(err.message);
     }
   },
-  patch: async url => {
+  patch: async (url, payload) => {
     const option = {
       method: 'PATCH',
       headers: {

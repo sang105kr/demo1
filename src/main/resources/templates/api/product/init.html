@@ -63,6 +63,22 @@
         }
       };
 
+      //상품수정
+      const modifyProduct = async (pid, product) => {
+        try {
+          const url = `/api/products/${pid}`;
+          const result = await ajax.patch(url, product);
+          if (result.header.rtcd === '00') {
+            console.log(result.body);
+            getProducts();
+          } else {
+            console.log(result.header.rtmsg);
+          }
+        } catch (err) {
+          console.error(err.message);
+        }
+      };
+
       //상품목록
       const getProducts = async () => {
         try {
@@ -151,14 +167,21 @@
 
           //저장
           $btnSave.addEventListener('click', e => {
-            changeReadMode(frm);
+            const formData = new FormData(frm); //폼데이터가져오기
+            const product = {};
+
+            [...formData.keys()].forEach(
+              ele => (product[ele] = formData.get(ele)),
+            ); // {pname:'책상', quantitiy:10, price:100 }
+
+            modifyProduct(product.productId, product); //수정
+            getProduct(product.productId); //조회
+            changeReadMode(frm); //읽기모드
           });
 
           //취소
           $btnCancel.addEventListener('click', e => {
-            [...frm.querySelectorAll('input')]
-              .filter(input => input.name !== 'productId')
-              .forEach(ele => (ele.value = ele.getAttribute('value')));
+            frm.reset(); //초기화
             changeReadMode(frm);
           });
         };
