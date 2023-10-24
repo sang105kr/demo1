@@ -133,6 +133,66 @@
 
       //상품조회
       function displayReadForm() {
+        //상태 : 조회 mode-read, 편집 mode-edit
+        const changeEditMode = frm => {
+          frm.classList.toggle('mode-edit', true);
+          [...frm.querySelectorAll('input')]
+            .filter(input => input.name !== 'productId')
+            .forEach(input => input.removeAttribute('readonly'));
+
+          const $btns = frm.querySelector('.btns');
+          $btns.innerHTML = `
+            <button id="btnSave" type="button">저장</button>
+            <button id="btnCancel" type="button">취소</button>      
+          `;
+
+          const $btnSave = $btns.querySelector('#btnSave');
+          const $btnCancel = $btns.querySelector('#btnCancel');
+
+          //저장
+          $btnSave.addEventListener('click', e => {
+            changeReadMode(frm);
+          });
+
+          //취소
+          $btnCancel.addEventListener('click', e => {
+            changeReadMode(frm);
+          });
+        };
+
+        const changeReadMode = frm => {
+          frm.classList.toggle('mode-read', true);
+          [...frm.querySelectorAll('input')]
+            .filter(input => input.name !== 'productId')
+            .forEach(input => input.setAttribute('readonly', ''));
+
+          const $btns = frm.querySelector('.btns');
+          $btns.innerHTML = `
+            <button id="btnEdit" type="button">수정</button>
+            <button id="btnDelete" type="button">삭제</button>                     
+          `;
+
+          const $btnDelete = $btns.querySelector('#btnDelete');
+          const $btnEdit = $btns.querySelector('#btnEdit');
+
+          //수정
+          $btnEdit.addEventListener('click', e => {
+            changeEditMode(frm);
+          });
+
+          //삭제
+          $btnDelete.addEventListener('click', e => {
+            const pid = $frm2.productId.value;
+            if (!pid) {
+              alert('상품조회 후 삭제바랍니다.');
+              return;
+            }
+
+            if (!confirm('삭제하시겠습니까?')) return;
+            delProduct(pid, $frm2);
+          });
+        };
+
         const $readFormWrap = document.createElement('div');
         $readFormWrap.innerHTML = `
           <form id="frm2">
@@ -142,31 +202,24 @@
               </div>            
               <div>
                   <label for="pname">상품명</label>
-                  <input type="text" id="pname2" name="pname" readonly/>
+                  <input type="text" id="pname2" name="pname"/>
               </div>
               <div>
                   <label for="quantity">수량</label>
-                  <input type="text" id="quantity2" name="quantity" readonly/>
+                  <input type="text" id="quantity2" name="quantity"/>
               </div>
               </div>
               <div>
                   <label for="price">가격</label>
-                  <input type="text" id="price2" name="price" readonly/>
+                  <input type="text" id="price2" name="price"/>
               </div>
               </div>
-              <div>
-                  <button id="btnDelete" type="button">삭제</button>
-              </div>
+              <div class='btns'></div>
           </form>
         `;
         document.body.insertAdjacentElement('afterbegin', $readFormWrap);
-        const $btnDelete = $readFormWrap.querySelector('#btnDelete');
-        $btnDelete.addEventListener('click', e => {
-          if (!confirm('삭제하시겠습니까?')) return;
-          const $frm2 = $readFormWrap.querySelector('#frm2');
-          const pid = $frm2.productId.value;
-          delProduct(pid, $frm2);
-        });
+        const $frm2 = $readFormWrap.querySelector('#frm2');
+        changeReadMode($frm2);
       }
 
       function displayProductList(products) {
