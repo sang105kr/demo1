@@ -15,6 +15,7 @@
           const result = await ajax.post(url, product);
           if (result.header.rtcd === '00') {
             console.log(result.body);
+            frm.reset();
             getProducts();
           } else {
             console.log(result.header.rtmsg);
@@ -36,6 +37,12 @@
             pname2.setAttribute('value', result.body.pname);
             quantity2.setAttribute('value', result.body.quantity);
             price2.setAttribute('value', result.body.price);
+
+            productId2.value = result.body.productId;
+            pname2.value = result.body.pname;
+            quantity2.value =  result.body.quantity;
+            price2.value = result.body.price;
+
           } else {
             console.log(result.header.rtmsg);
           }
@@ -143,6 +150,7 @@
           ); // {pname:'책상', quantitiy:10, price:100 }
 
           addProduct(product);
+
         });
       }
 
