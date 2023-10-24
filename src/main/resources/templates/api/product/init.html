@@ -44,6 +44,25 @@
         }
       };
 
+      //상품삭제
+      const delProduct = async (pid, frm) => {
+        try {
+          const url = `/api/products/${pid}`;
+          const result = await ajax.delete(url);
+          console.log(result);
+          if (result.header.rtcd === '00') {
+            console.log(result.body);
+            const $inputs = frm.querySelectorAll('input');
+            [...$inputs].forEach(ele => (ele.value = '')); //폼필드 초기화
+            getProducts();
+          } else {
+            console.log(result.header.rtmsg);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      };
+
       //상품목록
       const getProducts = async () => {
         try {
@@ -62,6 +81,7 @@
 
       displayReadForm();
       displayForm();
+      getProducts();
 
       //목록버튼
       const $listBtn = document.createElement('button'); // <button></button>
@@ -140,6 +160,13 @@
           </form>
         `;
         document.body.insertAdjacentElement('afterbegin', $readFormWrap);
+        const $btnDelete = $readFormWrap.querySelector('#btnDelete');
+        $btnDelete.addEventListener('click', e => {
+          if (!confirm('삭제하시겠습니까?')) return;
+          const $frm2 = $readFormWrap.querySelector('#frm2');
+          const pid = $frm2.productId.value;
+          delProduct(pid, $frm2);
+        });
       }
 
       function displayProductList(products) {
