@@ -32,10 +32,10 @@
           console.log(result);
           if (result.header.rtcd === '00') {
             console.log(result.body);
-            productId2.value = result.body.productId;
-            pname2.value = result.body.pname;
-            quantity2.value = result.body.quantity;
-            price2.value = result.body.price;
+            productId2.setAttribute('value', result.body.productId);
+            pname2.setAttribute('value', result.body.pname);
+            quantity2.setAttribute('value', result.body.quantity);
+            price2.setAttribute('value', result.body.price);
           } else {
             console.log(result.header.rtmsg);
           }
@@ -143,7 +143,7 @@
           const $btns = frm.querySelector('.btns');
           $btns.innerHTML = `
             <button id="btnSave" type="button">저장</button>
-            <button id="btnCancel" type="button">취소</button>      
+            <button id="btnCancel" type="button">취소</button>
           `;
 
           const $btnSave = $btns.querySelector('#btnSave');
@@ -156,6 +156,9 @@
 
           //취소
           $btnCancel.addEventListener('click', e => {
+            [...frm.querySelectorAll('input')]
+              .filter(input => input.name !== 'productId')
+              .forEach((ele.value = ele.getAttribute('value')));
             changeReadMode(frm);
           });
         };
@@ -169,7 +172,7 @@
           const $btns = frm.querySelector('.btns');
           $btns.innerHTML = `
             <button id="btnEdit" type="button">수정</button>
-            <button id="btnDelete" type="button">삭제</button>                     
+            <button id="btnDelete" type="button">삭제</button>
           `;
 
           const $btnDelete = $btns.querySelector('#btnDelete');
@@ -199,7 +202,7 @@
               <div>
                   <label for="productId2">상품아이디</label>
                   <input type="text" id="productId2" name="productId" readonly/>
-              </div>            
+              </div>
               <div>
                   <label for="pname">상품명</label>
                   <input type="text" id="pname2" name="pname"/>
