@@ -1,170 +1,54 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout::main(
+      ~{::title},       <!--/* title */-->
+      <!--/*--------------------------*/-->
+      <!--/* external */-->
+      ~{::link},              <!--/* styles */-->
+      ~{::script},             <!--/* scripts */-->
+      <!--/* internal */-->
+      ~{},              <!--/* style */-->
+      ~{},              <!--/* script */-->
+      <!--/*--------------------------*/-->
+      ~{::.topmenu},    <!--/* upm */-->
+      _,                <!--/* header */-->
+      ~{::.gnb},         <!--/* gnb */-->
+      ~{::main},        <!--/* main */-->
+      ~{::.foot},       <!--/* footer default*/-->
+      )}">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>자동심장 충격기 정보 조회</title>
-  <script
-      type="text/javascript"
-      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uhq6cts1yx"
-  ></script>
-  <script
-      type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d19dafd2380499ec9c17a01cf58170b&libraries=services,clusterer,drawing"
-  ></script>
-  <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        width: 100vw;
-        height: 100vh;
-      }
-    </style>
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=uhq6cts1yx"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0d19dafd2380499ec9c17a01cf58170b&libraries=services,clusterer,drawing"></script>
+
+  <link rel="stylesheet" th:href="@{/css/service/aed.css}">
+  <script defer th:src="@{/js/service/aed.js}"></script>
 </head>
 <body>
-<div id="map"></div>
-<script>
-      const markers = [];
-
-      // 지도 생성 함수
-      const createMap = ({ latitude, longitude }) => {
-        const mapContainer = document.getElementById('map'); // 지도를 표시할 div
-        const mapOption = {
-          center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
-          level: 4, // 지도의 확대 레벨
-        };
-
-        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-        const map = new kakao.maps.Map(mapContainer, mapOption);
-        return map;
-      };
-
-      // 내위치 마커 생성 함수
-      const createMyMarker = (map, { latitude, longitude }) => {
-        const icon = new kakao.maps.MarkerImage(
-          '/img/me.png',
-          new kakao.maps.Size(40, 50),
-        );
-        const marker = new kakao.maps.Marker({
-          map: map,
-          position: new kakao.maps.LatLng(latitude, longitude),
-          image: icon,
-        });
-        marker.setMap(map); //지도위에 마커표시
-        return marker;
-      };
-
-      const createDisplayMarker = map => {
-        // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-        const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-
-        // 지도에 마커를 표시하는 함수
-        return place => {
-          // 마커를 생성하고 지도에 표시합니다
-          const marker = new kakao.maps.Marker({
-            map: map,
-            position: new kakao.maps.LatLng(place.wgs84Lat, place.wgs84Lon),
-          });
-          markers.push(marker);
-
-          // 마커에 클릭이벤트를 등록합니다
-          kakao.maps.event.addListener(marker, 'mouseover', function () {
-            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-            infowindow.setContent(
-              `<div style="padding:5px;font-size:12px;">${place.org}-${place.buildplace}</div>`,
-            );
-            infowindow.open(map, marker);
-          });
-
-          kakao.maps.event.addListener(marker, 'mouseout', function () {
-            infowindow.close();
-          });
-        };
-      };
-
-      // 공공데이터로부터 aed 위치찾기
-      const findAed = async coords => {
-        const lat = coords.latitude; //위도
-        const lng = coords.longitude; //경도
-        const pageNo = 1; //페이지 번호
-        const numOfRows = 30; //목록 건수
-        const url = `http://localhost:9080/api/pubdata/aed3`;
-        const param = `?lng=${lng}&lat=${lat}&pageNo=${pageNo}&numOfRows=${numOfRows}`;
-
-        const option = {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json', //응답 메시지 바디 타입
-          },
-        };
-        try {
-          const response = await fetch(url + param, option);
-          const data = await response.json();
-          console.log(data);
-          return data;
-        } catch (err) {
-          console.error(err.message);
-        }
-      };
-
-      // 내위치 찾기
-      const findMYLocation = async () => {
-        try {
-          //1)내위치
-          const { coords } = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-          });
-
-          //2)지도생성
-          const map = createMap(coords);
-
-          // 마우스 드래그로 지도이동시 중심 좌표가져오기
-          kakao.maps.event.addListener(map, 'dragend', () => {
-            const center = map.getCenter();
-            const coords = {
-              latitude: center.getLat(),
-              longitude: center.getLng(),
-            };
-            //이동한 중심좌표에서 다시 AED찾아오기
-            (async () => {
-              const data = await findAed(coords);
-              //console.log(data);
-              if (data.header.rtcd === '00') {
-                //기존 마커 삭제
-                markers.forEach(m => m.setMap(null));
-                const displayMarker = createDisplayMarker(map);
-                const { item } = data.body;
-                // item.forEach(ele => displayMarker(ele));
-                item.forEach(displayMarker);
-              } else {
-                throw new Error(data.header.rtmsg);
-              }
-            })();
-          });
-
-          //3)내위치 마커에 표시
-          const myMarker = createMyMarker(map, coords);
-
-          //4)aed 정보가져오기
-          const data = await findAed(coords);
-          //console.log(data);
-          if (data.header.rtcd === '00') {
-            const displayMarker = createDisplayMarker(map);
-            const { item } = data.body;
-            // item.forEach(ele => displayMarker(ele));
-            item.forEach(displayMarker);
-          } else {
-            throw new Error(data.header.rtmsg);
-          }
-        } catch (err) {
-          console.log(err.message);
-        }
-      };
-
-      findMYLocation();
-    </script>
+<div class="wrap">
+  <div id="tl"></div>
+  <div id="tc">
+    <div class="topmenu" th:insert="~{fragment/top::afterLoginTop}"/>
+  </div>
+  <div id="tr"></div>
+  <div id="banner">
+    <header class="head" th:insert="~{fragment/banner::global}"/>
+  </div>
+  <div id="gnb">
+    <nav class="gnb" th:insert="~{fragment/menu::global}"/>
+  </div>
+  <div id="content">
+    <main class="main">
+      <div id="map"></div>
+    </main>
+  </div>
+  <div id="foot">
+    <footer class="foot" th:insert="~{fragment/footer::global}"/>
+  </div>
+</div>
 </body>
 </html>

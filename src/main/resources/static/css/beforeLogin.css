@@ -1,0 +1,32 @@
+#banner .head .carousel-item {
+  display: none;
+  object-fit: cover;
+  height: 150px;
+  width: 100%;
+}
+#banner .head .carousel-item.active { display: block; }
+#banner .head #prev { left: 15px; }
+#banner .head #next { right: 15px; }
+#banner .head button i.fa-angle-double-left:hover,
+#banner .head button i.fa-angle-double-right:hover{ transform: scale(1.2); }
+
+/* 상 품 리 트 */
+.wrap #content .main .grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.wrap #content .main .grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+.wrap #content .main .product-info {
+  text-align: left;
+}
+.wrap #content .main img {
+  width: 100%;
+  height: auto;
+}

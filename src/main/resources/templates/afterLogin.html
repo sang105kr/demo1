@@ -5,11 +5,11 @@
       ~{::title},       <!--/* title */-->
       <!--/*--------------------------*/-->
       <!--/* external */-->
-      ~{},              <!--/* styles */-->
-      ~{},              <!--/* scripts */-->
+      ~{::link},              <!--/* styles */-->
+      ~{::script},              <!--/* scripts */-->
       <!--/* internal */-->
-      ~{::style},              <!--/* style */-->
-      ~{::script},              <!--/* script */-->
+      ~{},              <!--/* style */-->
+      ~{},              <!--/* script */-->
       <!--/*--------------------------*/-->
       ~{::.topmenu},    <!--/* upm */-->
       ~{::.head },      <!--/* header */-->
@@ -22,55 +22,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>초기화면</title>
-  <style>
-    #banner .head .carousel-item {
-      display: none;
-      object-fit: cover;
-      height: 150px;
-      width: 100%;
-    }
-    #banner .head .carousel-item.active { display: block; }
-    #banner .head #prev { left: 15px; }
-    #banner .head #next { right: 15px; }
-    #banner .head button i.fa-angle-double-left:hover,
-    #banner .head button i.fa-angle-double-right:hover{ transform: scale(1.2); }
+  <link rel="stylesheet" th:href="@{/css/afterLogin.css}">
+  <script defer th:src="@{/js/afterLogin.js}"></script>
 
-  </style>
-  <script type="module">
-    let carouselItems = Array.from(document.querySelectorAll('.carousel-item'));
-    let radioButtons = Array.from(document.querySelectorAll('.carousel-radio'));
-    let currentIndex = 0;
-    let intervalId = setInterval(nextImage, 3000); // 3초마다 이미지 변경
-
-    document.getElementById('prev').addEventListener('click', prevImage);
-    document.getElementById('next').addEventListener('click', nextImage);
-    radioButtons.forEach((radio, index) => {
-        radio.addEventListener('change', () => {
-            setCurrentImage(index);
-        });
-    });
-
-    function setCurrentImage(index) {
-        carouselItems[currentIndex].classList.remove('active');
-        radioButtons[currentIndex].checked = false;
-        currentIndex = index;
-        carouselItems[currentIndex].classList.add('active');
-        radioButtons[currentIndex].checked = true;
-        clearInterval(intervalId);
-        intervalId = setInterval(nextImage, 3000);
-    }
-
-    function prevImage() {
-        let index = currentIndex - 1 < 0 ? carouselItems.length - 1 : currentIndex - 1;
-        setCurrentImage(index);
-    }
-
-    function nextImage() {
-        let index = currentIndex + 1 >= carouselItems.length ? 0 : currentIndex + 1;
-        setCurrentImage(index);
-    }
-
-  </script>
 </head>
 <body>
 <div class="wrap">
@@ -87,7 +41,7 @@
   </div>
   <div id="content">
     <main class="main">
-      로그인 후
+      <div class="grid-container" id="imageGrid"></div>
     </main>
   </div>
   <div id="foot">
