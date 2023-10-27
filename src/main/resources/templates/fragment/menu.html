@@ -15,7 +15,12 @@
       </ul>
     </li>
     <li class="item item3"><a href="#">메뉴 3</a></li>
-    <li class="item item4"><a href="#">메뉴 4</a></li>
+    <li class="item item4"><a href="#">상품관리</a>
+      <ul class="submenu">
+        <li class="item item1"><a href="" th:href="@{/products}">상품관리-SSR</a></li>
+        <li class="item item2"><a href="" th:href="@{/api/products}">상품관리-CSR</a></li>
+      </ul>
+    </li>
     <li class="item item5"><a href="#">서비스</a>
       <ul class="submenu">
         <li><a href="" th:href="@{/service/cstore}">편의점 위치 정보</a></li>

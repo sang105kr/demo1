@@ -47,7 +47,7 @@ public class MyPageController {
 
   @GetMapping
   public String mypage(){
-    return "mypage/intro";
+    return "mypage/mypage";
   }
 
   //회원조회

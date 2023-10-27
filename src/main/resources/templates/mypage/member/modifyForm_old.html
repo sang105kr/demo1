@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <style>
+    .field-error {color:red; font-weight:bold; font-size:0.8rem;}
+  </style>
+  <script type="module">
+     //저장
+    frm.addEventListener('submit',e=>{
+      e.preventDefault(); //기본 이벤트 막기
+
+      //1) 비밀번호 : 필수
+      if(!(passwd.value.trim().length > 0)) {
+        errPasswd.textContent = '비밀번호를 입력하세요';
+        return;
+      }else {
+        errPasswd.textContent='';
+      }
+
+      frm.submit();
+    });
+
+    //취소
+    btnCancel.addEventListener('click',e=>{
+      location.href = `/mypage/members/${email.value}`;
+    });
+  </script>
+</head>
+<body>
+<h3>회원수정</h3>
+
+<form id="frm" th:action th:method="patch" th:object="${modifyForm}">
+  <div>
+    <input type="email" placeholder="아이디" name="email" id="email" th:field="*{email}" readonly>
+    <span class="field-error" th:errors="*{email}"></span>
+    <span class="field-error" id="errEmail"></span>
+  </div>
+  <div>
+    <input type="password" placeholder="비밀번호" name="passwd" id="passwd" th:field="*{passwd}">
+    <span class="field-error" th:errors="*{passwd}"></span>
+    <span class="field-error" id="errPasswd"></span>
+  </div>
+  <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:field="*{tel}"></div>
+  <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:field="*{nickname}"></div>
+  <div>
+    <span>남</span><input type="radio" name="gender" id="male" value="남자" th:field="*{gender}">
+    <span>여</span><input type="radio" name="gender" id="female"  value="여자" th:field="*{gender}"><div/>
+    <div>
+      <th:block th:each="ele : ${hobbys}">
+        <span th:text="${ele.value}">수영</span>
+        <input type="checkbox" name="hobby" id="hobby1" th:value="${ele.value}" th:field="*{hobby}">
+      </th:block>
+    </div>
+
+    <div>
+      <select name="region" id="region" th:field="*{region}">
+        <option value="">==지역선택==</option>
+        <option th:each="ele : ${region}"  th:value="${ele.key}" th:text="${ele.value}">서울</option>
+      </select>
+    </div>
+
+    <div><input type="submit" value="저장"><button type="button" id="btnCancel">취소</button></div>
+</form>
+</body>
+</html>

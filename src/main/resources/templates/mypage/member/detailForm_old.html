@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원조회</title>
+  <script type="module">
+    //수정버튼 클릭시
+    btnModify.addEventListener('click',e=>{
+      //GET http://localhost:9080//mypage/member/test1@kh.com/edit
+      location.href = `/mypage/member/${email.value}/edit`;
+    });
+  </script>
+</head>
+<body>
+<h3>회원조회</h3>
+
+<form id="frm" action="" method="post" th:object="${detailForm}">
+  <div>
+    <input type="email" placeholder="아이디" name="email" id="email" th:field="*{email}" readonly>
+  </div>
+  <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:field="*{tel}" readonly></div>
+  <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:field="*{nickname}" readonly></div>
+  <div>
+    <span>남</span><input type="radio" name="gender" id="male" value="남자" th:field="*{gender}" disabled>
+    <span>여</span><input type="radio" name="gender" id="female"  value="여자" th:field="*{gender}" disabled><div/>
+    <div>
+      <th:block th:each="ele : ${hobbys}">
+        <span th:text="${ele.value}">수영</span>
+        <input type="checkbox" name="hobby" id="hobby1" th:value="${ele.value}" th:field="*{hobby}" disabled>
+      </th:block>
+    </div>
+
+    <div>
+      <select name="region" id="region" th:field="*{region}" disabled>
+        <option value="">==지역선택==</option>
+        <option th:each="ele : ${region}"  th:value="${ele.key}" th:text="${ele.value}">서울</option>
+      </select>
+    </div>
+    <div><button type=button id="btnModify">수정</button></div>
+</form>
+</body>
+</html>

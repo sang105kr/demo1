@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout::main(
+      ~{::title},       <!--/* title */-->
+      <!--/*--------------------------*/-->
+      <!--/* external */-->
+      ~{},              <!--/* styles */-->
+      ~{},              <!--/* scripts */-->
+      <!--/* internal */-->
+      ~{},              <!--/* style */-->
+      ~{::script},              <!--/* script */-->
+      <!--/*--------------------------*/-->
+      ~{::.topmenu},    <!--/* upm */-->
+      _,                <!--/* header */-->
+      ~{::.gnb},         <!--/* gnb */-->
+      ~{::main},        <!--/* main */-->
+      ~{::.foot},       <!--/* footer default*/-->
+      )}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회원조회</title>
+  <title>제목 채우기</title>
   <script type="module">
     //수정버튼 클릭시
     btnModify.addEventListener('click',e=>{
@@ -15,31 +31,51 @@
   </script>
 </head>
 <body>
-<h3>회원조회</h3>
-
-<form id="frm" action="" method="post" th:object="${detailForm}">
-  <div>
-    <input type="email" placeholder="아이디" name="email" id="email" th:field="*{email}" readonly>
+<div class="wrap">
+  <div id="tl"></div>
+  <div id="tc">
+    <div class="topmenu" th:insert="~{fragment/top::afterLoginTop}"/>
   </div>
-  <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:field="*{tel}" readonly></div>
-  <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:field="*{nickname}" readonly></div>
-  <div>
-    <span>남</span><input type="radio" name="gender" id="male" value="남자" th:field="*{gender}" disabled>
-    <span>여</span><input type="radio" name="gender" id="female"  value="여자" th:field="*{gender}" disabled><div/>
-    <div>
-      <th:block th:each="ele : ${hobbys}">
-        <span th:text="${ele.value}">수영</span>
-        <input type="checkbox" name="hobby" id="hobby1" th:value="${ele.value}" th:field="*{hobby}" disabled>
-      </th:block>
-    </div>
+  <div id="tr"></div>
+  <div id="banner">
+    <header class="head" th:insert="~{fragment/banner::global}"/>
+  </div>
+  <div id="gnb">
+    <nav class="gnb" th:insert="~{fragment/menu::mypage}"/>
+  </div>
+  <div id="content">
+    <main class="main">
+      <h3>회원조회</h3>
 
-    <div>
-      <select name="region" id="region" th:field="*{region}" disabled>
-        <option value="">==지역선택==</option>
-        <option th:each="ele : ${region}"  th:value="${ele.key}" th:text="${ele.value}">서울</option>
-      </select>
-    </div>
-    <div><button type=button id="btnModify">수정</button></div>
-</form>
+      <form id="frm" action="" method="post" th:object="${detailForm}">
+        <div>
+          <input type="email" placeholder="아이디" name="email" id="email" th:field="*{email}" readonly>
+        </div>
+        <div><input type="tel" placeholder="전화번호" name="tel" id="tel" th:field="*{tel}" readonly></div>
+        <div><input type="text" placeholder="별칭" name="nickname" id="nickname" th:field="*{nickname}" readonly></div>
+        <div>
+          <span>남</span><input type="radio" name="gender" id="male" value="남자" th:field="*{gender}" disabled>
+          <span>여</span><input type="radio" name="gender" id="female"  value="여자" th:field="*{gender}" disabled><div/>
+          <div>
+            <th:block th:each="ele : ${hobbys}">
+              <span th:text="${ele.value}">수영</span>
+              <input type="checkbox" name="hobby" id="hobby1" th:value="${ele.value}" th:field="*{hobby}" disabled>
+            </th:block>
+          </div>
+
+          <div>
+            <select name="region" id="region" th:field="*{region}" disabled>
+              <option value="">==지역선택==</option>
+              <option th:each="ele : ${region}"  th:value="${ele.key}" th:text="${ele.value}">서울</option>
+            </select>
+          </div>
+          <div><button type=button id="btnModify">수정</button></div>
+      </form>
+    </main>
+  </div>
+  <div id="foot">
+    <footer class="foot" th:insert="~{fragment/footer::global}"/>
+  </div>
+</div>
 </body>
 </html>
