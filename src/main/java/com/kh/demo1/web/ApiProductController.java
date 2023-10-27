@@ -168,4 +168,16 @@ public class ApiProductController {
     }
     return res;
   }
+
+//  @ResponseBody
+//  @PostMapping("/text")
+//  public String text(@RequestBody String reqData){
+//    log.info("reqData={}",reqData);
+//    String[] data = reqData.split(",");
+//    String pname = data[0];
+//    String quantity = data[1];
+//    String price = data[2];
+//    log.info("상품명={},수량={},가격={}", pname, quantity, price);
+//    return "ok";
+//  }
 }

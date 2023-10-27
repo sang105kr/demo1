@@ -1,0 +1,13 @@
+<th:block th:fragment="beforeLoginTop">
+  <div class="topmenu">
+    <p><a href="" th:href="@{/login}">로그인</a> | <a href="" th:href="@{/members/add}">회원가입</a></p>
+  </div>
+</th:block>
+<th:block th:fragment="afterLoginTop">
+  <div class="topmenu">
+    <p>
+      <a th:href="@{/mypage}"><span th:text="${session?.loginMember.nickname}"></span></a> |
+      <a href="" th:href="@{/logout}">로그아웃</a>
+    </p>
+  </div>
+</th:block>

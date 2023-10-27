@@ -74,7 +74,7 @@ public class LoginController {
     HttpSession session = request.getSession(true);
     
     //세션에 회원정보 저장
-    LoginMember loginMember = new LoginMember(member.getEmail(),member.getNickname(), member.getGubun());
+    LoginMember loginMember = new LoginMember(member.getMemberId(),member.getEmail(),member.getNickname(), member.getGubun());
     session.setAttribute("loginMember",loginMember);
 
     return "redirect:"+redirectUrl;   //  302 http://localhost:9080/products

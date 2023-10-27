@@ -1,0 +1,21 @@
+<th:block th:fragment="global">
+  <div class="carousel relative flex justify-center items-center">
+    <button id="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2">
+      <i class="fas fa-angle-double-left text-gray-300 hover:text-white"></i>
+    </button>
+    <img src="https://source.unsplash.com/collection/190727/800x600" alt="Image 1" class="carousel-item active">
+    <img src="https://source.unsplash.com/collection/542409/800x600" alt="Image 2" class="carousel-item">
+    <img src="https://source.unsplash.com/collection/381614/800x600" alt="Image 3" class="carousel-item">
+    <button id="next" class="absolute right-0 top-1/2 transform -translate-y-1/2">
+      <i class="fas fa-angle-double-right text-gray-300 hover:text-right"></i>
+    </button>
+    <div class="radio-buttons absolute bottom-0 flex justify-center space-x-2 mb-2">
+      <input type="radio" name="carousel" class="carousel-radio" checked>
+      <input type="radio" name="carousel" class="carousel-radio">
+      <input type="radio" name="carousel" class="carousel-radio">
+    </div>
+  </div>
+</th:block>
+<th:block th:fragment="admin">
+  <p>admin footer</p>
+</th:block>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html id="root"
+      lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main(
+        title,          <!--/* title */-->
+        <!--/* external */-->
+        styles,
+        scripts,
+        <!--/* internal */-->
+        style,
+        script,
+        <!--/*--------------------------*/-->
+        top,            <!--/* top */-->
+        banner,         <!--/* banner */-->
+        gnb,            <!--/* gnb */-->
+        main,           <!--/* main */-->
+        footer         <!--/* footer */-->
+      )"
+
+      th:with="s_memberId=${session?.loginMember?.memberId},
+               s_email=${session?.loginMember?.email},
+               s_nickname=${session?.loginMember?.nickname},
+               s_gubun=${session?.loginMember?.gubun},
+               use_banner = ${banner != null} ? true:false "
+
+      th:data-s-member-id="${s_memberId}"
+      th:data-s-email="${s_email}"
+      th:data-s-nickname="${s_nickname}"
+      th:data-s-gubun="${s_gubun}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:replace=${title}>제목</title>
+  <!--common style-->
+  <link rel="stylesheet" href="" th:href="@{/css/common.css}">
+  <link rel="stylesheet" href="" th:href="@{/css/main.css}">
+
+  <!--common script-->
+<!--  <script defer src="xxx.js" ></script>-->
+  <!-- fontawesome -->
+  <script defer src="https://kit.fontawesome.com/023d8f21ed.js" crossorigin="anonymous"></script>
+
+  <!--tailwind-->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!--bootstrap-->
+<!--  <script defer th:src="@{/webjars/popper.js/2.9.3/umd/popper.js}"></script>-->
+<!--  <script defer th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>-->
+  <!-- Per-page placeholder for additional link -->
+  <th:block th:replace="${styles}"/>
+  <th:block th:replace="${scripts}"/>
+
+  <th:block th:replace="${style}"/>
+  <th:block th:replace="${script}"/>
+
+</head>
+<body>
+  <div class="wrap">
+    <div id="tl"><a class='logo' href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
+    <div id="tc" th:insert="${top}"/>
+    <div id="tr"></div>
+    <div id="banner" th:if="${use_banner and !#strings.isEmpty(banner)}" th:insert="${banner}"/>
+    <div id="gnb" th:insert="${gnb}"/>
+    <div id="content" th:insert="${main}"/>
+    <div id="foot" th:insert="${footer}"/>
+  </div>
+</body>
+</html>

@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상품관리-CSR</title>
+    <style>
+    .field-error {color:red; font-weight:bold; font-size:0.8rem;}
+
+    .fieldError { border:1px solid red; }
+    .fieldSuccess { border:1px solid green; }
+  </style>
     <script type="module">
       import { ajax } from '/js/common.js';
 
@@ -124,14 +130,17 @@
             <div>
                 <label for="pname">상품명</label>
                 <input type="text" id="pname" name="pname"/>
+                <span class="field-error client" id="errPname"></span>
             </div>
             <div>
                 <label for="quantity">수량</label>
                 <input type="text" id="quantity" name="quantity"/>
+                <span class="field-error client" id="errQuantity"></span>
             </div>
             <div>
                 <label for="price">가격</label>
                 <input type="text" id="price" name="price"/>
+                <span class="field-error client" id="errPrice"></span>
             </div>
             <div>
                 <button id="btnAdd" type="submit">등록</button>
@@ -142,6 +151,23 @@
         const $frm = $addFormWrap.querySelector('#frm');
         $frm.addEventListener('submit', e => {
           e.preventDefault(); // 기본동작 중지
+
+          //유효성 체크
+          if($frm.pname.value.trim().length === 0) {
+            errPname.textContent = '상품명은 필수 입니다';
+            $frm.pname.focus();
+            return;
+          }
+          if($frm.quantity.value.trim().length === 0) {
+            errQuantity.textContent = '수량 필수 입니다';
+            $frm.quantity.focus();
+            return;
+          }
+          if($frm.price.value.trim().length === 0) {
+            errPrice.textContent = '가격은 필수 입니다';
+            $frm.price.focus();
+            return;
+          }
 
           const formData = new FormData(e.target); //폼데이터가져오기
           const product = {};

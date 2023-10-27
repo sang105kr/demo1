@@ -1,0 +1,127 @@
+@charset "utf-8";
+
+/*-- 전체 레이아웃  시작--*/
+.wrap {
+  display: grid;
+  grid-template-columns: 1fr 600px 1fr;
+  grid-template-rows: 50px 150px 50px auto 70px;
+  grid-template-areas:
+    "tl   tc      tr"
+    ".    banner  ."
+    ".    gnb     ."
+    ".    main    ."
+    ".    foot    .";
+}
+/*-- 전체 레이아웃  끝--*/
+/*-- 상단 헤더 시작 --*/
+#tl,#tc,#tr {
+  background-color: #000;
+}
+/* 1) 상단 헤더 좌측 */
+#tl {
+  grid-area: tl;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#tl .logo{
+  color : #fff;
+}
+/* 2) 상단 헤더 중앙 */
+#tc {
+  grid-area: tc;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#tc .topmenu {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color:#fff;
+}
+/* 3) 상단 헤더 우측 */
+#tr {
+  grid-area: tr;
+}
+/*-- 상단 헤더 시작 끝--*/
+/*-- 헤더 광고 시작 --*/
+#banner{
+  grid-area: banner;
+}
+#banner .head{
+/*
+  height:100%;
+  background-image: url("https://cdn.pixabay.com/photo/2022/03/23/18/56/beach-7087722_960_720.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  */
+}
+/*-- 헤더 광고 끝 --*/
+/*-- GNB 메뉴 시작 --*/
+#gnb{
+  grid-area: gnb;
+}
+/* 1) 1단계 메뉴 */
+#gnb .gnb{
+  height:100%;
+  background-color: #000;
+  color: #eee;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+#gnb .gnb .menu{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+#gnb .gnb .menu .item:hover{
+  color:#ddd;
+}
+/* 2) 2단계 메뉴 */
+#gnb .gnb .submenu {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  padding: 0;
+}
+
+#gnb .gnb .submenu li {
+  padding: 5px 10px;
+}
+
+#gnb .gnb .submenu li a {
+  text-decoration: none;
+  color: #333;
+}
+#gnb .gnb .submenu li:hover{
+  background-color: #ccc;
+}
+#gnb .gnb .menu li:hover .submenu {
+  display: block;
+}
+/*-- 본문 시작 --*/
+#content{
+  grid-area: main;
+}
+#content .main_cont{
+
+}
+/*-- 본문 끝 --*/
+/*-- 푸터 시작 --*/
+#foot{
+  grid-area:foot;
+  background-color: #666;
+}
+#foot .foot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color:#fff;
+}
+/*-- 푸터 끝 --*/

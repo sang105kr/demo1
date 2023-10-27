@@ -1,0 +1,47 @@
+<th:block th:fragment="global">
+  <ul class="menu">
+    <li class="item item1"><a href="#">메뉴 1</a>
+      <ul class="submenu">
+        <li class="item item1"><a href="#">서브메뉴 1-1</a></li>
+        <li class="item item2"><a href="#">서브메뉴 1-2</a></li>
+        <li class="item item3"><a href="#">서브메뉴 1-3</a></li>
+      </ul>
+    </li>
+    <li class="item item2"><a href="#">메뉴 2</a>
+      <ul class="submenu">
+        <li class="item item1"><a href="#">서브메뉴 2-1</a></li>
+        <li class="item item2"><a href="#">서브메뉴 2-2</a></li>
+        <li class="item item3"><a href="#">서브메뉴 2-3</a></li>
+      </ul>
+    </li>
+    <li class="item item3"><a href="#">메뉴 3</a></li>
+    <li class="item item4"><a href="#">메뉴 4</a></li>
+    <li class="item item5"><a href="#">서비스</a>
+      <ul class="submenu">
+        <li><a href="" th:href="@{/service/cstore}">편의점 위치 정보</a></li>
+        <li><a href="" th:href="@{/service/aed}">AED 위치 정보</a></li>
+      </ul>
+    </li>
+  </ul>
+</th:block>
+<th:block th:fragment="mypage">
+  <ul class="menu">
+    <li class="item item1"><a href="#">회원정보</a>
+      <ul class="submenu">
+        <li class="item item1"><a href="" th:href="@{/mypage/members/{email}(email=${session.loginMember.email})}">회원정보수정</a></li>
+        <li class="item item2"><a href="#">비밀번호변경</a></li>
+        <li class="item item2"><a href="#">별칭 및 프로필변경</a></li>
+      </ul>
+    </li>
+    <li class="item item2"><a href="#">메뉴 2</a>
+      <ul class="submenu">
+        <li class="item item1"><a href="#">서브메뉴 2-1</a></li>
+        <li class="item item2"><a href="#">서브메뉴 2-2</a></li>
+      </ul>
+    </li>
+    <li class="item item3"><a href="#">메뉴 3</a></li>
+  </ul>
+</th:block>
+<th:block th:fragment="admin">
+  admin
+</th:block>

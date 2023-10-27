@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>초기화면</title>
+</head>
+<body>
+  <header th:replace="~{fragment/header::beforeLogin}"></header>
+  <main>
+    <menu>
+      <ul>
+        <li><a href="" th:href="@{/service/cstore}">편의점 조회</a></li>
+        <li><a href="" th:href="@{/service/aed}">자동심장 충격기(AED) 조회</a></li>
+        <li><a href="" th:href="@{/products}">상품관리-SSR</a></li>
+        <li><a href="" th:href="@{/api/products}">상품관리-CSR</a></li>
+        <li><a href="" th:href="@{/members/add}">회원가입</a></li>
+        <li><a href="" th:href="@{/login}">로그인</a></li>
+      </ul>
+    </menu>
+  </main>
+  <footer th:replace="~{fragment/footer::beforeLogin('footer beforeLogin')}"></footer>
+</body>
+</html>

@@ -1,26 +1,98 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout::main(
+      ~{::title},       <!--/* title */-->
+      <!--/*--------------------------*/-->
+      <!--/* external */-->
+      ~{},              <!--/* styles */-->
+      ~{},              <!--/* scripts */-->
+      <!--/* internal */-->
+      ~{::style},              <!--/* style */-->
+      ~{::script},              <!--/* script */-->
+      <!--/*--------------------------*/-->
+      ~{::.topmenu},    <!--/* upm */-->
+      ~{::.head },      <!--/* header */-->
+      ~{::.gnb},         <!--/* gnb */-->
+      ~{::main},        <!--/* main */-->
+      ~{::.foot},       <!--/* footer default*/-->
+      )}">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>초기화면</title>
+  <style>
+    #banner .head .carousel-item {
+      display: none;
+      object-fit: cover;
+      height: 150px;
+      width: 100%;
+    }
+    #banner .head .carousel-item.active { display: block; }
+    #banner .head #prev { left: 15px; }
+    #banner .head #next { right: 15px; }
+    #banner .head button i.fa-angle-double-left:hover,
+    #banner .head button i.fa-angle-double-right:hover{ transform: scale(1.2); }
+
+  </style>
+  <script type="module">
+    let carouselItems = Array.from(document.querySelectorAll('.carousel-item'));
+    let radioButtons = Array.from(document.querySelectorAll('.carousel-radio'));
+    let currentIndex = 0;
+    let intervalId = setInterval(nextImage, 3000); // 3초마다 이미지 변경
+
+    document.getElementById('prev').addEventListener('click', prevImage);
+    document.getElementById('next').addEventListener('click', nextImage);
+    radioButtons.forEach((radio, index) => {
+        radio.addEventListener('change', () => {
+            setCurrentImage(index);
+        });
+    });
+
+    function setCurrentImage(index) {
+        carouselItems[currentIndex].classList.remove('active');
+        radioButtons[currentIndex].checked = false;
+        currentIndex = index;
+        carouselItems[currentIndex].classList.add('active');
+        radioButtons[currentIndex].checked = true;
+        clearInterval(intervalId);
+        intervalId = setInterval(nextImage, 3000);
+    }
+
+    function prevImage() {
+        let index = currentIndex - 1 < 0 ? carouselItems.length - 1 : currentIndex - 1;
+        setCurrentImage(index);
+    }
+
+    function nextImage() {
+        let index = currentIndex + 1 >= carouselItems.length ? 0 : currentIndex + 1;
+        setCurrentImage(index);
+    }
+
+  </script>
 </head>
 <body>
-  <header th:replace="~{fragment/header::beforeLogin}"></header>
-  <main>
-    <menu>
-      <ul>
-        <li><a href="" th:href="@{/service/cstore}">편의점 조회</a></li>
-        <li><a href="" th:href="@{/service/aed}">자동심장 충격기(AED) 조회</a></li>
-        <li><a href="" th:href="@{/products}">상품관리-SSR</a></li>
-        <li><a href="" th:href="@{/api/products}">상품관리-CSR</a></li>
-        <li><a href="" th:href="@{/members/add}">회원가입</a></li>
-        <li><a href="" th:href="@{/login}">로그인</a></li>
-      </ul>
-    </menu>
-  </main>
-  <footer th:replace="~{fragment/footer::beforeLogin('footer beforeLogin')}"></footer>
+<div class="wrap">
+  <div id="tl"/>
+  <div id="tc">
+    <div class="topmenu" th:insert="~{fragment/top::beforeLoginTop}"/>
+  </div>
+  <div id="tr"></div>
+  <div id="banner">
+    <header class="head" th:insert="~{fragment/banner::global}"/>
+  </div>
+  <div id="gnb">
+    <nav class="gnb" th:insert="~{fragment/menu::global}"/>
+  </div>
+  <div id="content">
+    <main class="main">
+      로그인전
+    </main>
+  </div>
+  <div id="foot">
+    <footer class="foot" th:insert="~{fragment/footer::global}"/>
+  </div>
+</div>
 </body>
 </html>
