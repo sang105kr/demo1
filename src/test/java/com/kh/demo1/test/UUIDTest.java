@@ -11,5 +11,6 @@ public class UUIDTest {
   void uuidTest(){
     String number = UUID.randomUUID().toString().substring(0,5);
     log.info("number={}", number);
+    log.info("uuid={}",UUID.randomUUID().toString());
   }
 }

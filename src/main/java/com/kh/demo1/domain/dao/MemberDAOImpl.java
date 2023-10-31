@@ -122,4 +122,32 @@ public class MemberDAOImpl implements MemberDAO {
       return Optional.empty();
     }
   }
+
+  //비밀번호 유무확인
+  @Override
+  public boolean hasPasswd(String email, String tel) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("select count(*) ");
+    sql.append("  from member ");
+    sql.append(" where email = :email ");
+    sql.append("   and tel = :tel ");
+
+    Map<String, String> param = Map.of("email", email, "tel", tel);
+    Integer cnt = template.queryForObject(sql.toString(), param, Integer.class);
+
+    return cnt == 1 ? true : false;
+  }
+
+  //비밀번호 변경
+  @Override
+  public int changePasswd(String email, String tmpPasswd) {
+    StringBuffer sql = new StringBuffer();
+    sql.append("update member ");
+    sql.append("   set passwd = :passwd ");
+    sql.append(" where email  = :email ");
+
+    Map<String, String> param = Map.of("passwd", tmpPasswd, "email", email);
+    int updatedRow = template.update(sql.toString(), param);
+    return updatedRow;
+  }
 }

@@ -44,4 +44,16 @@ public class MemberSVCImpl implements MemberSVC{
   public Optional<String> findEmailByTel(String tel) {
     return memberDAO.findEmailByTel(tel);
   }
+
+  //비밀번호 존재유무
+  @Override
+  public boolean hasPasswd(String email, String tel) {
+    return memberDAO.hasPasswd(email, tel);
+  }
+
+  //비밀번호 변경
+  @Override
+  public int changePasswd(String email, String tmpPasswd) {
+    return memberDAO.changePasswd(email,tmpPasswd);
+  }
 }

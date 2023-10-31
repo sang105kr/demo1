@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout::main(
+      ~{::title},       <!--/* title */-->
+      <!--/*--------------------------*/-->
+      <!--/* external */-->
+      ~{},              <!--/* styles */-->
+      ~{},              <!--/* scripts */-->
+      <!--/* internal */-->
+      ~{},              <!--/* style */-->
+      ~{},              <!--/* script */-->
+      <!--/*--------------------------*/-->
+      ~{::.topmenu},    <!--/* upm */-->
+      ~{::.head },      <!--/* header */-->
+      ~{::.gnb},         <!--/* gnb */-->
+      ~{::main},        <!--/* main */-->
+      ~{::.foot},       <!--/* footer default*/-->
+      )}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>제목 채우기</title>
+<!--  <script defer src="/js/xxx.js"></script>-->
+</head>
+<body>
+<div class="wrap">
+  <div id="tl"></div>
+  <div id="tc">
+    <div class="topmenu" th:insert="~{fragment/top::beforeLoginTop}"/>
+  </div>
+  <div id="tr"></div>
+  <div id="banner">
+    <header class="head" th:insert="~{fragment/banner::global}"/>
+  </div>
+  <div id="gnb">
+    <nav class="gnb" th:insert="~{fragment/menu::global}"/>
+  </div>
+  <div id="content">
+    <main class="main">
+      본문 채우기
+    </main>
+  </div>
+  <div id="foot">
+    <footer class="foot" th:insert="~{fragment/footer::global}"/>
+  </div>
+</div>
+</body>
+</html>

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -111,5 +112,39 @@ public class MemberDAOImplTest {
     Optional<String> findedEmail = memberDAO.findEmailByTel(tel);
     Assertions.assertThat(findedEmail.isEmpty()).isTrue();
 
+  }
+
+  @Test
+  @DisplayName("비밀번호존재유뮤 has")
+  void hasPasswd() {
+    String email = "test3@kh.com";
+    String tel = "010-1234-5678";
+    boolean hasPasswd = memberDAO.hasPasswd(email, tel);
+    Assertions.assertThat(hasPasswd).isTrue();
+  }
+
+  @Test
+  @DisplayName("비밀번호존재유뮤 not has")
+  void hasPasswd2() {
+    String email = "xxx@xx.xxx";
+    String tel = "xxx-xxxx-xxxx";
+    boolean hasPasswd = memberDAO.hasPasswd(email, tel);
+    Assertions.assertThat(hasPasswd).isFalse();
+  }
+
+  @Test
+  @DisplayName("비밀번호변경")
+  @Transactional  // sql실행후 rollbak함. (따라서 실제 테이블의 데이터 변경은 없음)
+  void changePasswd() {
+    String email = "test3@kh.com";
+    String tmpPasswd = "xxx";
+    memberDAO.changePasswd(email, tmpPasswd);
+    Optional<Member> optional = memberDAO.findByEmail(email);
+    if (optional.isPresent()) {
+      Member member = optional.get();
+      Assertions.assertThat(member.getPasswd()).isEqualTo(tmpPasswd);
+    }else{
+      Assertions.fail("회원정보 없음");
+    }
   }
 }
