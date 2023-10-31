@@ -107,4 +107,19 @@ public class MemberDAOImpl implements MemberDAO {
 
     return rows;
   }
+
+  //아이디찾기
+  @Override
+  public Optional<String> findEmailByTel(String tel) {
+    String sql = "select email from member where tel = :tel";
+
+    Map<String,String> param = Map.of("tel",tel);
+
+    try {
+      String email = template.queryForObject(sql, param, String.class);
+      return Optional.of(email);
+    } catch (EmptyResultDataAccessException e) {
+      return Optional.empty();
+    }
+  }
 }

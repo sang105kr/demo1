@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인</title>
+  <link rel="stylesheet" th:href="@{/css/common.css}" />
+  <script type="module">
+      import { changeErrMsg } from '/js/common.js';
+      changeErrMsg();
+    </script>
+  <script type="module">
+      frm.addEventListener('submit', e => {
+        e.preventDefault(); //기본 이벤트 막기
+        //유효성 체크로직
+        //1) 아이디 : 필수, 50자이하, 이메일형식
+        if (email.value.trim().length == 0 || email.value.trim().length > 50) {
+          errEmail.textContent = '필수, 50자 이하';
+          email.focus();
+          return;
+        } else {
+          errEmail.textContent = '';
+        }
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailRegex.test(email.value)) {
+          errEmail.textContent = '이메일 형식과 맞지 않습니다.';
+          email.focus();
+          return;
+        } else {
+          errEmail.textContent = '';
+        }
+        //2) 비밀번호 : 필수
+        if (passwd.value.trim().length == 0) {
+          errPasswd.textContent = '필수 입력 필드입니다';
+          passwd.focus();
+          return;
+        } else {
+          errPasswd.textContent = '';
+        }
+
+        frm.submit();
+      });
+    </script>
+</head>
+<body>
+<h3>로그인</h3>
+<!--//form 밖에서 글로벌 오류메세지 출력
+    <div class="field-error" th:errors="${loginForm}"></div>
+-->
+<form id="frm" th:action th:method="post" th:object="${loginForm}">
+  <div>
+    <input type="email" th:field="*{email}" />
+    <span class="field-error" name="email" id="email" th:errors="*{email}"></span>
+    <span class="field-error" id="errEmail"></span>
+  </div>
+  <div>
+    <input type="passwd" name="passwd" id="passwd" th:field="*{passwd}" />
+    <span class="field-error" th:errors="*{passwd}"></span>
+    <span class="field-error" id="errPasswd"></span>
+  </div>
+  <div class="field-error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">..</div>
+  <div><input type="submit" value="로그인" /></div>
+</form>
+<div><a href="" th:href="@{/members/findEmail}">아이디찾기</a></div>
+</body>
+</html>

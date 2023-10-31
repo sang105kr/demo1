@@ -16,4 +16,7 @@ public interface MemberDAO {
 
   //회원수정
   int updateMember(String email, Member member);
+
+  //아이디찾기
+  Optional<String> findEmailByTel(String tel);
 }

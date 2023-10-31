@@ -134,4 +134,11 @@ public class MemberController {
     return mailAuthNum;
   }
 
+  //아이디찾기 form
+  @GetMapping("/findEmail")
+  public String findEmail(){
+
+    return "member/findEmail";
+  }
+
 }

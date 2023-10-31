@@ -38,4 +38,10 @@ public class MemberSVCImpl implements MemberSVC{
   public int modify(String email, Member member) {
     return memberDAO.updateMember(email,member);
   }
+
+  //아이디찾기
+  @Override
+  public Optional<String> findEmailByTel(String tel) {
+    return memberDAO.findEmailByTel(tel);
+  }
 }

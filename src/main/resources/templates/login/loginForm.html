@@ -1,16 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>로그인</title>
-    <link rel="stylesheet" th:href="@{/css/common.css}" />
-    <script type="module">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/layout::main(
+      ~{::title},       <!--/* title */-->
+      <!--/*--------------------------*/-->
+      <!--/* external */-->
+      ~{},              <!--/* styles */-->
+      ~{},              <!--/* scripts */-->
+      <!--/* internal */-->
+      ~{},              <!--/* style */-->
+      ~{::script},      <!--/* script */-->
+      <!--/*--------------------------*/-->
+      ~{::.topmenu},    <!--/* upm */-->
+      ~{::.head },      <!--/* header */-->
+      ~{::.gnb},         <!--/* gnb */-->
+      ~{::main},        <!--/* main */-->
+      ~{::.foot},       <!--/* footer default*/-->
+      )}">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+  <script type="module">
       import { changeErrMsg } from '/js/common.js';
       changeErrMsg();
     </script>
-    <script type="module">
+  <script type="module">
       frm.addEventListener('submit', e => {
         e.preventDefault(); //기본 이벤트 막기
         //유효성 체크로직
@@ -42,25 +58,46 @@
         frm.submit();
       });
     </script>
-  </head>
-  <body>
-    <h3>로그인</h3>
-<!--//form 밖에서 글로벌 오류메세지 출력
-    <div class="field-error" th:errors="${loginForm}"></div>
--->
-    <form id="frm" th:action th:method="post" th:object="${loginForm}">
-      <div>
-        <input type="email" th:field="*{email}" />
-        <span class="field-error" name="email" id="email" th:errors="*{email}"></span>
-        <span class="field-error" id="errEmail"></span>
-      </div>
-      <div>
-        <input type="passwd" name="passwd" id="passwd" th:field="*{passwd}" />
-        <span class="field-error" th:errors="*{passwd}"></span>
-        <span class="field-error" id="errPasswd"></span>
-      </div>
-      <div class="field-error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">..</div>
-      <div><input type="submit" value="로그인" /></div>
-    </form>
-  </body>
+</head>
+<body>
+<div class="wrap">
+  <div id="tl"></div>
+  <div id="tc">
+    <div class="topmenu" th:insert="~{fragment/top::beforeLoginTop}"/>
+  </div>
+  <div id="tr"></div>
+  <div id="banner">
+    <header class="head" th:insert="~{fragment/banner::global}"/>
+  </div>
+  <div id="gnb">
+    <nav class="gnb" th:insert="~{fragment/menu::global}"/>
+  </div>
+  <div id="content">
+    <main class="main">
+      <h3>로그인</h3>
+      <!--//form 밖에서 글로벌 오류메세지 출력
+          <div class="field-error" th:errors="${loginForm}"></div>
+      -->
+      <form id="frm" th:action th:method="post" th:object="${loginForm}">
+        <div>
+          <input type="email" th:field="*{email}" />
+          <span class="field-error" name="email" id="email" th:errors="*{email}"></span>
+          <span class="field-error" id="errEmail"></span>
+        </div>
+        <div>
+          <input type="passwd" name="passwd" id="passwd" th:field="*{passwd}" />
+          <span class="field-error" th:errors="*{passwd}"></span>
+          <span class="field-error" id="errPasswd"></span>
+        </div>
+        <div class="field-error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">..</div>
+        <div><input type="submit" value="로그인" /></div>
+      </form>
+      <div><a href="" th:href="@{/members/findEmail}">아이디찾기</a></div>
+    </main>
+  </div>
+  <div id="foot">
+    <footer class="foot" th:insert="~{fragment/footer::global}"/>
+  </div>
+</div>
+</body>
 </html>

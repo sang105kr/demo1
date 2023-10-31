@@ -91,4 +91,25 @@ public class MemberDAOImplTest {
     Assertions.assertThat(updatedMember.getHobby()).isEqualTo("등산");
     Assertions.assertThat(updatedMember.getRegion()).isEqualTo("A0201");
   }
+
+  @Test
+  @DisplayName("아이디찾기 success")
+  void findEmailByTel(){
+    String tel = "010-1234-5678";
+    Optional<String> findedEmail = memberDAO.findEmailByTel(tel);
+    if(findedEmail.isPresent()){
+      String email = findedEmail.get();
+      log.info("email={}", email);
+      Assertions.assertThat(email).isNotBlank();
+    }
+  }
+
+  @Test
+  @DisplayName("아이디찾기 fail")
+  void findEmailByTel2(){
+    String tel = "010-0000-0000";
+    Optional<String> findedEmail = memberDAO.findEmailByTel(tel);
+    Assertions.assertThat(findedEmail.isEmpty()).isTrue();
+
+  }
 }

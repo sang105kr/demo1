@@ -57,6 +57,17 @@
   background-repeat: no-repeat;
   */
 }
+#banner .head .carousel-item {
+  display: none;
+  object-fit: cover;
+  height: 150px;
+  width: 100%;
+}
+#banner .head .carousel-item.active { display: block; }
+#banner .head #prev { left: 15px; }
+#banner .head #next { right: 15px; }
+#banner .head button i.fa-angle-double-left:hover,
+#banner .head button i.fa-angle-double-right:hover{ transform: scale(1.2); }
 /*-- 헤더 광고 끝 --*/
 /*-- GNB 메뉴 시작 --*/
 #gnb{
