@@ -73,7 +73,8 @@
     <nav class="gnb" th:insert="~{fragment/menu::global}"/>
   </div>
   <div id="content">
-    <main class="main">
+    <main class="main flex items-center justify-center h-60">
+      <div>
       <h3>로그인</h3>
       <!--//form 밖에서 글로벌 오류메세지 출력
           <div class="field-error" th:errors="${loginForm}"></div>
@@ -93,6 +94,7 @@
         <div><input class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700" type="submit" value="로그인" /></div>
       </form>
       <div><a href="" th:href="@{/members/findEmail}">아이디찾기</a></div>
+      </div>
     </main>
   </div>
   <div id="foot">
