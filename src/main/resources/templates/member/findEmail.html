@@ -9,7 +9,7 @@
       ~{},              <!--/* scripts */-->
       <!--/* internal */-->
       ~{},              <!--/* style */-->
-      ~{},              <!--/* script */-->
+      ~{::script},              <!--/* script */-->
       <!--/*--------------------------*/-->
       ~{::.topmenu},    <!--/* upm */-->
       ~{::.head },      <!--/* header */-->
@@ -22,6 +22,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제목 채우기</title>
+  <script type="module">
+    import {ajax} from '/js/common.js';
+
+    const $findIdBtn = document.getElementById('findIdBtn');
+
+    const findId = async()=>{
+      const url = "/members/findEmail"
+      const $tel = document.getElementById('tel');
+      const data = { tel : $tel.value };
+      const res  = ajax.post(url, data);
+      const result = await res;
+
+      switch(result.header.rtcd) {
+        case "00" : //성공
+          document.getElementById('email').textContent = result.body;
+          document.querySelector('.field-error').textContent = '';
+        break;
+        case "01" : //전화번호의 아이디를 못찼았을때
+          document.querySelector('.field-error').textContent = '아이디가 존재하지 않습니다';
+        break;
+        case "02" : //전화번호 유효성 검증오류
+          document.querySelector('.field-error').textContent = '[유효성오류] ex)010-xxxx-xxxx';
+        break;
+        case "99" : //기타오류
+        break;
+      }
+    }
+
+    $findIdBtn.addEventListener('click', findId );
+  </script>
 </head>
 <body>
 <div class="wrap">
@@ -39,12 +69,13 @@
   <div id="content">
     <main class="main">
       <h3>아이디 찾기</h3>
-      <form id="frm" action method="post">
+      <form id="frm">
         <div>
-          <input type="tel" id="tel" name="tel">
+          <input class="border" type="tel" id="tel" name="tel" placeholder="전화번호를 입력하세요">
         </div>
+        <div><span id="email"></span><span class="field-error"></span></div>
         <div>
-          <input type="submit" value="아이디 찾기">
+          <input class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700" id="findIdBtn" type="button" value="아이디 찾기">
         </div>
       </form>
     </main>

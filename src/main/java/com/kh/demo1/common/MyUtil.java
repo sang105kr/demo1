@@ -39,7 +39,7 @@ public class MyUtil {
         errMsg.append(error.getCode()).append(":").append(localizedErrMsg).append("; ");  //  오류코드:오류메세지1; 오류코드:오류메세지2;
       }
     }
-    res = ApiResponse.createApiResponse("99", errMsg.toString(), null);
+    res = ApiResponse.createApiResponse("02", errMsg.toString(), null);
     return res;
   }
 }

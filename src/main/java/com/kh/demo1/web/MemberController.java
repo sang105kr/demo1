@@ -4,7 +4,9 @@ import com.kh.demo1.common.MailService;
 import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
 import com.kh.demo1.common.MyUtil;
+import com.kh.demo1.web.api.ApiResponse;
 import com.kh.demo1.web.form.member.JoinForm;
+import com.kh.demo1.web.req.member.ReqEmail;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -136,9 +135,35 @@ public class MemberController {
 
   //아이디찾기 form
   @GetMapping("/findEmail")
-  public String findEmail(){
+  public String findEmailForm(){
 
     return "member/findEmail";
+  }
+
+  //아이디찾기
+  @ResponseBody
+  @PostMapping("/findEmail")
+  public ApiResponse<Object> findEmail(
+      @RequestBody @Valid ReqEmail reqEmail,
+      BindingResult bindingResult){
+    ApiResponse<Object> res = null;
+
+    log.info("tel={}",reqEmail.getTel());
+    if (bindingResult.hasErrors()) {
+      log.info("bindingResult={}", bindingResult);
+      return MyUtil.validChkApiReq(bindingResult); //rtcd : "02"
+    }
+
+    Optional<String> optional = memberSVC.findEmailByTel(reqEmail.getTel());
+    if(optional.isPresent()){
+      String email = optional.get();
+      res = ApiResponse.createApiResponse("00","success",email);
+
+    }else{
+      res = ApiResponse.createApiResponse("01","not found",null);
+    }
+
+    return res;
   }
 
 }

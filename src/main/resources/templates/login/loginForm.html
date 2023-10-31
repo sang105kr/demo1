@@ -80,17 +80,17 @@
       -->
       <form id="frm" th:action th:method="post" th:object="${loginForm}">
         <div>
-          <input type="email" th:field="*{email}" />
+          <input class="border" type="email" th:field="*{email}" />
           <span class="field-error" name="email" id="email" th:errors="*{email}"></span>
           <span class="field-error" id="errEmail"></span>
         </div>
         <div>
-          <input type="passwd" name="passwd" id="passwd" th:field="*{passwd}" />
+          <input class="border" type="passwd" name="passwd" id="passwd" th:field="*{passwd}" />
           <span class="field-error" th:errors="*{passwd}"></span>
           <span class="field-error" id="errPasswd"></span>
         </div>
         <div class="field-error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}">..</div>
-        <div><input type="submit" value="로그인" /></div>
+        <div><input class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700" type="submit" value="로그인" /></div>
       </form>
       <div><a href="" th:href="@{/members/findEmail}">아이디찾기</a></div>
     </main>

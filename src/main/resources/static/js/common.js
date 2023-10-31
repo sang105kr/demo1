@@ -31,8 +31,8 @@ const ajax = {
     };
     try {
       const response = await fetch(url, option);
-      const data = await response.json();
-      return data;
+      const data = await response.json();// json포맷의 문자열 => jsobject
+      return data;   // async함수의 return 값은 프라미스개체로 반환된다.
     } catch (err) {
       console.error(err.message);
     }
