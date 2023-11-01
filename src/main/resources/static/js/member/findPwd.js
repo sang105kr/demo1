@@ -4,7 +4,7 @@ import {ajax} from '/js/common.js';
 const render = () => {
   const $findPwdForm = document.createElement('div');
   $findPwdForm.innerHTML = `
-       <div>
+        <div class='w-48'>
         <h3>비밀번호 찾기</h3>
         <form id="frm">
           <div>
@@ -16,10 +16,10 @@ const render = () => {
             <span class='field-error' id="telErr"></span>
           </div>
           <div><span class="field-error"></span></div>
+          <div id="msg" class="field-error"></div>
           <div>
             <input class="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-700" id="findPwdBtn" type="button" value="비밀번호 찾기">
           </div>
-          <div id="msg"></div>
         </form>
         <div>
       `;
@@ -71,6 +71,7 @@ const render = () => {
     //비밀번호 찾기
     findPwd($email.value, $tel.value, $msg)
   });
+
   const $main = document.querySelector('#content .main');
   $main.appendChild($findPwdForm);
 };
@@ -84,7 +85,9 @@ const findPwd = async (email, tel, $msg) => {
   console.log(result);
 
   if(result.header.rtcd === '00') {
-    $msg.textContent = "회원 이메일로 임시 비밀번호를 전송했습니다."
+    $msg.textContent = "회원 이메일로 임시 비밀번호를 전송했습니다.";
+  }else if(result.header.rtcd === '01'){
+    $msg.textContent = '찾고자하는 회원정보가 없습니다.';
   }
 
 };
