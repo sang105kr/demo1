@@ -1,10 +1,11 @@
-import {ajax} from '/js/common.js';
+import {ajax,makeElement} from '/js/common.js';
 
 //비밀번호 찾기화면 렌더링
 const render = () => {
-  const $findPwdForm = document.createElement('div');
+//  const $findPwdForm = document.createElement('div');
+  const $findPwdForm = makeElement('div',{'class':'w-48'});
   $findPwdForm.innerHTML = `
-        <div class='w-48'>
+        <div>
         <h3>비밀번호 찾기</h3>
         <form id="frm">
           <div>
@@ -69,7 +70,7 @@ const render = () => {
     }
 
     //비밀번호 찾기
-    findPwd($email.value, $tel.value, $msg)
+    findPwd($email.value, $tel.value, $msg, e.target)
   });
 
   const $main = document.querySelector('#content .main');
@@ -77,12 +78,21 @@ const render = () => {
 };
 
 //비밀번호 찾기 비동기 통신(요청,응답)
-const findPwd = async (email, tel, $msg) => {
+const findPwd = async (email, tel, $msg, $btn) => {
   const url = `http://localhost:9080/api/members/findPwd`;
   const data = { email, tel };
 
+  $msg.textContent = "처리중...";
+  $btn.disabled = true;   //버튼 비활성화
+  $btn.classList.replace('bg-blue-500','bg-gray-500');
+  $btn.classList.remove('hover:bg-blue-700');
+
   const result = await ajax.post(url, data);
   console.log(result);
+
+  $btn.disabled = false;   //버튼 활성화
+  $btn.classList.replace('bg-gray-500','bg-blue-500');
+  $btn.classList.add('hover:bg-blue-700');
 
   if(result.header.rtcd === '00') {
     $msg.textContent = "회원 이메일로 임시 비밀번호를 전송했습니다.";
