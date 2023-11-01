@@ -6,7 +6,7 @@
       <!--/*--------------------------*/-->
       <!--/* external */-->
       ~{},              <!--/* styles */-->
-      ~{},              <!--/* scripts */-->
+      ~{::script},      <!--/* scripts */-->
       <!--/* internal */-->
       ~{},              <!--/* style */-->
       ~{},              <!--/* script */-->
@@ -22,7 +22,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>제목 채우기</title>
-<!--  <script defer src="/js/xxx.js"></script>-->
+  <script type="module" src="/js/member/findPwd.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -38,8 +38,8 @@
     <nav class="gnb" th:insert="~{fragment/menu::global}"/>
   </div>
   <div id="content">
-    <main class="main">
-      본문 채우기
+    <main class="main flex items-center justify-center h-60">
+
     </main>
   </div>
   <div id="foot">

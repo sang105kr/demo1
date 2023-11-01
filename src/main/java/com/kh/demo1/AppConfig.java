@@ -25,6 +25,7 @@ public class AppConfig implements WebMvcConfigurer {
 //  }
 
 
+  //cors 정책에 제외되는 요청
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/api/**")          //요청 URL
