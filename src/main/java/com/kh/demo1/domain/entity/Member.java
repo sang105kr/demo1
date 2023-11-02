@@ -1,4 +1,4 @@
-package com.kh.demo1.domain.dao.entity;
+package com.kh.demo1.domain.entity;
 
 import lombok.Data;
 

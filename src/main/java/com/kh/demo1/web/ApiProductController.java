@@ -1,8 +1,8 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.common.MyUtil;
-import com.kh.demo1.domain.dao.entity.Product;
-import com.kh.demo1.domain.svc.ProductSVC;
+import com.kh.demo1.MyUtil;
+import com.kh.demo1.domain.entity.Product;
+import com.kh.demo1.domain.product.svc.ProductSVC;
 import com.kh.demo1.web.api.ApiResponse;
 import com.kh.demo1.web.req.product.ReqSave;
 import com.kh.demo1.web.req.product.ReqUpdate;

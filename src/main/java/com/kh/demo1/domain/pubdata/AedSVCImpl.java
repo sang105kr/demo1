@@ -1,4 +1,4 @@
-package com.kh.demo1.domain.svc.pubdata;
+package com.kh.demo1.domain.pubdata;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

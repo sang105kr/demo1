@@ -1,33 +1,34 @@
 package com.kh.demo1;
 
-import com.kh.demo1.web.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    //인증 체크
-    registry.addInterceptor(new LoginCheckInterceptor())
-        .order(1)                     //인터셉터 실행 순서지정
-        .addPathPatterns("/**")       //인터셉터에 포함시키는 url패턴, 루트부터 하위경로 모두
-        .excludePathPatterns(
-            "/",                      //초기화면
-            "/login",                 //login
-            "/logout",                //logout
-            "/members/add",           //회원가입
-            "/members/emailChk/**",   //이메일체크
-            "/css/**",
-            "/js/**",
-            "/img/**",                //정적리소스
-            "/api/**",                // rest api 호출
-            "/test/**"                //테스트
-        );  // 인터셉터 제외 url패턴
-  }
+//  @Override
+//  public void addInterceptors(InterceptorRegistry registry) {
+//    //인증 체크
+//    registry.addInterceptor(new LoginCheckInterceptor())
+//        .order(1)                     //인터셉터 실행 순서지정
+//        .addPathPatterns("/**")       //인터셉터에 포함시키는 url패턴, 루트부터 하위경로 모두
+//        .excludePathPatterns(
+//            "/",                      //초기화면
+//            "/login",                 //login
+//            "/logout",                //logout
+//            "/members/add",           //회원가입
+//            "/members/emailChk/**",   //이메일체크
+//            "/members/findEmail",     //아이디찾기
+//            "/members/findPwd",       //비밀번호찾기
+//            "/attach/**",             //첨부파일
+//            "/css/**",
+//            "/js/**",
+//            "/img/**",                //정적리소스
+//            "/api/**",                // rest api 호출
+//            "/test/**"                //테스트
+//        );  // 인터셉터 제외 url패턴
+//  }
 
 
   //cors 정책에 제외되는 요청

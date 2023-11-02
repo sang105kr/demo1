@@ -1,7 +1,7 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.common.MyUtil;
-import com.kh.demo1.domain.svc.pubdata.AedSVC;
+import com.kh.demo1.MyUtil;
+import com.kh.demo1.domain.pubdata.AedSVC;
 import com.kh.demo1.web.api.ApiResponse;
 import com.kh.demo1.web.req.pubdata.AedData;
 import jakarta.validation.Valid;

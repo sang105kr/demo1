@@ -1,7 +1,8 @@
 package com.kh.demo1.domain.dao;
 
 
-import com.kh.demo1.domain.dao.entity.Member;
+import com.kh.demo1.domain.entity.Member;
+import com.kh.demo1.domain.member.dao.MemberDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

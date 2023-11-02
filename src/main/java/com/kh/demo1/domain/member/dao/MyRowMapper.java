@@ -1,7 +1,7 @@
-package com.kh.demo1.domain.dao;
+package com.kh.demo1.domain.member.dao;
 
 
-import com.kh.demo1.domain.dao.entity.Product;
+import com.kh.demo1.domain.entity.Product;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

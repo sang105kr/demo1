@@ -1,4 +1,4 @@
-package com.kh.demo1.domain.svc.pubdata;
+package com.kh.demo1.domain.pubdata;
 
 import lombok.Getter;
 import lombok.Setter;

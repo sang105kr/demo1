@@ -1,6 +1,7 @@
 package com.kh.demo1.domain.svc;
 
-import com.kh.demo1.domain.dao.entity.Member;
+import com.kh.demo1.domain.entity.Member;
+import com.kh.demo1.domain.member.svc.MemberSVC;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

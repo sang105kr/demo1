@@ -1,4 +1,4 @@
-package com.kh.demo1.common;
+package com.kh.demo1;
 
 import com.kh.demo1.web.api.ApiResponse;
 import org.springframework.context.i18n.LocaleContextHolder;

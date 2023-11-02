@@ -1,7 +1,7 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.domain.dao.entity.Member;
-import com.kh.demo1.domain.svc.MemberSVC;
+import com.kh.demo1.domain.entity.Member;
+import com.kh.demo1.domain.member.svc.MemberSVC;
 import com.kh.demo1.web.form.login.LoginForm;
 import com.kh.demo1.web.form.login.LoginMember;
 import jakarta.servlet.http.HttpServletRequest;
@@ -77,6 +77,10 @@ public class LoginController {
     LoginMember loginMember = new LoginMember(member.getMemberId(),member.getEmail(),member.getNickname(), member.getGubun());
     session.setAttribute("loginMember",loginMember);
 
+    //관리자인 경우 관리자 화면으로 이동
+    if(member.getGubun().substring(3,4).equals("A")){
+      redirectUrl = "/admin";   // get http://localhost:9080/admin
+    }
     return "redirect:"+redirectUrl;   //  302 http://localhost:9080/products
   }
 

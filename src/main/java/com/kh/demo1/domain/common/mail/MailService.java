@@ -1,4 +1,4 @@
-package com.kh.demo1.common;
+package com.kh.demo1.domain.common.mail;
 
 import lombok.RequiredArgsConstructor;
 import jakarta.mail.MessagingException;

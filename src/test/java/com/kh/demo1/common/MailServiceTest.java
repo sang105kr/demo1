@@ -1,5 +1,6 @@
 package com.kh.demo1.common;
 
+import com.kh.demo1.domain.common.mail.MailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,21 +1,21 @@
-package com.kh.demo1.domain.dao;
+package com.kh.demo1.domain.member.svc;
 
-import com.kh.demo1.domain.dao.entity.Member;
+import com.kh.demo1.domain.entity.Member;
 
 import java.util.Optional;
 
-public interface MemberDAO {
+public interface MemberSVC {
   //가입
-  Member insertMember(Member member);
+  Member join(Member member);
 
   //회원존재유무
-  boolean isExist(String email);
+  boolean isMember(String email);
 
   //회원조회
   Optional<Member> findByEmail(String email);
 
   //회원수정
-  int updateMember(String email, Member member);
+  int modify(String email, Member member);
 
   //아이디찾기
   Optional<String> findEmailByTel(String tel);

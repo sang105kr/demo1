@@ -1,6 +1,6 @@
 package com.kh.demo1.domain.svc.api;
 
-import com.kh.demo1.domain.svc.pubdata.ApiResult;
+import com.kh.demo1.domain.pubdata.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

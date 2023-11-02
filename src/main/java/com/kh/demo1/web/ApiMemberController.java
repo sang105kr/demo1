@@ -1,9 +1,9 @@
 package com.kh.demo1.web;
 
-import com.kh.demo1.common.MailService;
-import com.kh.demo1.common.MyUtil;
-import com.kh.demo1.domain.dao.entity.Member;
-import com.kh.demo1.domain.svc.MemberSVC;
+import com.kh.demo1.domain.common.mail.MailService;
+import com.kh.demo1.MyUtil;
+import com.kh.demo1.domain.entity.Member;
+import com.kh.demo1.domain.member.svc.MemberSVC;
 import com.kh.demo1.web.api.ApiResponse;
 import com.kh.demo1.web.req.member.ReqChangePwd;
 import com.kh.demo1.web.req.member.ReqPwd;
