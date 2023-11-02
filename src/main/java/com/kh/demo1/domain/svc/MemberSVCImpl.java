@@ -53,7 +53,7 @@ public class MemberSVCImpl implements MemberSVC{
 
   //비밀번호 변경
   @Override
-  public int changePasswd(String email, String tmpPasswd) {
-    return memberDAO.changePasswd(email,tmpPasswd);
+  public int changePasswd(String email, String passwd) {
+    return memberDAO.changePasswd(email,passwd);
   }
 }

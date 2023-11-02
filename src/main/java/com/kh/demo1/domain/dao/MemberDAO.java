@@ -9,7 +9,7 @@ public interface MemberDAO {
   Member insertMember(Member member);
 
   //회원존재유무
-  boolean isExist (String email);
+  boolean isExist(String email);
 
   //회원조회
   Optional<Member> findByEmail(String email);
@@ -24,5 +24,5 @@ public interface MemberDAO {
   boolean hasPasswd(String email, String tel);
 
   //비밀번호 변경
-  int changePasswd(String email, String tmpPasswd);
+  int changePasswd(String email, String passwd);
 }

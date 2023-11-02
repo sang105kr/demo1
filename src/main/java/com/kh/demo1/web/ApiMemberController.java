@@ -2,8 +2,10 @@ package com.kh.demo1.web;
 
 import com.kh.demo1.common.MailService;
 import com.kh.demo1.common.MyUtil;
+import com.kh.demo1.domain.dao.entity.Member;
 import com.kh.demo1.domain.svc.MemberSVC;
 import com.kh.demo1.web.api.ApiResponse;
+import com.kh.demo1.web.req.member.ReqChangePwd;
 import com.kh.demo1.web.req.member.ReqPwd;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -63,5 +66,38 @@ public class ApiMemberController {
       res = ApiResponse.createApiResponse("01", "not found", null);
     }
     return  res;
+  }
+
+  //비밀번호변경
+  @PostMapping("/changePwd")
+  public ApiResponse<Object> changePwd(
+      @Valid @RequestBody ReqChangePwd reqChangePwd,
+      BindingResult bindingResult){
+
+    ApiResponse<Object>  res = null;
+    //유효성 체크
+    if (bindingResult.hasErrors()) {
+      return MyUtil.validChkApiReq(bindingResult);
+    }
+
+    Optional<Member> optionalMember = memberSVC.findByEmail(reqChangePwd.getEmail());
+    // 회원인경우
+    if (optionalMember.isPresent()) {
+      Member findedMember = optionalMember.get();
+      //1) 본인이 맞는지
+      if(findedMember.getPasswd().equals(reqChangePwd.getBeforePasswd())) {
+        //1-2) 비밀번호 변경
+        memberSVC.changePasswd(reqChangePwd.getEmail(), reqChangePwd.getAfterPasswd());
+        res = ApiResponse.createApiResponse("00", "success", null);
+      //2) 본인인 아닌경우(현재 비밀번호가 다른경우)
+      }else{
+        res = ApiResponse.createApiResponse("03", "현재 비밀번호가 다름니다.", null);
+      }
+
+    // 비회원인경우
+    }else {
+      res = ApiResponse.createApiResponse("01", "회원이 아닙니다.", null);
+    }
+    return res;
   }
 }

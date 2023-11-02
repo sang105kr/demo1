@@ -24,6 +24,7 @@ public class AppConfig implements WebMvcConfigurer {
             "/css/**",
             "/js/**",
             "/img/**",                //정적리소스
+            "/api/**",                // rest api 호출
             "/test/**"                //테스트
         );  // 인터셉터 제외 url패턴
   }

@@ -24,5 +24,5 @@ public interface MemberSVC {
   boolean hasPasswd(String email, String tel);
 
   //비밀번호 변경
-  int changePasswd(String email, String tmpPasswd);
+  int changePasswd(String email, String passwd);
 }

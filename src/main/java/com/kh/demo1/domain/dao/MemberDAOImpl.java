@@ -140,13 +140,13 @@ public class MemberDAOImpl implements MemberDAO {
 
   //비밀번호 변경
   @Override
-  public int changePasswd(String email, String tmpPasswd) {
+  public int changePasswd(String email, String passwd) {
     StringBuffer sql = new StringBuffer();
     sql.append("update member ");
     sql.append("   set passwd = :passwd ");
     sql.append(" where email  = :email ");
 
-    Map<String, String> param = Map.of("passwd", tmpPasswd, "email", email);
+    Map<String, String> param = Map.of("passwd", passwd, "email", email);
     int updatedRow = template.update(sql.toString(), param);
     return updatedRow;
   }

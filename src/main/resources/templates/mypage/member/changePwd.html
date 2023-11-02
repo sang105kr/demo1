@@ -21,21 +21,21 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>비밀번호 찾기</title>
-  <script type="module" src="/js/member/findPwd.js"></script>
+  <title>비밀번호 변경</title>
+  <script type="module" src="/js/member/changePwd.js"></script>
 </head>
 <body>
 <div class="wrap">
   <div id="tl"></div>
   <div id="tc">
-    <div class="topmenu" th:insert="~{fragment/top::beforeLoginTop}"/>
+    <div class="topmenu" th:insert="~{fragment/top::afterLoginTop}"/>
   </div>
   <div id="tr"></div>
   <div id="banner">
     <header class="head" th:insert="~{fragment/banner::global}"/>
   </div>
   <div id="gnb">
-    <nav class="gnb" th:insert="~{fragment/menu::global}"/>
+    <nav class="gnb" th:insert="~{fragment/menu::mypage}"/>
   </div>
   <div id="content">
     <main class="main flex items-center justify-center h-60">

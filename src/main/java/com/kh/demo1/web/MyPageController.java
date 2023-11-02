@@ -146,4 +146,10 @@ public class MyPageController {
     return "redirect:/mypage/members/{email}";   // 302 GET http://localhost:9080/mypage/members/test1@kh.com
   }
 
+  //비밀번호 변경
+  @GetMapping("/members/changePwd")
+  public String changePwdForm(){
+    return "mypage/member/changePwd";
+  }
+
 }
