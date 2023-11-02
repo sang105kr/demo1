@@ -1,11 +1,14 @@
 --테이블 삭제
 drop table member;
+drop table uploadfile;
 drop table code;
+drop table product;
 
 --시퀀스삭제
 drop sequence member_member_id_seq;
 drop sequence code_code_id_seq;
-
+drop sequence uploadfile_uploadfile_id_seq;
+drop sequence product_product_id_seq;
 -------
 --코드
 -------
@@ -49,6 +52,11 @@ insert into code (code_id,decode,pcode_id,useyn) values ('A0201','서울','A02',
 insert into code (code_id,decode,pcode_id,useyn) values ('A0202','부산','A02','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('A0203','대구','A02','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('A0204','울산','A02','Y');
+
+insert into code (code_id,decode,pcode_id,useyn) values ('F01','상품관리',null,'Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0101','첨부','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0102','이미지','F01','Y');
+
 commit;
 
 -------
@@ -96,3 +104,80 @@ insert into member (member_id,email,passwd,tel,nickname,gender,hobby,region,gubu
     values(member_member_id_seq.nextval, 'admin2@kh.com', '1234','010-1111-1114','관리자2', '여자','골프,독서','A0204','M01A2');
 select * from member;
 commit;
+
+---------
+--상품관리
+--------
+create table product(
+    product_id  number(10),
+    pname       varchar(30),
+    quantity    number(10),
+    price       number(10)
+);
+--기본키
+alter table product add constraint product_product_id_pk primary key(product_id);
+
+--시퀀스생성
+create sequence product_product_id_seq;
+
+--생성--
+insert into product(product_id,pname,quantity,price)
+     values(product_product_id_seq.nextval, '컴퓨터', 5, 1000000);
+
+insert into product(product_id,pname,quantity,price)
+     values(product_product_id_seq.nextval, '모니터', 5, 500000);
+
+insert into product(product_id,pname,quantity,price)
+     values(product_product_id_seq.nextval, '프린터', 1, 300000);
+
+--조회--
+select product_id, pname, quantity, price
+  from product
+ where product_id = 2;
+
+--수정--
+update product
+   set pname = '컴퓨터2',
+       quantity = 10,
+       price = 1200000;
+
+--삭제
+delete from product where product_id = 1;
+
+--전체조회-
+select product_id,pname,quantity,price from product;
+
+commit;
+
+---------
+--첨부파일
+---------
+create table uploadfile(
+    uploadfile_id   number(10),     --파일아이디
+    code            varchar2(11),   --분류코드
+    rid             varchar2(10),     --참조번호(게시글번호등)
+    store_filename  varchar2(100),   --서버보관파일명
+    upload_filename varchar2(100),   --업로드파일명(유저가 업로드한파일명)
+    fsize           varchar2(45),   --업로드파일크기(단위byte)
+    ftype           varchar2(100),   --파일유형(mimetype)
+    cdate           timestamp default systimestamp, --등록일시
+    udate           timestamp default systimestamp  --수정일시
+);
+--기본키
+alter table uploadfile add constraint uploadfile_uploadfile_id_pk primary key(uploadfile_id);
+
+--외래키
+alter table uploadfile add constraint uploadfile_uploadfile_id_fk
+    foreign key(code) references code(code_id);
+
+--제약조건
+alter table uploadfile modify code constraint uploadfile_code_nn not null;
+alter table uploadfile modify rid constraint uploadfile_rid_nn not null;
+alter table uploadfile modify store_filename constraint uploadfile_store_filename_nn not null;
+alter table uploadfile modify upload_filename constraint uploadfile_upload_filename_nn not null;
+alter table uploadfile modify fsize constraint uploadfile_fsize_nn not null;
+alter table uploadfile modify ftype constraint uploadfile_ftype_nn not null;
+
+--시퀀스
+create sequence uploadfile_uploadfile_id_seq;
+

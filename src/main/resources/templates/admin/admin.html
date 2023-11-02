@@ -6,13 +6,13 @@
       <!--/*--------------------------*/-->
       <!--/* external */-->
       ~{},              <!--/* styles */-->
-      ~{::script},      <!--/* scripts */-->
+      ~{},              <!--/* scripts */-->
       <!--/* internal */-->
       ~{},              <!--/* style */-->
       ~{},              <!--/* script */-->
       <!--/*--------------------------*/-->
       ~{::.topmenu},    <!--/* upm */-->
-      _,                <!--/* header */-->
+      _,      <!--/* header */-->
       ~{::.gnb},         <!--/* gnb */-->
       ~{::main},        <!--/* main */-->
       ~{::.foot},       <!--/* footer default*/-->
@@ -21,8 +21,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>비밀번호 변경</title>
-  <script type="module" src="/js/member/changePwd.js"></script>
+  <title>관리자</title>
 </head>
 <body>
 <div class="wrap">
@@ -35,11 +34,11 @@
     <header class="head" th:insert="~{fragment/banner::global}"/>
   </div>
   <div id="gnb">
-    <nav class="gnb" th:insert="~{fragment/menu::mypage}"/>
+    <nav class="gnb" th:insert="~{fragment/menu::admin}"/>
   </div>
   <div id="content">
-    <main class="main flex items-center justify-center h-60">
-
+    <main class="main">
+      본문 채우기
     </main>
   </div>
   <div id="foot">
