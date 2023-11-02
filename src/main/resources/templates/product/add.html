@@ -46,7 +46,7 @@
   <div class="field-error" th:errors="${saveForm}">...</div>
   <!-- action 값이 없으면 현재 url을 기본 값으로 가짐 -->
   <!-- th:field id,name,value 속성 추가, id,name속성값은 멤버필드명으로 초기화되고 value속성은 멤버필드값이 초기화됨 -->
-  <form id="frm" action="" method="post" th:object="${saveForm}">
+  <form id="frm" action="" method="post" th:object="${saveForm}" enctype="multipart/form-data">
 <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
 <!--      <p class="field-error" th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>-->
 <!--    </div>-->
@@ -66,6 +66,10 @@
       <input type="text" id="price" name="price" th:field="*{price}" maxlength="10" th:class="${#fields.hasErrors('price')}? fieldError">
       <span class="field-error" th:errors="*{price}"></span>
       <span class="field-error client" id="errPrice"></span>
+    </div>
+    <div>
+      <div><label th:for="*{file}">설명첨부</label><input type="file" name="" id="" th:field="*{file}"></div>
+      <div><lable th:for="*{files}">이미미지첨부</lable><input type="file" name="" id="" th:field="*{files}" multiple></div>
     </div>
     <div><input type="submit" value="등록" th:value="#{button.add}"></div>
   </form>

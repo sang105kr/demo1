@@ -23,7 +23,7 @@ public class AttachController {
   private static String UPLOADED_FOLDER = "d:/attach/";
 
   @ResponseBody
-  @PutMapping("/file")
+  @PostMapping("/file")
   public String file(@RequestParam("file") MultipartFile multipartFile) {
 
     if (multipartFile.isEmpty()) {
@@ -55,7 +55,7 @@ public class AttachController {
   }
 
   @ResponseBody
-  @PutMapping("/files")
+  @PostMapping("/files")
   public String files(@RequestParam("files") List<MultipartFile> multipartFiles){
 
     if (multipartFiles.size() == 0) {
@@ -111,6 +111,7 @@ public class AttachController {
     }
   }
 
+  //이미지 보기
   @ResponseBody
   @GetMapping("/file/view/{filename:.+}")
   public ResponseEntity<Resource> fileView(@PathVariable String filename){
