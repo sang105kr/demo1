@@ -32,21 +32,24 @@ public class ProductSVCImpl implements ProductSVC{
     return productDAO.save(product);
   }
 
-  @Transactional
+  @Transactional    //product , uploadfile, 물리파일 저장이 하나의 논리단위로 처리
   @Override
   public Long save(Product product, List<MultipartFile> attachFiles, List<MultipartFile> imageFiles) {    //첨부파일
 
     //상품등록
     Long productId = save(product);
     
-    //첨부등록
+    //첨부파일의 메타정보는 UploadFile객체에 저장하고, 물리파일은 uploadFileSVC.convert메소드 내에서 지정된경로에 저장처리함.
     if (attachFiles.size() > 0 || imageFiles.size() > 0) {
 
       ///메타정보 및 물리파일 저장
       List<UploadFile> convertedAattachFiles = uploadFileSVC.convert(attachFiles, AttachFileType.F010301);
       List<UploadFile> convertedImageFiles  = uploadFileSVC.convert(imageFiles, AttachFileType.F010302);
       convertedAattachFiles.addAll(convertedImageFiles);
+
+      //상품등록시 생성된 상품번호로 참조아이디를 반영
       convertedAattachFiles.stream().forEach(file->file.setRid(productId));
+
       uploadFileSVC.addFiles(convertedAattachFiles);
     }
 

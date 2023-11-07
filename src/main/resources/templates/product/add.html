@@ -68,8 +68,8 @@
       <span class="field-error client" id="errPrice"></span>
     </div>
     <div>
-      <div><label th:for="*{file}">설명첨부</label><input type="file" name="" id="" th:field="*{file}"></div>
-      <div><lable th:for="*{files}">이미미지첨부</lable><input type="file" name="" id="" th:field="*{files}" multiple></div>
+      <div><label th:for="*{attachFiles}">설명첨부</label><input type="file" name="" id="" th:field="*{attachFiles}" multiple></div>
+      <div><lable th:for="*{imageFiles}">이미미지첨부</lable><input type="file" name="" id="" th:field="*{imageFiles}" multiple></div>
     </div>
     <div><input type="submit" value="등록" th:value="#{button.add}"></div>
   </form>

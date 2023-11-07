@@ -1,99 +1,36 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.domain.common.file.AttachFileType;
+import com.kh.demo1.domain.common.file.svc.UploadFileSVC;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/attach")
 public class AttachController {
 
-  private static String UPLOADED_FOLDER = "d:/attach/";
-
-  @ResponseBody
-  @PostMapping("/file")
-  public String file(@RequestParam("file") MultipartFile multipartFile) {
-
-    if (multipartFile.isEmpty()) {
-      return "첨부된 파일이 없습니다.";
-    }
-
-    String originalFilename = multipartFile.getOriginalFilename();
-    long size = multipartFile.getSize();
-    String contentType = multipartFile.getContentType();
-
-    log.info("file={}", multipartFile);
-    log.info("{},{},{}", originalFilename, size, contentType);
-
-    try {
-      // 첨부파일 읽기
-      byte[] bytes = multipartFile.getBytes();
-      // 업로드할 경로 지정
-      Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
-      // 경로에 파일저장
-      multipartFile.transferTo(path);
-
-      return "첨부 완료";
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return "ok";
-  }
-
-  @ResponseBody
-  @PostMapping("/files")
-  public String files(@RequestParam("files") List<MultipartFile> multipartFiles){
-
-    if (multipartFiles.size() == 0) {
-      return "첨부된 파일이 없습니다.";
-    }
-
-
-    for (MultipartFile multipartFile : multipartFiles) {
-
-      String originalFilename = multipartFile.getOriginalFilename();
-      long size = multipartFile.getSize();
-      String contentType = multipartFile.getContentType();
-
-      log.info("{},{},{}", originalFilename,size,contentType);
-
-      try {
-        // 첨부파일 읽기
-        byte[] bytes = multipartFile.getBytes();
-        // 업로드할 경로 지정
-        Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
-        // 경로에 파일저장
-        multipartFile.transferTo(path);
-
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-
-    log.info("files={}", multipartFiles);
-    return "첨부완료";
-  }
+  private final UploadFileSVC uploadFileSVC;
 
   //다운로드
-  @ResponseBody
-  @GetMapping("/file/down/{filename:.+}")
-  public ResponseEntity<Resource> downloadFile(@PathVariable String filename){
+  @GetMapping("/down/{code}/{storeFilename:.+}")
+  public ResponseEntity<Resource> downloadFile(
+      @PathVariable AttachFileType code,
+      @PathVariable String storeFilename) {
 
-    Path path = Paths.get(UPLOADED_FOLDER).resolve(filename).normalize();
+    Path path = Path.of(uploadFileSVC.getStoreFilename(code, storeFilename));
     try {
 
       Resource resource = new UrlResource(path.toUri());
@@ -112,11 +49,12 @@ public class AttachController {
   }
 
   //이미지 보기
-  @ResponseBody
-  @GetMapping("/file/view/{filename:.+}")
-  public ResponseEntity<Resource> fileView(@PathVariable String filename){
+  @GetMapping("/view/{code}/{storeFilename:.+}")
+  public ResponseEntity<Resource> fileView(
+      @PathVariable AttachFileType code,
+      @PathVariable String storeFilename){
 
-    Path path = Paths.get(UPLOADED_FOLDER).resolve(filename).normalize();
+    Path path = Path.of(uploadFileSVC.getStoreFilename(code, storeFilename));
     try {
 
       Resource resource = new UrlResource(path.toUri());

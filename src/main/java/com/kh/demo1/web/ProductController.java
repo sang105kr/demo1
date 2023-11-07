@@ -1,7 +1,9 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.domain.common.file.AttachFileType;
 import com.kh.demo1.domain.common.file.svc.UploadFileSVC;
 import com.kh.demo1.domain.entity.Product;
+import com.kh.demo1.domain.entity.UploadFile;
 import com.kh.demo1.domain.product.svc.ProductSVC;
 import com.kh.demo1.web.form.product.AllForm;
 import com.kh.demo1.web.form.product.DetailForm;
@@ -90,7 +92,6 @@ public class ProductController {
 
     log.info("상품아이디={}",productId);
 
-
     redirectAttributes.addAttribute("id", productId);
 
     return "redirect:/products/{id}/detail";   // 302 GET http://localhost:9080/products/1/detail
@@ -110,6 +111,18 @@ public class ProductController {
     detailForm.setPname(product.getPname());
     detailForm.setQuantity(product.getQuantity());
     detailForm.setPrice(product.getPrice());
+
+    //첨부파일조회
+    Optional<List<UploadFile>> optionalAttachFiles = uploadFileSVC.findFilesByCodeWithRid(AttachFileType.F010301, id);
+    Optional<List<UploadFile>> optionalImageFiles = uploadFileSVC.findFilesByCodeWithRid(AttachFileType.F010302, id);
+    if(optionalAttachFiles.isPresent()){
+      List<UploadFile> attachFiles = optionalAttachFiles.get();
+      detailForm.setAttachFiles(attachFiles);
+    }
+    if(optionalImageFiles.isPresent()){
+      List<UploadFile> imageFiles = optionalImageFiles.get();
+      detailForm.setImageFiles(imageFiles);
+    }
 
     model.addAttribute("detailForm",detailForm);
     return "product/detailForm";

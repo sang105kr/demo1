@@ -19,6 +19,13 @@
       <input type="button" value="삭제" id="btnDelete" th:data-product-id="*{productId}">
       <input type="button" value="목록" id="btnFindAll">
     </div>
+    <!-- 첨부목록 -->
+    <div>
+      <div th:each="file : *{attachFiles}"><a th:href="@{|/attach/down/${file.code}/${file.store_filename}|}" th:text="${file.upload_filename}"></a></div>
+    </div>
+    <div>
+      <div th:each="file : *{imageFiles}"><img th:src="@{|/attach/view/${file.code}/${file.store_filename}|}" th:width="70px" th:height="70px"></div>
+    </div>
   </form>
   <script>
     //수정
