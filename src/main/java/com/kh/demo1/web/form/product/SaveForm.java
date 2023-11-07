@@ -22,7 +22,7 @@ public class SaveForm {
   @Max(1000000)
   private Long price;
 
-  private MultipartFile file;           //단일 파일첨부
-  private List<MultipartFile> files;    //멀티파일 첨부
+  private List<MultipartFile> attachFiles;    //설명 파일
+  private List<MultipartFile> imageFiles;    //이미지 첨부
 
 }

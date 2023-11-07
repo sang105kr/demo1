@@ -1,5 +1,6 @@
 package com.kh.demo1.web;
 
+import com.kh.demo1.domain.common.file.svc.UploadFileSVC;
 import com.kh.demo1.domain.entity.Product;
 import com.kh.demo1.domain.product.svc.ProductSVC;
 import com.kh.demo1.web.form.product.AllForm;
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class ProductController {
 
   private final ProductSVC productSVC;
+  private final UploadFileSVC uploadFileSVC;
 
 //  @Autowired
 //  public ProductController(ProductSVC productSVC) {
@@ -76,14 +78,19 @@ public class ProductController {
       return "product/add";
     }
 
-    // 상품등록
+    // 상품등록 처리
     Product product = new Product();
     product.setPname(saveForm.getPname());
     product.setQuantity(saveForm.getQuantity());
     product.setPrice(saveForm.getPrice());
-    Long productId = productSVC.save(product);
+//    Long productId = productSVC.save(product);
+
+    // 첨부파일
+    Long productId = productSVC.save(product, saveForm.getAttachFiles(), saveForm.getImageFiles());
 
     log.info("상품아이디={}",productId);
+
+
     redirectAttributes.addAttribute("id", productId);
 
     return "redirect:/products/{id}/detail";   // 302 GET http://localhost:9080/products/1/detail

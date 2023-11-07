@@ -1,4 +1,4 @@
-package com.kh.demo1.web.req;
+package com.kh.demo1.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;

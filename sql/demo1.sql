@@ -53,9 +53,15 @@ insert into code (code_id,decode,pcode_id,useyn) values ('A0202','부산','A02',
 insert into code (code_id,decode,pcode_id,useyn) values ('A0203','대구','A02','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('A0204','울산','A02','Y');
 
-insert into code (code_id,decode,pcode_id,useyn) values ('F01','상품관리',null,'Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('F0101','첨부','F01','Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('F0102','이미지','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F01','첨부파일',null,'Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0101','회원','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F010101','사진','F0101','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0102','게시판','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F010201','첨부파일','F0102','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F0103','상품관리','F01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F010301','설명서','F0103','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('F010302','이미지','F0103','Y');
+
 
 commit;
 
