@@ -21,10 +21,22 @@
     </div>
     <!-- 첨부목록 -->
     <div>
-      <div th:each="file : *{attachFiles}"><a th:href="@{|/attach/down/${file.code}/${file.store_filename}|}" th:text="${file.upload_filename}"></a></div>
-    </div>
-    <div>
-      <div th:each="file : *{imageFiles}"><img th:src="@{|/attach/view/${file.code}/${file.store_filename}|}" th:width="70px" th:height="70px"></div>
+      <div><label>첨부</label></div>
+      <div>
+        <div th:each="file : *{attachedFiles}">
+          <a th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+        </div>
+      </div>
+      <div>
+        <div th:each="file : *{imagedFiles}">
+          <th:block th:unless="${#strings.contains(file.ftype,'image')}" >
+            <a href="" th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+          </th:block>
+          <th:block th:if="${#strings.contains(file.ftype,'image')}" >
+            <img th:src="@{|/attach/view/${file.uploadfileId}|}" th:width="70px" th:height="70px">
+          </th:block>
+        </div>
+      </div>
     </div>
   </form>
   <script>

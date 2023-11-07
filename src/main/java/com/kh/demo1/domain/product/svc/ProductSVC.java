@@ -1,5 +1,6 @@
 package com.kh.demo1.domain.product.svc;
 
+import com.kh.demo1.domain.common.file.AttachFileType;
 import com.kh.demo1.domain.entity.Product;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +20,10 @@ public interface ProductSVC {
 
   //단건삭제
   int deleteById(Long productId);
+  int deleteById(Long productId, AttachFileType attachFileType);
 
   //수정
   int updateById(Long productId, Product product);
-
+  int updateById(Long productId,Product product,List<MultipartFile> attachFiles, List<MultipartFile> imageFiles);
 
 }

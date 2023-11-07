@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,6 +22,7 @@ public class ProductSVCImpl implements ProductSVC{
 
   private final ProductDAO productDAO;
   private final UploadFileSVC uploadFileSVC;
+
 
 //  @Autowired
 //  public ProductSVCImpl(ProductDAO productDAO) {
@@ -71,8 +73,46 @@ public class ProductSVCImpl implements ProductSVC{
     return productDAO.deleteById(productId);
   }
 
+  @Transactional
+  @Override
+  public int deleteById(Long productId, AttachFileType attachFileType) {
+    //1) 상품정보 삭제
+    int cnt = productDAO.deleteById(productId);
+
+    //2) 물리파일 삭제
+    Optional<List<UploadFile>> uploadFiles = uploadFileSVC.findFilesByCodeWithRid(attachFileType, productId);
+    if(uploadFiles.isPresent()) {
+      List<String> files = uploadFiles.get().stream().map(file -> file.getStore_filename()).collect(Collectors.toList());
+      uploadFileSVC.deleteFiles(attachFileType, files);
+    }
+
+    //3) 메타정보삭제
+    uploadFileSVC.deleteFileByCodeWithRid(attachFileType,productId);
+    return cnt;
+  }
+
   @Override
   public int updateById(Long productId, Product product) {
     return productDAO.updateById(productId,product);
+  }
+
+  @Override
+  public int updateById(Long productId, Product product, List<MultipartFile> attachFiles, List<MultipartFile> imageFiles) {
+    int cnt = productDAO.updateById(productId,product);
+
+    //첨부파일의 메타정보는 UploadFile객체에 저장하고, 물리파일은 uploadFileSVC.convert메소드 내에서 지정된경로에 저장처리함.
+    if (attachFiles.size() > 0 || imageFiles.size() > 0) {
+
+      ///메타정보 및 물리파일 저장
+      List<UploadFile> convertedAattachFiles = uploadFileSVC.convert(attachFiles, AttachFileType.F010301);
+      List<UploadFile> convertedImageFiles  = uploadFileSVC.convert(imageFiles, AttachFileType.F010302);
+      convertedAattachFiles.addAll(convertedImageFiles);
+
+      //상품등록시 생성된 상품번호로 참조아이디를 반영
+      convertedAattachFiles.stream().forEach(file->file.setRid(productId));
+
+      uploadFileSVC.addFiles(convertedAattachFiles);
+    }
+    return cnt;
   }
 }

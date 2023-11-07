@@ -17,13 +17,14 @@ public class HomeController {
     HttpSession session = request.getSession(false);
     
     //로그인전
-    if(session == null){
+    if(session == null || session.getAttribute("loginMember") == null){
       view = "beforeLogin";
     }else{
       //로인후
       LoginMember loginMember = (LoginMember)session.getAttribute("loginMember");
       //관리자
       //if(loginMember.getGubun().equals("M01A1") || loginMember.getGubun().equals("M01A2")){
+
       if(loginMember.getGubun().substring(0,4).equals("M01A")){
         view = "admin";
       }else {

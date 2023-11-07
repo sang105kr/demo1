@@ -117,11 +117,11 @@ public class ProductController {
     Optional<List<UploadFile>> optionalImageFiles = uploadFileSVC.findFilesByCodeWithRid(AttachFileType.F010302, id);
     if(optionalAttachFiles.isPresent()){
       List<UploadFile> attachFiles = optionalAttachFiles.get();
-      detailForm.setAttachFiles(attachFiles);
+      detailForm.setAttachedFiles(attachFiles);
     }
     if(optionalImageFiles.isPresent()){
       List<UploadFile> imageFiles = optionalImageFiles.get();
-      detailForm.setImageFiles(imageFiles);
+      detailForm.setImagedFiles(imageFiles);
     }
 
     model.addAttribute("detailForm",detailForm);
@@ -152,8 +152,9 @@ public class ProductController {
   @DeleteMapping("/{id}")      // Delete http://localhost:9080/products/1
   public String deleteById(@PathVariable("id") Long id){
 
-    int deletedRowCnt = productSVC.deleteById(id);
-
+//    int deletedRowCnt = productSVC.deleteById(id);
+    productSVC.deleteById(id,AttachFileType.F010301);
+    productSVC.deleteById(id,AttachFileType.F010302);
     return "redirect:/products";        // 302 get  redirectUrl : http://localhost:9080/products
   }
 
@@ -172,6 +173,18 @@ public class ProductController {
     updateForm.setPname(product.getPname());
     updateForm.setQuantity(product.getQuantity());
     updateForm.setPrice(product.getPrice());
+
+    //첨부파일조회
+    Optional<List<UploadFile>> optionalAttachFiles = uploadFileSVC.findFilesByCodeWithRid(AttachFileType.F010301, id);
+    Optional<List<UploadFile>> optionalImageFiles = uploadFileSVC.findFilesByCodeWithRid(AttachFileType.F010302, id);
+    if(optionalAttachFiles.isPresent()){
+      List<UploadFile> attachFiles = optionalAttachFiles.get();
+      updateForm.setAttachedFiles(attachFiles);
+    }
+    if(optionalImageFiles.isPresent()){
+      List<UploadFile> imageFiles = optionalImageFiles.get();
+      updateForm.setImagedFiles(imageFiles);
+    }
 
     model.addAttribute("updateForm", updateForm);
     return "product/updateForm";
@@ -214,7 +227,10 @@ public class ProductController {
     product.setPname(updateForm.getPname());
     product.setQuantity(updateForm.getQuantity());
     product.setPrice(updateForm.getPrice());
-    int updatedRow = productSVC.updateById(productId, product);
+//    int updatedRow = productSVC.updateById(productId, product);
+
+    // 첨부파일
+    productSVC.updateById(productId,product, updateForm.getAttachFiles(), updateForm.getImageFiles());
 
     //상품조회 리다이렉트
     redirectAttributes.addAttribute("id",productId);

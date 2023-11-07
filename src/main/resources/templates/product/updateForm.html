@@ -13,6 +13,8 @@
     .fieldSuccess { border:1px solid green; }
   </style>
   <script type="module">
+    import {ajax} from '/js/common.js';
+
     [...document.querySelectorAll('.field-error')].forEach(ele=>ele.textContent = ele.innerHTML.replace('<br>',' / '));
 
     frm.addEventListener('submit',e=>{
@@ -41,12 +43,34 @@
 
     //목록
     btnFindAll.addEventListener('click',e => location.href = '/products');
+
+    const attachFiles = (e,res) => {
+      if(res.header.rtcd == '00'){
+        e.target.closest('div').remove();
+      }
+    }
+    const deleteAttachFile_h = e => {
+      if(e.target.classList.contains('delBtn')){
+        if(!confirm('삭제하시겠습니까')) return;
+
+        (async()=>{
+          const url = `/attach/${e.target.dataset.fid}`;
+          try{
+            const res = await ajax.delete(url);
+             attachFiles(e,res);
+          }catch(err){
+            console.log(err);
+          }
+        })();
+      }
+    }
+    document.getElementById('attachedFiles').addEventListener('click',deleteAttachFile_h);
   </script>
 </head>
 <body>
   <h3 th:text="#{title.product.update}">상품수정</h3>
   <div class="field-error" th:errors="${updateForm}">...</div>
-  <form id="frm" action="" th:method="patch" th:object="${updateForm}">
+  <form id="frm" action="" th:method="patch" th:object="${updateForm}" enctype="multipart/form-data">
     <div>
       <label for="productId">상품번호</label>
       <input type="text" id="productId" name="productId" readonly th:field="*{productId}">
@@ -68,8 +92,32 @@
       <span class="field-error" th:errors="*{price}"></span>
       <span class="field-error client" id="errPrice"></span>
     </div>
+    <div>
+      <div><label th:for="*{attachFiles}">설명첨부</label><input type="file" name="" id="" th:field="*{attachFiles}" multiple></div>
+      <div><lable th:for="*{imageFiles}">이미미지첨부</lable><input type="file" name="" id="" th:field="*{imageFiles}" multiple></div>
+    </div>
+    <div>
       <input type="submit" value="저장" id="btnUdate" >
       <input type="button" value="목록" id="btnFindAll">
+    </div>
+    <div id="attachedFiles">
+      <div><label>첨부</label></div>
+      <div>
+        <div th:each="file : *{attachedFiles}">
+          <a href="" th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+          <a href="#" class="btn delBtn" th:data-fid="${file.uploadfileId}">삭제</a>
+        </div>
+        <div th:each="file : *{imagedFiles}">
+          <div th:unless="${#strings.contains(file.ftype,'image')}" >
+            <a href="" th:href="@{|/attach/down/${file.uploadfileId}|}" th:text="${file.upload_filename}"></a>
+            <a href="#" class="btn delBtn" th:data-fid="${file.uploadfileId}">삭제</a>
+          </div>
+          <div th:if="${#strings.contains(file.ftype,'image')}">
+            <img th:src="@{|/attach/view/${file.uploadfileId}|}" th:width="70px" th:height="70px">
+            <a href="#" class="btn delBtn" th:data-fid="${file.uploadfileId}">삭제</a>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 </body>
