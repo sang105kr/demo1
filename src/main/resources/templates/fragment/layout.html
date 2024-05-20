@@ -39,15 +39,15 @@
   <link rel="stylesheet" href="" th:href="@{/css/main.css}">
 
   <!--common script-->
-<!--  <script defer src="/js/common.js" ></script>-->
+  <!--  <script defer src="/js/common.js" ></script>-->
   <!-- fontawesome -->
   <script defer src="https://kit.fontawesome.com/023d8f21ed.js" crossorigin="anonymous"></script>
 
   <!--tailwind-->
   <script src="https://cdn.tailwindcss.com"></script>
   <!--bootstrap-->
-<!--  <script defer th:src="@{/webjars/popper.js/2.9.3/umd/popper.js}"></script>-->
-<!--  <script defer th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>-->
+  <!--  <script defer th:src="@{/webjars/popper.js/2.9.3/umd/popper.js}"></script>-->
+  <!--  <script defer th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>-->
   <!-- Per-page placeholder for additional link -->
   <th:block th:replace="${styles}"/>
   <th:block th:replace="${scripts}"/>
@@ -57,14 +57,14 @@
 
 </head>
 <body>
-  <div class="wrap">
-    <div id="tl"><a class='logo' href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
-    <div id="tc" th:insert="${top}"/>
-    <div id="tr"></div>
-    <div id="banner" th:if="${use_banner and !#strings.isEmpty(banner)}" th:insert="${banner}"/>
-    <div id="gnb" th:insert="${gnb}"/>
-    <div id="content" th:insert="${main}"/>
-    <div id="foot" th:insert="${footer}"/>
-  </div>
+<div class="wrap">
+  <div id="tl"><a class='logo' href="" th:href="@{/}"><i class="fa-solid fa-house"></i></a></div>
+  <div id="tc" th:insert="${top}"/>
+  <div id="tr"></div>
+  <div id="banner" th:if="${use_banner and !#strings.isEmpty(banner)}" th:insert="${banner}"/>
+  <div id="gnb" th:insert="${gnb}"/>
+  <div id="content" th:insert="${main}"/>
+  <div id="foot" th:insert="${footer}"/>
+</div>
 </body>
 </html>

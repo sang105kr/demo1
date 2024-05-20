@@ -53,13 +53,35 @@ a {
 #banner{
   grid-area: banner;
 }
-#banner .head{
-  height:100%;
-  background-image: url("https://cdn.pixabay.com/photo/2022/03/23/18/56/beach-7087722_960_720.jpg");
+
+#banner .head {
+  position: relative; /* 오버레이를 위해 상대 위치 설정 */
+  height: 100%;
+  background-image: url("https://cdn.pixabay.com/photo/2017/03/17/10/29/coffee-2151200_1280.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+/* 배경 이미지의 밝기 조정 */
+#banner .head::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1); 어두운 오버레이
+}
+
+/* 텍스트나 다른 컨텐츠를 오버레이 위에 놓기 위한 스타일 */
+#banner .head .content {
+  position: relative;
+  z-index: 1;
+  color: white; /* 텍스트 색상 */
+  padding: 20px; /* 내용의 여백 */
+}
+
 /*-- 헤더 광고 끝 --*/
 /*-- GNB 메뉴 시작 --*/
 #gnb{
@@ -72,14 +94,21 @@ a {
   color: #eee;
   font-size: 0.8rem;
   font-weight: bold;
+  position: relative;
+
 }
 #gnb .gnb .menu{
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 100%;
-}
+  height: inherit;
 
+}
+#gnb .gnb .menu .item, #gnb .gnb .menu .item a {
+  height: inherit;
+  display: flex;
+  align-items: center;
+}
 #gnb .gnb .menu .item:hover{
   color:#ddd;
 }
@@ -87,7 +116,8 @@ a {
 #gnb .gnb .submenu {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  top:50px;
+  background-color:  #000;
   padding: 0;
 }
 
@@ -97,11 +127,16 @@ a {
 
 #gnb .gnb .submenu li a {
   text-decoration: none;
-  color: #333;
+  color: #ddd;
 }
 #gnb .gnb .submenu li:hover{
   background-color: #ccc;
 }
+
+#gnb .gnb .submenu li:hover a{
+  color:#000;
+}
+
 #gnb .gnb .menu li:hover .submenu {
   display: block;
 }
